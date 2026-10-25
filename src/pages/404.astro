@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import GameGrid from '../components/GameGrid.astro';
+import { shelves, u } from '../lib/games.mjs';
+
+const popular = shelves.popular().slice(0, 6);
+---
+
+<Base
+  title="Page Not Found — ClassPlay"
+  description="That page is out at recess. Head back to ClassPlay's free classroom games — no downloads, no sign-ups."
+  noindex
+>
+  <div class="nf">
+    <div class="nf-emoji" aria-hidden="true">🧩</div>
+    <h1>404 — <span class="grad-text">This Page Is Out at Recess</span></h1>
+    <p class="lede">
+      The page you were looking for is not in the classroom. No worries — every game is still on
+      the shelf, and each one opens in a normal browser tab with zero downloads.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn" href={u()}>🏠 Back to the Games</a>
+      <a class="btn ghost" href={u('math-games/')}>🧮 Math Games</a>
+    </div>
+  </div>
+
+  <h2>🎮 Play These Instead</h2>
+  <GameGrid games={popular} />
+</Base>

@@ -66,8 +66,16 @@ const jsonLd = {
       <div class="hero-visual" id="spotBox">
         {
           spotlight.map((g, i) => (
-            <a class:list={['spot', { active: i === 0 }]} href={gameUrl(g)} aria-hidden={i !== 0}>
-              <img src={artUrl(g)} alt={`Play ${g.title} online`} width="560" height="560" loading={i === 0 ? 'eager' : 'lazy'} />
+            <a class:list={['spot', { active: i === 0 }]} href={gameUrl(g)} aria-hidden={i !== 0} tabindex={i === 0 ? undefined : -1}>
+              <img
+                src={i === 0 ? artUrl(g) : undefined}
+                data-src={i === 0 ? undefined : artUrl(g)}
+                alt={`Play ${g.title} online`}
+                width="560"
+                height="560"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                fetchpriority={i === 0 ? 'high' : undefined}
+              />
               <span class="spot-name">▶ {g.title}</span>
             </a>
           ))
@@ -144,13 +152,26 @@ const jsonLd = {
       if (spots.length < 2) return;
       let cur = 0;
       let timer = 0;
+      /* Non-first spotlight art is deferred (data-src in the markup) so the
+         hero's initial load carries one image, not five; hydrate a spot
+         just before it is shown, and prefetch the rest when idle. */
+      const hydrate = (spot) => {
+        const img = spot.querySelector('img[data-src]');
+        if (img) {
+          img.src = img.dataset.src;
+          img.removeAttribute('data-src');
+        }
+      };
       const show = (n) => {
         spots[cur].classList.remove('active');
         spots[cur].setAttribute('aria-hidden', 'true');
+        spots[cur].tabIndex = -1;
         dots[cur]?.classList.remove('on');
         cur = (n + spots.length) % spots.length;
+        hydrate(spots[cur]);
         spots[cur].classList.add('active');
         spots[cur].setAttribute('aria-hidden', 'false');
+        spots[cur].tabIndex = 0;
         dots[cur]?.classList.add('on');
       };
       const play = () => {
@@ -167,6 +188,8 @@ const jsonLd = {
       );
       document.addEventListener('visibilitychange', () => (document.hidden ? stop() : play()));
       play();
+      const idle = window.requestIdleCallback || ((f) => window.setTimeout(f, 1800));
+      idle(() => spots.forEach(hydrate));
     })();
   </script>
 </Base>

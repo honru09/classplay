@@ -35,4 +35,4 @@ const ACCENTS = {
   Quiz: '#0d9488',
 };
 
-export const accentFor = (game) => ACCENTS[game?.categories?.[0]] || '#f59e0b';
+export const accentFor = (game) => ACCENTS[game?.categories?.[0]] || '#b45309';
