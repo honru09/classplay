@@ -1,8 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import GameGrid from '../components/GameGrid.astro';
-import { shelves, allGames, gameUrl, u } from '../lib/games.mjs';
-import { artUrl } from '../lib/art.mjs';
+import { shelves, u } from '../lib/games.mjs';
 
 const featured = shelves.featured();
 const math = shelves.math().slice(0, 10);
@@ -11,21 +10,6 @@ const brain = shelves.brain().slice(0, 10);
 const breaks = shelves.breaks().slice(0, 10);
 const twoPlayer = shelves.twoPlayer().slice(0, 10);
 const sports = shelves.sports().slice(0, 10);
-
-/* Hero spotlight: games with pop-out key art, led by the thinking games. */
-const bySlug = new Map(allGames.map((g) => [g.slug, g]));
-const spotlight = [
-  'cube-snake-2048',
-  'color-sort-party',
-  'tennis-masters-2026',
-  'snow-rider-neo',
-  'geometry-vibes-2-online',
-]
-  .map((s) => bySlug.get(s))
-  .filter((g) => g && artUrl(g));
-
-const trending = shelves.popular().slice(0, 14);
-const catCount = new Set(allGames.flatMap((g) => g.categories)).size;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -42,87 +26,53 @@ const jsonLd = {
   description="Free classroom games that are actually classroom-appropriate: math puzzles, brain games, gentle skill games and friendly sports. No downloads, no sign-ups — runs in a browser tab on school Chromebooks."
   jsonLd={jsonLd}
 >
-  <section class="hero">
-    <div>
-      <h1>Free Classroom Games — Safe, Fun &amp; Ready in Seconds</h1>
-      <p class="lede">
-        ClassPlay is a shelf of games chosen for school, not just found on the internet. Every title is
-        screened to be classroom-appropriate, opens in a normal browser tab, and asks for nothing — no
-        downloads, no installs, no accounts. Math, puzzles and brain games lead the shelf, with gentle
-        skill games and friendly sports for break time.
-      </p>
-      <div class="hero-ctas">
-        <a class="btn" href={u('math-games/')}>▶ Start with Math Games</a>
-        <a class="btn ghost" href={u('classroom-games/')}>Browse Classroom Games</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat"><b>{allGames.length}</b><span>Free games</span></div>
-        <div class="stat"><b>{catCount}</b><span>Categories</span></div>
-        <div class="stat"><b>0</b><span>Downloads</span></div>
-        <div class="stat"><b>100%</b><span>School-safe</span></div>
-      </div>
-    </div>
-    <div>
-      <div class="hero-visual" id="spotBox">
-        {
-          spotlight.map((g, i) => (
-            <a class:list={['spot', { active: i === 0 }]} href={gameUrl(g)} aria-hidden={i !== 0} tabindex={i === 0 ? undefined : -1}>
-              <img
-                src={i === 0 ? artUrl(g) : undefined}
-                data-src={i === 0 ? undefined : artUrl(g)}
-                alt={`Play ${g.title} online`}
-                width="560"
-                height="560"
-                loading={i === 0 ? 'eager' : 'lazy'}
-                fetchpriority={i === 0 ? 'high' : undefined}
-              />
-              <span class="spot-name">▶ {g.title}</span>
-            </a>
-          ))
-        }
-      </div>
-      <div class="spot-dots" id="spotDots">
-        {spotlight.map((g, i) => <button type="button" class={i === 0 ? 'on' : ''} aria-label={`Show ${g.title}`} />)}
-      </div>
-    </div>
-  </section>
-
-  <div class="marquee-band">
-    <div class="marquee-label">⭐ Popular this week</div>
-    <div class="marquee">
-      <div class="marquee-track">
-        {
-          [...trending, ...trending].map((g, i) => (
-            <a class="mq-item" href={gameUrl(g)} aria-hidden={i >= trending.length}>
-              <img src={g.thumb} alt="" loading="lazy" width="68" height="68" />
-              {g.title}
-            </a>
-          ))
-        }
-      </div>
-    </div>
+  {/* v8 (Poki system): the hero panel, spotlight and trending marquee are
+      retired. A modest title strip carries the H1 + lede for SEO, then
+      the tiles start immediately on Poki's aqua. */}
+  <div class="title-strip">
+    <h1>Free Classroom Games — Safe, Fun &amp; Ready in Seconds</h1>
+    <p class="lede">
+      ClassPlay is a shelf of games chosen for school, not just found on the internet. Every title is
+      screened to be classroom-appropriate, opens in a normal browser tab, and asks for nothing — no
+      downloads, no installs, no accounts. Math, puzzles and brain games lead the shelf, with gentle
+      skill games and friendly sports for break time.
+    </p>
   </div>
 
-  <h2>⭐ Featured Games</h2>
-  <GameGrid games={featured} />
+  <section class="shelf">
+    <h2>⭐ Featured Games</h2>
+    <GameGrid games={featured} mosaic />
+  </section>
 
-  <h2>🧮 Math &amp; Number Games <a class="more" href={u('math-games/')}>all math games →</a></h2>
-  <GameGrid games={math} />
+  <div class="band band-alt">
+    <h2>🧮 Math &amp; Number Games <a class="more" href={u('math-games/')}>all math games →</a></h2>
+    <GameGrid games={math} />
+  </div>
 
-  <h2>🧩 Puzzle Games <a class="more" href={u('puzzle-games-for-school/')}>all puzzle games →</a></h2>
-  <GameGrid games={puzzle} />
+  <section class="shelf">
+    <h2>🧩 Puzzle Games <a class="more" href={u('puzzle-games-for-school/')}>all puzzle games →</a></h2>
+    <GameGrid games={puzzle} />
+  </section>
 
-  <h2>🧠 Brain Games <a class="more" href={u('brain-games/')}>all brain games →</a></h2>
-  <GameGrid games={brain} />
+  <div class="band band-alt">
+    <h2>🧠 Brain Games <a class="more" href={u('brain-games/')}>all brain games →</a></h2>
+    <GameGrid games={brain} />
+  </div>
 
-  <h2>⚡ Quick Break Games <a class="more" href={u('games-for-school-breaks/')}>games for school breaks →</a></h2>
-  <GameGrid games={breaks} />
+  <div class="band band-deep">
+    <h2>⚡ Quick Break Games <a class="more" href={u('games-for-school-breaks/')}>games for school breaks →</a></h2>
+    <GameGrid games={breaks} />
+  </div>
 
-  <h2>👥 2 Player Games <a class="more" href={u('2-player-classroom-games/')}>2 player classroom games →</a></h2>
-  <GameGrid games={twoPlayer} />
+  <section class="shelf">
+    <h2>👥 2 Player Games <a class="more" href={u('2-player-classroom-games/')}>2 player classroom games →</a></h2>
+    <GameGrid games={twoPlayer} />
+  </section>
 
-  <h2>🏅 Sports Games <a class="more" href={u('sports-games/')}>all sports games →</a></h2>
-  <GameGrid games={sports} />
+  <div class="band band-alt">
+    <h2>🏅 Sports Games <a class="more" href={u('sports-games/')}>all sports games →</a></h2>
+    <GameGrid games={sports} />
+  </div>
 
   <h2>Why ClassPlay?</h2>
   <div class="prose">
@@ -143,53 +93,4 @@ const jsonLd = {
       <a href={u('unblocked-games-for-chromebook/')}>Chromebook hub</a>.
     </p>
   </div>
-
-  <script>
-    // Rotate the hero spotlight. Pauses for reduced motion / hidden tab.
-    (() => {
-      const spots = [...document.querySelectorAll('#spotBox .spot')];
-      const dots = [...document.querySelectorAll('#spotDots button')];
-      if (spots.length < 2) return;
-      let cur = 0;
-      let timer = 0;
-      /* Non-first spotlight art is deferred (data-src in the markup) so the
-         hero's initial load carries one image, not five; hydrate a spot
-         just before it is shown, and prefetch the rest when idle. */
-      const hydrate = (spot) => {
-        const img = spot.querySelector('img[data-src]');
-        if (img) {
-          img.src = img.dataset.src;
-          img.removeAttribute('data-src');
-        }
-      };
-      const show = (n) => {
-        spots[cur].classList.remove('active');
-        spots[cur].setAttribute('aria-hidden', 'true');
-        spots[cur].tabIndex = -1;
-        dots[cur]?.classList.remove('on');
-        cur = (n + spots.length) % spots.length;
-        hydrate(spots[cur]);
-        spots[cur].classList.add('active');
-        spots[cur].setAttribute('aria-hidden', 'false');
-        spots[cur].tabIndex = 0;
-        dots[cur]?.classList.add('on');
-      };
-      const play = () => {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        timer = window.setInterval(() => show(cur + 1), 3600);
-      };
-      const stop = () => window.clearInterval(timer);
-      dots.forEach((d, i) =>
-        d.addEventListener('click', () => {
-          stop();
-          show(i);
-          play();
-        }),
-      );
-      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : play()));
-      play();
-      const idle = window.requestIdleCallback || ((f) => window.setTimeout(f, 1800));
-      idle(() => spots.forEach(hydrate));
-    })();
-  </script>
 </Base>

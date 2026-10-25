@@ -1,8 +1,14 @@
 ---
-import GameCard from './GameCard.astro';
-const { games, rail = false } = Astro.props;
+import GameTile from './GameTile.astro';
+const { games, mosaic = false, rail = false } = Astro.props;
+/* Mosaic pattern (home Featured): in each run of 12 tiles, indices 0 and
+   5 span 2x2. With grid-auto-flow: dense the supercell packs perfectly
+   (18 cells) at the mosaic column counts — 2 (phones), 3 (>=600px) and
+   6 (>=1024px) — so there are never half-empty rows. Featured shelves
+   carry exactly 12 games = one supercell. */
+const isBig = (i) => mosaic && (i % 12 === 0 || i % 12 === 5);
 ---
 
-<div class:list={['grid', { rail }]}>
-  {games.map((g, i) => <GameCard game={g} index={i} />)}
+<div class:list={['tiles', { mosaic }, { rail }]}>
+  {games.map((g, i) => <GameTile game={g} big={isBig(i)} eager={i < 2} />)}
 </div>

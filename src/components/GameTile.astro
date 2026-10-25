@@ -1,0 +1,28 @@
+---
+import { gameUrl } from '../lib/games.mjs';
+const { game, big = false, eager = false } = Astro.props;
+---
+
+{/* v8 (Poki system): the square art tile replaces the card everywhere.
+    Full-bleed ORIGINAL feed thumbnail, no title/chips/meta under the tile
+    (Poki's home shows none); the title rides the link's aria-label/title
+    and a caption pill that fades in over the art on hover-capable
+    devices only. ClassPlay tiles carry no badge — the light theme stays
+    quiet. */}
+<a
+  class:list={['tile', { big }]}
+  href={gameUrl(game)}
+  title={game.title}
+  aria-label={`Play ${game.title} online`}
+>
+  <img
+    class="tile-img"
+    src={game.thumb}
+    alt=""
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+    width="512"
+    height="384"
+  />
+  <span class="tile-cap" aria-hidden="true">{game.title}</span>
+</a>
