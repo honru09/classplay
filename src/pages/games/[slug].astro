@@ -11,7 +11,6 @@ export function getStaticPaths() {
 const { game } = Astro.props;
 const related = relatedGames(game, 6);
 const faqs = gameFaqs(game);
-const ratio = Math.round((game.height / game.width) * 1000) / 10;
 const art = artUrl(game);
 const accent = accentFor(game);
 
@@ -66,14 +65,37 @@ const jsonLd = [
   <div class="stage" style={`--acc:${accent}`}>
     <div class:list={['stage-frame', { 'has-art': !!art }]} style={`aspect-ratio: ${game.width} / ${game.height};`}>
     <div class="player-shell" id="playerShell">
-      <iframe
-        src={game.embedUrl}
-        title={`Play ${game.title}`}
-        loading="lazy"
-        allow="fullscreen; autoplay; gamepad"
-        allowfullscreen
-        scrolling="no"
-      ></iframe>
+      <button
+        class="facade"
+        id="playFacade"
+        type="button"
+        data-embed={game.embedUrl}
+        data-title={`Play ${game.title}`}
+        aria-label={`Play ${game.title} now`}
+      >
+        {
+          game.thumb ? (
+            <img class="facade-poster" src={game.thumb} alt="" aria-hidden="true" width="512" height="384" fetchpriority="high" />
+          ) : (
+            <span class="facade-fallback" aria-hidden="true">🎮</span>
+          )
+        }
+        <span class="facade-shade" aria-hidden="true"></span>
+        <span class="facade-btn" aria-hidden="true">▶</span>
+        <span class="facade-cap">
+          <b>Play {game.title}</b>
+          <small>Free · No download · Starts right in your browser</small>
+        </span>
+      </button>
+      <noscript>
+        <iframe
+          src={game.embedUrl}
+          title={`Play ${game.title}`}
+          allow="fullscreen; autoplay; gamepad"
+          allowfullscreen
+          scrolling="no"
+        ></iframe>
+      </noscript>
     </div>
     {art && <img class="stage-art" src={art} alt="" aria-hidden="true" width="560" height="560" loading="lazy" />}
     </div>
@@ -92,10 +114,28 @@ const jsonLd = [
   </div>
   <script>
     document.body.classList.add('has-sticky');
+    // Click-to-play facade (parity with TabArcade): the third-party player
+    // iframe is injected only on a play click, so its scripts and ad stack
+    // stay out of the initial load and the poster is what students see first.
+    const shell = document.getElementById('playerShell');
+    const facade = document.getElementById('playFacade');
+    let started = false;
+    const startGame = () => {
+      if (started || !shell || !facade) return;
+      started = true;
+      const ifr = document.createElement('iframe');
+      ifr.src = facade.dataset.embed;
+      ifr.title = facade.dataset.title;
+      ifr.allow = 'fullscreen; autoplay; gamepad';
+      ifr.allowFullscreen = true;
+      ifr.setAttribute('scrolling', 'no');
+      facade.replaceWith(ifr);
+    };
+    facade?.addEventListener('click', startGame);
     const goFs = () => {
-      const el = document.getElementById('playerShell');
-      if (el?.requestFullscreen) el.requestFullscreen();
-      else el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      startGame();
+      if (shell?.requestFullscreen) shell.requestFullscreen();
+      else shell?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
     document.querySelectorAll('.fs-btn').forEach((b) => b.addEventListener('click', goFs));
   </script>
