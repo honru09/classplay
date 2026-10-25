@@ -80,10 +80,17 @@ const nav = [
         --panel2: #dbe7fd;
         --line: rgba(37, 64, 140, 0.15);
         --text: #17233f;
-        /* Deepened from #5a6b8c in v5: it measured 4.86-4.99:1 on the page
-           and hero backgrounds and FAILED at 4.47:1 on the footer band.
-           #46587a measures ~6.0-7.2:1 across every surface used. */
-        --muted: #46587a;
+        /* Deepened twice: #5a6b8c (v4) failed at 4.47:1 on the footer;
+           #46587a (v5) computed ~6:1 on paper yet still read washed-out on
+           a real phone — the v6 audit samples RENDERED PIXELS instead of
+           nominal CSS pairs, and small labels/meta now target >= 7:1
+           composited (the leaders' secondary text sits at 7:1+). */
+        --muted: #33486e;
+        /* Hooda Math's shadow tokens, adopted nearly verbatim (their ink
+           is #151233, ours #17233f — same family): a hairline contact
+           shadow + a soft ambient one. Cards rest as solid objects. */
+        --shadow-card: 0 1px 2px rgba(21, 18, 51, 0.05), 0 8px 20px rgba(23, 35, 63, 0.07);
+        --shadow-card-hover: 0 6px 14px rgba(23, 35, 63, 0.1), 0 18px 34px rgba(23, 35, 63, 0.13);
         --amber: #f59e0b;
         /* Deepened from #0284c7 (3.7:1 on the page background) so link text
            and the focus outline clear WCAG AA contrast at body sizes. */
@@ -103,17 +110,10 @@ const nav = [
         line-height: 1.55;
         overflow-x: hidden;
       }
-      /* Ambient neon backdrop: two soft glows + a faint blueprint grid. */
-      body::before {
-        content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-        background:
-          radial-gradient(560px 340px at 12% -60px, rgba(56, 189, 248, 0.16), transparent 70%),
-          radial-gradient(640px 380px at 88% -40px, rgba(52, 211, 153, 0.13), transparent 70%),
-          radial-gradient(700px 500px at 50% 115%, rgba(251, 191, 36, 0.1), transparent 70%),
-          linear-gradient(rgba(37, 99, 235, 0.05) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(37, 99, 235, 0.05) 1px, transparent 1px);
-        background-size: auto, auto, auto, 44px 44px, 44px 44px;
-      }
+      /* v6 (benchmark pass): the fixed ambient layer — pastel glows and a
+         blueprint grid behind every surface — is gone. Poki/Hooda put
+         content on one quiet solid page color; the page is now the flat
+         --bg color, full stop. */
       a { color: var(--cyan); text-decoration: none; }
       a:hover { text-decoration: underline; }
       :focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 6px; }
@@ -121,8 +121,8 @@ const nav = [
 
       /* ---------- header ---------- */
       header.site {
-        background: rgba(255, 255, 255, 0.86);
-        -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+        /* Solid white bar, like every leader's header — no glass. */
+        background: #ffffff;
         border-bottom: 1px solid var(--line);
         position: sticky; top: 0; z-index: 50;
       }
@@ -150,7 +150,7 @@ const nav = [
         color: var(--muted); font-weight: 700; font-size: 14px; white-space: nowrap;
         padding: 7px 11px; border-radius: 999px; transition: color 0.2s, background 0.2s;
       }
-      nav.main a:hover { color: var(--text); background: rgba(23, 35, 63, 0.06); text-decoration: none; }
+      nav.main a:hover { color: var(--text); background: var(--panel2); text-decoration: none; }
 
       main { padding: 26px 0 44px; }
       h1 {
@@ -164,7 +164,9 @@ const nav = [
       }
       h2 .more { font-size: 13.5px; font-weight: 700; margin-left: auto; }
       .lede { color: var(--muted); max-width: 760px; font-size: 16px; }
-      .grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      /* Gradient text survives ONLY in the logo wordmark (.logo span);
+         headings are solid ink (v6). .grad-text was removed from the
+         h1s along with the class itself. */
 
       /* ---------- game cards ---------- */
       .grid {
@@ -174,16 +176,20 @@ const nav = [
       .card {
         --acc: var(--amber); --rx: 0deg; --ry: 0deg;
         position: relative; display: block; color: var(--text);
-        border-radius: 20px; padding: 10px 10px 12px;
-        background: linear-gradient(180deg, #ffffff, #f4f8ff);
+        /* Hooda's card recipe, verbatim in structure: flat white panel,
+           radius 16 (their --radius-md is 14, Poki/CG cards are 16),
+           hairline border, two-layer resting shadow, lift on hover. */
+        border-radius: 16px; padding: 10px 10px 12px;
+        background: #ffffff;
         border: 1px solid var(--line);
+        box-shadow: var(--shadow-card);
         transform: perspective(720px) rotateX(var(--rx)) rotateY(var(--ry));
         transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
       }
       .card:hover, .card:focus-visible {
         text-decoration: none;
         border-color: rgba(23, 35, 63, 0.3);
-        box-shadow: 0 22px 40px -16px rgba(23, 35, 63, 0.35), 0 10px 30px -6px var(--acc);
+        box-shadow: var(--shadow-card-hover), 0 10px 30px -6px var(--acc);
       }
       body.js-anim .card { opacity: 0; }
       body.js-anim .card.in { opacity: 1; animation: card-rise 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) backwards; animation-delay: var(--d, 0ms); }
@@ -245,17 +251,17 @@ const nav = [
         display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.02em;
         /* The raw category accents are glow colors: several sit at 2.8-3.9:1
            as 11px text on this light theme, so for text the accent is mixed
-           toward the ink color (55% accent / 45% ink; the percentage is the
-           ACCENT share, so lower = deeper). Measured against the card
-           surface, the worst chip (Agility green) lands at ~6.1:1 and the
-           rest at 6.5:1+, while glows and shadows keep the bright raw
-           accent. (v5 briefly tried 72% — that lightened the text.) */
-        color: color-mix(in srgb, var(--acc, #b45309) 55%, #17233f);
-        background: rgba(23, 35, 63, 0.05);
+           toward the ink color. v6 deepens the mix from 55% to 45% accent
+           (the percentage is the ACCENT share, so lower = deeper) and puts
+           the chip on a solid tint, targeting >= 7:1 composited for the
+           worst case (Agility green) under the rendered-pixel audit; the
+           bright raw accent still drives glows and shadows. */
+        color: color-mix(in srgb, var(--acc, #b45309) 45%, #17233f);
+        background: var(--panel2);
         border: 1px solid rgba(23, 35, 63, 0.12);
         border-radius: 999px; padding: 2.5px 9px;
       }
-      .chip.alt { background: transparent; color: var(--muted); border-color: var(--line); font-weight: 700; }
+      .chip.alt { background: var(--panel2); color: var(--muted); border-color: var(--line); font-weight: 700; }
       .player-bar .chip, .hub-hero .chip { --acc: #b45309; }
 
       /* ---------- rails (game page related) ---------- */
@@ -273,8 +279,9 @@ const nav = [
       .prose p { margin: 0 0 14px; }
       .faq { max-width: 820px; }
       .faq details {
-        background: rgba(255, 255, 255, 0.7); border: 1px solid var(--line);
+        background: #ffffff; border: 1px solid var(--line);
         border-radius: 14px; padding: 13px 17px; margin-bottom: 10px;
+        box-shadow: var(--shadow-card);
       }
       .faq summary { font-weight: 700; cursor: pointer; }
       .faq p { color: var(--muted); margin: 8px 0 2px; }
@@ -293,9 +300,12 @@ const nav = [
          accent plate behind the art, only when art exists. */
       .stage-frame { position: relative; max-height: 78vh; }
       .stage-frame.has-art::before {
-        content: ""; position: absolute; z-index: 0; right: -16px; top: -64px;
+        /* v6: solid disc plate behind the stage art (was a translucent
+           radial fade — the "peach haze" problem in another form). */
+        content: ""; position: absolute; z-index: 0; right: 8px; top: -56px;
         width: 240px; height: 240px; border-radius: 50%; pointer-events: none;
-        background: radial-gradient(closest-side, color-mix(in srgb, var(--acc, #0284c7) 30%, transparent), transparent 72%);
+        background: color-mix(in srgb, var(--acc, #0284c7) 18%, var(--panel2));
+        border: 1px solid var(--line);
       }
       .stage-frame .player-shell { width: 100%; height: 100%; }
       .player-shell {
@@ -313,7 +323,7 @@ const nav = [
         position: absolute; inset: 0; width: 100%; height: 100%; display: block;
         padding: 0; border: 0; cursor: pointer; color: #ffffff;
         font: inherit; overflow: hidden;
-        background: linear-gradient(150deg, #bae6fd, #a7f3d0 55%, #fde68a);
+        background: var(--panel2);
       }
       .facade-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
       .facade-fallback {
@@ -321,10 +331,10 @@ const nav = [
         font-size: 92px; opacity: 0.5;
       }
       .facade-shade {
+        /* One clean bottom scrim over the poster (Poki's game-page
+           treatment); the accent radial bloom is gone. */
         position: absolute; inset: 0;
-        background:
-          linear-gradient(180deg, rgba(10, 20, 40, 0.05), rgba(10, 20, 40, 0.42) 80%),
-          radial-gradient(440px 230px at 50% 112%, color-mix(in srgb, var(--acc, #0284c7) 45%, transparent), transparent 70%);
+        background: linear-gradient(180deg, rgba(10, 20, 40, 0.05), rgba(10, 20, 40, 0.5) 82%);
       }
       .facade-btn {
         position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%);
@@ -338,7 +348,7 @@ const nav = [
       .facade-cap {
         position: absolute; left: 0; right: 0; bottom: 0; display: block;
         padding: 36px 16px 14px; text-align: center;
-        background: linear-gradient(transparent, rgba(8, 15, 32, 0.72));
+        background: linear-gradient(transparent, rgba(8, 15, 32, 0.85));
       }
       .facade-cap b {
         display: block; font-family: var(--disp); font-size: clamp(17px, 2.4vw, 22px);
@@ -365,13 +375,13 @@ const nav = [
       .btn:hover { transform: translateY(-1px) scale(1.03); }
       .btn:active { transform: scale(0.97); }
       .btn.ghost {
-        background: rgba(255, 255, 255, 0.75); color: var(--text);
+        background: #ffffff; color: var(--text);
         border: 1px solid var(--line); box-shadow: none;
       }
       .sticky-play {
         display: none; position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 60;
         align-items: center; gap: 10px; padding: 9px 9px 9px 15px; border-radius: 16px;
-        background: rgba(255, 255, 255, 0.94); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+        background: #ffffff;
         border: 1px solid rgba(23, 35, 63, 0.14);
         box-shadow: 0 16px 30px rgba(23, 35, 63, 0.3);
       }
@@ -381,30 +391,24 @@ const nav = [
         body.has-sticky { padding-bottom: 74px; }
         .stage { padding-top: 40px; }
         .stage-art { width: 116px; top: -36px; right: 4px; max-height: 150px; }
-        .stage-frame.has-art::before { width: 160px; height: 160px; top: -44px; right: -10px; }
-        /* Live backdrop-blur over scrolling content is one of the most
-           expensive effects on phone GPUs; go near-solid instead. */
-        .sticky-play { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255, 255, 255, 0.97); }
-        .spot .spot-name { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255, 255, 255, 0.94); }
+        .stage-frame.has-art::before { width: 132px; height: 132px; top: -30px; right: 8px; }
+        /* v6: surfaces are solid at every width — no backdrop blur
+           remains anywhere to switch off here. */
       }
 
       /* ---------- hero (home) ---------- */
       .hero {
         position: relative; border-radius: 26px; overflow: hidden;
         border: 1px solid rgba(23, 35, 63, 0.1);
-        background:
-          radial-gradient(700px 340px at 85% -10%, rgba(56, 189, 248, 0.35), transparent 65%),
-          radial-gradient(560px 300px at 8% 115%, rgba(52, 211, 153, 0.28), transparent 65%),
-          linear-gradient(160deg, #ffffff, #e9f3ff 62%);
+        /* v6: flat white panel (Hooda's hero is a white panel on paper).
+           The pastel radial washes and the shine sweep sat behind the h1
+           and lede and were the light theme's half of the "washed-out"
+           complaint; both are gone. */
+        background: #ffffff;
+        box-shadow: var(--shadow-card);
         padding: clamp(22px, 4vw, 42px);
         display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 10px; align-items: center;
       }
-      .hero::before {
-        content: ""; position: absolute; inset: 0; pointer-events: none;
-        background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.45) 45%, transparent 60%);
-        background-size: 250% 100%; animation: hero-shine 7s ease-in-out infinite;
-      }
-      @keyframes hero-shine { 0%, 100% { background-position: 120% 0; } 50% { background-position: -30% 0; } }
       .hero h1 { font-size: clamp(30px, 4.8vw, 54px); line-height: 1.04; margin-bottom: 14px; }
       .hero .lede { font-size: clamp(15px, 1.6vw, 17.5px); max-width: 560px; }
       .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
@@ -421,11 +425,13 @@ const nav = [
         transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.7, 0.3, 1);
       }
       .spot.active { opacity: 1; pointer-events: auto; transform: none; }
-      /* Soft accent plate behind the spotlight subject (TabArcade v3). */
+      /* Solid plate behind the spotlight subject (v6): opaque tinted disc
+         with a hairline edge — the art stands on furniture. */
       .spot::before {
         content: ""; position: absolute; left: 50%; bottom: 30px; transform: translateX(-50%);
         width: min(340px, 88%); aspect-ratio: 1; border-radius: 50%; pointer-events: none;
-        background: radial-gradient(closest-side, color-mix(in srgb, var(--acc, #0284c7) 26%, transparent), transparent 72%);
+        background: color-mix(in srgb, var(--acc, #0284c7) 16%, var(--panel2));
+        border: 1px solid var(--line);
       }
       .spot img {
         position: relative; z-index: 1;
@@ -435,8 +441,9 @@ const nav = [
       }
       .spot .spot-name {
         margin-top: 6px; font-family: var(--disp); font-weight: 900; font-size: 17px; color: var(--text);
-        background: rgba(255, 255, 255, 0.88); border: 1px solid rgba(23, 35, 63, 0.12);
-        padding: 6px 16px; border-radius: 999px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+        background: #ffffff; border: 1px solid rgba(23, 35, 63, 0.12);
+        padding: 6px 16px; border-radius: 999px;
+        box-shadow: var(--shadow-card);
       }
       .spot:hover { text-decoration: none; }
       .spot-dots { display: flex; gap: 7px; justify-content: center; margin-top: 12px; }
@@ -467,13 +474,17 @@ const nav = [
         .hero-stats .stat b { font-size: 17px; }
         .hero-stats .stat span { font-size: 10px; }
         .hero > div { min-width: 0; }
-        .hero-visual { min-height: 198px; margin-top: 4px; }
+        .hero-visual { min-height: 198px; margin-top: 4px; overflow: hidden; }
+        /* Same v6 fix as TabArcade: the desktop disc is taller than this
+           198px box and bottom-anchored — it spilled over the CTAs/stats
+           on mobile. Sized to fit here. */
+        .spot::before { width: 150px; bottom: 34px; }
         .spot img { max-height: 160px; max-width: 97%; }
         .spot .spot-name { font-size: 15px; margin-top: 2px; }
         .spot-dots { margin-top: 7px; }
-        /* Static ambient layers on mobile: the shine's background-position
-           loop forced a full-hero repaint every frame on phone GPUs. */
-        .hero::before { animation: none; }
+        /* (v6 removed the hero shine layer entirely; the floaty loops on
+           art still stop on mobile — a still image is the mobile default
+           on every leader.) */
         .spot img, .stage-art { animation: none; }
       }
 
@@ -507,9 +518,10 @@ const nav = [
       @keyframes mq-scroll { to { transform: translateX(-50%); } }
       .mq-item {
         display: flex; align-items: center; gap: 9px; white-space: nowrap;
-        background: rgba(255, 255, 255, 0.78); border: 1px solid var(--line);
+        background: #ffffff; border: 1px solid var(--line);
         border-radius: 999px; padding: 5px 14px 5px 5px; color: var(--text);
         font-weight: 700; font-size: 13.5px; transition: border-color 0.2s, background 0.2s;
+        box-shadow: var(--shadow-card);
       }
       .mq-item:hover { text-decoration: none; border-color: rgba(23, 35, 63, 0.3); background: #ffffff; }
       .mq-item img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; display: block; }
@@ -518,9 +530,8 @@ const nav = [
       .hub-hero {
         border-radius: 24px; padding: clamp(20px, 3.4vw, 34px);
         border: 1px solid rgba(23, 35, 63, 0.1);
-        background:
-          radial-gradient(560px 240px at 90% -20%, var(--acc, rgba(56, 189, 248, 0.3)), transparent 65%),
-          linear-gradient(160deg, #ffffff, #eaf2ff 65%);
+        background: #ffffff;
+        box-shadow: var(--shadow-card);
         margin-bottom: 8px;
       }
       .hub-hero h1 { margin-bottom: 12px; }
@@ -544,7 +555,7 @@ const nav = [
       .nf-emoji {
         width: 128px; height: 128px; margin: 0 auto; border-radius: 32px;
         display: flex; align-items: center; justify-content: center; font-size: 62px;
-        background: linear-gradient(150deg, #bae6fd, #a7f3d0 55%, #fde68a);
+        background: var(--panel2);
         border: 1px solid var(--line);
         box-shadow: 0 24px 44px -18px rgba(23, 35, 63, 0.35);
       }
@@ -554,7 +565,7 @@ const nav = [
 
       footer.site {
         border-top: 1px solid var(--line);
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35), #e2ebfc);
+        background: #e2ebfc;
         color: var(--muted); font-size: 13px; padding: 26px 0 34px; margin-top: 16px;
       }
       footer.site .links { display: flex; gap: 6px 16px; flex-wrap: wrap; margin-bottom: 12px; }
@@ -562,7 +573,7 @@ const nav = [
       footer.site .links a:hover { color: var(--text); }
 
       @media (max-width: 640px) {
-        header.site { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(255, 255, 255, 0.97); }
+        header.site { background: #ffffff; }
         header.site .bar { flex-wrap: wrap; gap: 6px 14px; padding-top: 8px; padding-bottom: 8px; }
         .logo { font-size: 22px; }
         .logo-mark { width: 26px; height: 26px; border-radius: 7px; }
