@@ -64,8 +64,8 @@ const jsonLd = [
   </p>
 
   <div class="stage" style={`--acc:${accent}`}>
-    {art && <img class="stage-art" src={art} alt="" aria-hidden="true" width="560" height="560" loading="lazy" />}
-    <div class="player-shell" id="playerShell" style={`aspect-ratio: ${game.width} / ${game.height}; max-height: 78vh;`}>
+    <div class:list={['stage-frame', { 'has-art': !!art }]} style={`aspect-ratio: ${game.width} / ${game.height};`}>
+    <div class="player-shell" id="playerShell">
       <iframe
         src={game.embedUrl}
         title={`Play ${game.title}`}
@@ -74,6 +74,8 @@ const jsonLd = [
         allowfullscreen
         scrolling="no"
       ></iframe>
+    </div>
+    {art && <img class="stage-art" src={art} alt="" aria-hidden="true" width="560" height="560" loading="lazy" />}
     </div>
   </div>
   <div class="player-bar">
