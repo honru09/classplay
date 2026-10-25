@@ -1,0 +1,8 @@
+---
+import GameCard from './GameCard.astro';
+const { games, rail = false } = Astro.props;
+---
+
+<div class:list={['grid', { rail }]}>
+  {games.map((g, i) => <GameCard game={g} index={i} />)}
+</div>

@@ -1,0 +1,1 @@
+{"dependencies":{"@astrojs/sitemap":"^3.2.1","astro":"^5.13.0"},"name":"classplay","private":true,"scripts":{"build":"astro build","dev":"astro dev","fetch-games":"node scripts/fetch-games.mjs","fetch-gm":"node scripts/fetch-gm.mjs","preview":"astro preview"},"type":"module","version":"1.0.0"}

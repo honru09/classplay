@@ -1,0 +1,37 @@
+---
+import { gameUrl } from '../lib/games.mjs';
+import { artUrl, accentFor } from '../lib/art.mjs';
+const { game, index = 0 } = Astro.props;
+const art = artUrl(game);
+const accent = accentFor(game);
+const cat = game.categories[0] || 'Game';
+const tag = (game.tags || []).find((t) => t.toLowerCase() !== cat.toLowerCase());
+---
+
+<a
+  class:list={['card', { 'has-pop': !!art }]}
+  href={gameUrl(game)}
+  style={`--acc:${accent};--d:${(index % 10) * 45}ms`}
+  data-tilt
+>
+  <span class="card-art">
+    <img
+      class="thumb"
+      src={game.thumb}
+      alt={`Play ${game.title} online`}
+      loading="lazy"
+      width="512"
+      height="384"
+    />
+    {art && <img class="pop" src={art} alt="" aria-hidden="true" loading="lazy" width="560" height="560" />}
+    <span class="play-badge" aria-hidden="true">▶</span>
+  </span>
+  <span class="card-meta">
+    <span class="t">{game.title}</span>
+    <span class="chips">
+      <span class="chip">{cat}</span>
+      {tag && <span class="chip alt">{tag}</span>}
+      {game.mobile && <span class="chip alt">📱 Touch</span>}
+    </span>
+  </span>
+</a>

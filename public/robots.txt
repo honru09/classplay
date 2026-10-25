@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://classplay.online/sitemap-index.xml
