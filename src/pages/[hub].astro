@@ -31,19 +31,29 @@ const jsonLd = {
 <Base title={hub.metaTitle} description={hub.metaDescription} jsonLd={jsonLd}>
   <div class="hub-hero" style={`--acc:${accent}`}>
     <h1>{hub.h1}</h1>
-    <div class="prose">
-      {hub.intro.map((p) => <p>{p}</p>)}
-    </div>
   </div>
 
   <h2>Play Now — {games.length} Free Games</h2>
   <GameGrid games={games} />
 
-  <div class="prose" style="margin-top:26px">
-    <p>
-      Every game above was screened for the classroom and runs in a normal browser tab with no
-      downloads or sign-ups, on Chromebooks, laptops and phones. Looking for something else? Browse
-      the full <a href={import.meta.env.BASE_URL}>ClassPlay</a> catalog from the home page.
-    </p>
+  {/* Intro copy moved below the grid (v5, TabArcade parity): the full text
+      used to render inside the hero and fill the first screen before any
+      game appeared. First paragraph stays visible; the rest is behind
+      Read more. */}
+  <div class="expandable" style="margin-top:26px">
+    <div class="prose">
+      <p>{hub.intro[0]}</p>
+      <div class="exp-rest">
+        <div class="exp-clip">
+          {hub.intro.slice(1).map((p) => <p>{p}</p>)}
+          <p>
+            Every game above was screened for the classroom and runs in a normal browser tab with no
+            downloads or sign-ups, on Chromebooks, laptops and phones. Looking for something else? Browse
+            the full <a href={import.meta.env.BASE_URL}>ClassPlay</a> catalog from the home page.
+          </p>
+        </div>
+      </div>
+    </div>
+    <button class="exp-btn" type="button" aria-expanded="false" data-more="Read more ▾" data-less="Show less ▴">Read more ▾</button>
   </div>
 </Base>
