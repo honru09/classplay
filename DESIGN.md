@@ -110,3 +110,16 @@ A bright, tactile school games shelf designed to transition a student from brows
 
 - Strict compliance with `prefers-reduced-motion`: animation iterations drop to instant transitions; spinners remain stationary.
 - Keyboard navigation: visible `:focus-visible` rings, single back link with clean focus, and iframe automatically receives focus on load (when in viewport).
+
+## 8. Brand Mark (SpriteBuddy)
+
+- **Identity**: The official ClassPlay brand mark is **CP2-C "SpriteBuddy"** — a friendly, organic mint-aqua puzzle ghost character (`#8ef1d9`) featuring an arcade dome silhouette, straight flanks, a 3-scallop wavy skirt, oversized expressive white eyes (`#ffffff`) with inquisitive ink navy pupils (`#17233f`), sky blue blush accents (`#38bdf8`), and an eager smile.
+- **Source Assets**:
+  - Standalone Mark: `/home/hatch/workspace/game-site/redesign/logo-v9/round2/cp2-variant-c-mark.svg`
+  - Horizontal Lockup: `/home/hatch/workspace/game-site/redesign/logo-v9/round2/cp2-variant-c-lockup.svg`
+- **Surface & Canvas Integration**:
+  - Header & Light Surfaces: SpriteBuddy lives natively on solid white panels (`--panel: #ffffff`), where its mint aqua body (`#8ef1d9`) and deep ink navy facial cut-outs (`#17233f`, 14.2:1 contrast) project maximum friendliness and school-safe warmth.
+  - PWA / App / Maskable Icons: Rendered with the full-bleed Poki aqua background (`#8ef1d9`) and a crisp white circular surface (`#ffffff`) centered within the 80% safe zone. This guarantees zero boundary clipping across Android adaptive icon masks (circles, squircle, teardrop) and iOS home screens while preserving high-contrast visibility.
+- **Favicon Simplification (16px / 32px)**:
+  - For browser tab legibility, sub-pixel details (1.5px specular sparkle dots and 3px 80% opacity blush circles) are omitted to prevent chromatic blurring on low-DPI displays.
+  - The mint aqua dome silhouette, 3-scallop skirt, high-contrast white eye sclera, solid ink navy pupils, and curved smile are preserved with reinforced stroke weight, ensuring instant recognition at 16×16 and 32×32 pixels on both light and dark browser themes.
