@@ -33,6 +33,9 @@ const jsonLd = {
     <h1>{hub.h1}</h1>
   </div>
 
+  {/* Client-side Jump back in rail (spec §2.1) */}
+  <div id="jumpBackInRail"></div>
+
   <h2>Play Now — {games.length} Free Games</h2>
   <GameGrid games={games} />
 
@@ -56,4 +59,32 @@ const jsonLd = {
     </div>
     <button class="exp-btn" type="button" aria-expanded="false" data-more="Read more ▾" data-less="Show less ▴">Read more ▾</button>
   </div>
+
+  <script>
+    (() => {
+      // Jump back in rail (spec §2.1)
+      try {
+        const raw = localStorage.getItem('cp-recent');
+        const list = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(list) || !list.length) return;
+        const container = document.getElementById('jumpBackInRail');
+        if (!container) return;
+        const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const shelf = document.createElement('section');
+        shelf.className = 'shelf jump-back-in-shelf';
+        shelf.innerHTML = `
+          <h2>🕒 Jump Back In</h2>
+          <div class="tiles rail">
+            ${list.slice(0, 8).map((item) => `
+              <a class="tile" href="${esc(item.url)}" title="${esc(item.title)}" aria-label="Play ${esc(item.title)} online">
+                <img class="tile-img" src="${esc(item.thumb)}" alt="" loading="lazy" width="512" height="384" />
+                <span class="tile-cap">${esc(item.title)}</span>
+              </a>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(shelf);
+      } catch (e) {}
+    })();
+  </script>
 </Base>

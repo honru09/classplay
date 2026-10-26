@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import GameGrid from '../../components/GameGrid.astro';
 import { allGames, relatedGames, gameFaqs, gameUrl, u } from '../../lib/games.mjs';
-import { artUrl, accentFor } from '../../lib/art.mjs';
+import { accentFor } from '../../lib/art.mjs';
 
 export function getStaticPaths() {
   return allGames.map((game) => ({ params: { slug: game.slug }, props: { game } }));
@@ -10,9 +10,18 @@ export function getStaticPaths() {
 
 const { game } = Astro.props;
 const related = relatedGames(game, 6);
+const nextGame = related[0];
 const faqs = gameFaqs(game);
-const art = artUrl(game);
+const ins = (game.instructions || '').toLowerCase();
+const ctrl = [];
+if (/arrow|wasd|keyboard/.test(ins)) ctrl.push('Keyboard');
+if (/mouse|click/.test(ins)) ctrl.push('Mouse');
+if (/space/.test(ins)) ctrl.push('Spacebar');
+if (/touch|tap|swipe/.test(ins) || game.mobile) ctrl.push('Touch');
+if (!ctrl.length) ctrl.push('On-screen');
+const primaryCat = game.categories[0] || 'Game';
 const accent = accentFor(game);
+const embedOrigin = new URL(game.embedUrl).origin;
 
 const title = `Play ${game.title} Online Free — No Download | ClassPlay`;
 const description = game.description.slice(0, 158);
@@ -54,128 +63,437 @@ const jsonLd = [
 ];
 ---
 
-<Base title={title} description={description} canonical={game.pageUrl} ogImage={game.thumb} jsonLd={jsonLd}>
-  <div class="crumbs">
-    <a href={u()}>Home</a> › <a href={u('classroom-games/')}>Classroom Games</a> › {game.title}
+<Base title={title} description={description} canonical={game.pageUrl} ogImage={game.thumb} jsonLd={jsonLd} embedOrigin={embedOrigin}>
+  {/* Single back link per spec §2.2 */}
+  <div class="back-nav">
+    <a href={u('classroom-games/')} class="back-link">← All games</a>
   </div>
 
-  <h1>{game.title}</h1>
-  <p class="lede">
-    Play {game.title} free in your browser — no download, no sign-up. Works on Chromebooks, laptops and phones.
-  </p>
+  {/* Compact title row: H1 + category chip + control chips */}
+  <div class="game-header">
+    <h1>{game.title}</h1>
+    <div class="game-meta-chips">
+      <span class="chip" style={`--acc:${accent}`}>{primaryCat}</span>
+      {ctrl.map((c) => <span class="chip alt">{c}</span>)}
+    </div>
+  </div>
 
-  <div class="stage" style={`--acc:${accent}`}>
-    <div class:list={['stage-frame', { 'has-art': !!art }]} style={`aspect-ratio: ${game.width} / ${game.height};`}>
-    <div class="player-shell" id="playerShell">
-      <button
-        class="facade"
-        id="playFacade"
-        type="button"
-        data-embed={game.embedUrl}
-        data-title={`Play ${game.title}`}
-        aria-label={`Play ${game.title} now`}
+  {/* Desktop >=1100px: two-column layout (player column + 300px side rail) */}
+  <div class="game-layout">
+    <div class="game-main-col">
+      {/* Ratio-correct player frame solved from height budget (spec §2.2) */}
+      <div
+        class="player-frame"
+        id="playerFrame"
+        style={`--game-w:${game.width}; --game-h:${game.height};`}
       >
-        {
-          game.thumb ? (
+        <div class="player-shell" id="playerShell" data-state="facade">
+          {/* Facade poster */}
+          <div
+            class="facade"
+            id="playFacade"
+            role="button"
+            tabindex="0"
+            data-embed={game.embedUrl}
+            data-title={`Play ${game.title}`}
+            data-raw-title={game.title}
+            data-slug={game.slug}
+            data-thumb={game.thumb}
+            aria-label={`Play ${game.title} now`}
+          >
             <img class="facade-poster" src={game.thumb} alt="" aria-hidden="true" width="512" height="384" fetchpriority="high" />
-          ) : (
-            <span class="facade-fallback" aria-hidden="true">🎮</span>
+            <span class="facade-shade" aria-hidden="true"></span>
+            <span class="facade-btn" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+            <span class="facade-cap">
+              <b>Play {game.title}</b>
+              <small>Free · No download · Starts right in your browser</small>
+            </span>
+          </div>
+
+          {/* Designed LOADING state (spec §2.3) */}
+          <div class="player-loading" id="playerLoading" aria-live="polite" hidden>
+            <img class="loading-poster-dim" src={game.thumb} alt="" aria-hidden="true" width="512" height="384" />
+            <div class="loading-scrim" aria-hidden="true"></div>
+            <div class="loading-content">
+              <div class="player-spinner" aria-hidden="true">
+                <svg viewBox="0 0 50 50" width="48" height="48">
+                  <circle cx="25" cy="25" r="20" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="4"></circle>
+                  <circle cx="25" cy="25" r="20" fill="none" stroke="var(--cyan)" stroke-width="4" stroke-linecap="round" stroke-dasharray="80" stroke-dashoffset="60"></circle>
+                </svg>
+              </div>
+              <div class="loading-title">Loading {game.title}…</div>
+              <div class="loading-hint">First load can take a few seconds</div>
+            </div>
+          </div>
+
+          {/* Designed ERROR state with Try again (spec §2.3) */}
+          <div class="player-error" id="playerError" role="alert" hidden>
+            <div class="error-content">
+              <div class="error-msg">This game is taking too long.</div>
+              <div class="error-actions">
+                <button type="button" class="btn" id="errorRetryBtn">Try again</button>
+                <a href={u('classroom-games/')} class="btn ghost">Browse more games</a>
+              </div>
+            </div>
+          </div>
+
+          {/* Container for injected iframe */}
+          <div class="player-iframe-wrap" id="iframeWrap"></div>
+
+          {/* Theatre mode exit button */}
+          <button type="button" class="theatre-exit-btn" id="theatreExitBtn" aria-label="Exit theatre mode" hidden>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            <span>Exit</span>
+          </button>
+
+          <noscript>
+            <iframe
+              src={game.embedUrl}
+              title={`Play ${game.title}`}
+              allow="fullscreen; autoplay; gamepad"
+              allowfullscreen
+              scrolling="no"
+            ></iframe>
+          </noscript>
+        </div>
+      </div>
+
+      {/* Player toolbar (spec §2.4) */}
+      <div class="player-toolbar" id="playerToolbar">
+        <span class="toolbar-title">{game.title}</span>
+        <div class="toolbar-actions">
+          <button type="button" class="toolbar-btn" id="restartBtn" aria-label="Restart game">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+            <span>Restart</span>
+          </button>
+          <button type="button" class="toolbar-btn fs-btn" id="fsBtn" aria-label="Toggle fullscreen">
+            <svg class="icon-expand" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+            <svg class="icon-compress" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" hidden><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-14v3h3v2h-5V5h2z"/></svg>
+            <span class="fs-label">Fullscreen</span>
+          </button>
+          {nextGame && (
+            <a href={gameUrl(nextGame)} class="toolbar-btn next-btn" aria-label={`Next game: ${nextGame.title}`}>
+              <span>Next game</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* Lede paragraph below the player per spec §2.2 */}
+      <p class="lede" style="margin-top:16px;">
+        Play {game.title} free in your browser — no download, no sign-up. Works on Chromebooks, laptops and phones.
+      </p>
+
+      <h2>About {game.title}</h2>
+      <div class="prose">
+        <p>{game.description}</p>
+        {
+          game.tags.length > 0 && (
+            <p>
+              Tags: {game.tags.join(' · ')}
+            </p>
           )
         }
-        <span class="facade-shade" aria-hidden="true"></span>
-        <span class="facade-btn" aria-hidden="true">▶</span>
-        <span class="facade-cap">
-          <b>Play {game.title}</b>
-          <small>Free · No download · Starts right in your browser</small>
-        </span>
-      </button>
-      <noscript>
-        <iframe
-          src={game.embedUrl}
-          title={`Play ${game.title}`}
-          allow="fullscreen; autoplay; gamepad"
-          allowfullscreen
-          scrolling="no"
-        ></iframe>
-      </noscript>
-    </div>
-    {art && <img class="stage-art" src={art} alt="" aria-hidden="true" width="560" height="560" loading="lazy" />}
-    </div>
-  </div>
-  <div class="player-bar">
-    <span class="chips" style="margin-top:0">
-      {game.categories.map((c) => <span class="chip">{c}</span>)}
-    </span>
-    <button class="btn fs-btn" type="button">⛶ Fullscreen</button>
-  </div>
+      </div>
 
-  <div class="sticky-play">
-    <span class="sp-t">🎮 {game.title}</span>
-    <a class="btn ghost" href="#more-like-this" style="padding:9px 14px">More games</a>
-    <button class="btn fs-btn" type="button" style="padding:9px 16px">⛶ Play big</button>
-  </div>
-  <script>
-    document.body.classList.add('has-sticky');
-    // Click-to-play facade (parity with TabArcade): the third-party player
-    // iframe is injected only on a play click, so its scripts and ad stack
-    // stay out of the initial load and the poster is what students see first.
-    const shell = document.getElementById('playerShell');
-    const facade = document.getElementById('playFacade');
-    let started = false;
-    const startGame = () => {
-      if (started || !shell || !facade) return;
-      started = true;
-      const ifr = document.createElement('iframe');
-      ifr.src = facade.dataset.embed;
-      ifr.title = facade.dataset.title;
-      ifr.allow = 'fullscreen; autoplay; gamepad';
-      ifr.allowFullscreen = true;
-      ifr.setAttribute('scrolling', 'no');
-      facade.replaceWith(ifr);
-    };
-    facade?.addEventListener('click', startGame);
-    const goFs = () => {
-      startGame();
-      if (shell?.requestFullscreen) shell.requestFullscreen();
-      else shell?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    };
-    document.querySelectorAll('.fs-btn').forEach((b) => b.addEventListener('click', goFs));
-  </script>
-
-  <h2>About {game.title}</h2>
-  <div class="prose">
-    <p>{game.description}</p>
-    {
-      game.tags.length > 0 && (
+      <h2>How to Play {game.title}</h2>
+      <div class="prose">
+        <p>{game.instructions || `Open the game above and follow the on-screen prompts. ${game.title} is designed to be picked up in seconds — most browser games use the arrow keys, WASD, the mouse, or touch controls.`}</p>
         <p>
-          Tags: {game.tags.join(' · ')}
+          Tip: click the Fullscreen button for the biggest play area, especially on a Chromebook.
+          If the game seems stuck loading, wait a few seconds and refresh once — browser games stream
+          their assets on first load.
         </p>
-      )
-    }
+      </div>
+
+      <h2>{game.title} FAQ</h2>
+      <div class="faq">
+        {
+          faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+
+      <h2 id="more-like-this">Games Like {game.title}</h2>
+      <GameGrid games={related} rail />
+    </div>
+
+    {/* Side rail column (spec §2.4) */}
+    <aside class="game-rail-col">
+      <div class="rail-box up-next-box">
+        <h3 class="rail-heading">Up next</h3>
+        <div class="rail-items">
+          {related.map((r) => (
+            <a href={gameUrl(r)} class="rail-card">
+              <img src={r.thumb} alt="" width="68" height="51" loading="lazy" />
+              <div class="rail-card-text">
+                <div class="rail-card-title">{r.title}</div>
+                <div class="rail-card-cat">{r.categories[0]}</div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="rail-box recent-box" id="railRecent" hidden>
+        <h3 class="rail-heading">Jump back in</h3>
+        <div class="rail-items" id="railRecentList"></div>
+      </div>
+    </aside>
   </div>
 
-  <h2>How to Play {game.title}</h2>
-  <div class="prose">
-    <p>{game.instructions || `Open the game above and follow the on-screen prompts. ${game.title} is designed to be picked up in seconds — most browser games use the arrow keys, WASD, the mouse, or touch controls.`}</p>
-    <p>
-      Tip: click the Fullscreen button for the biggest play area, especially on a Chromebook.
-      If the game seems stuck loading, wait a few seconds and refresh once — browser games stream
-      their assets on first load.
-    </p>
+  {/* Contextual mobile sticky bar (spec §2.4) */}
+  <div class="sticky-play" id="stickyPlay">
+    <span class="sp-t">🎮 {game.title}</span>
+    <button class="btn" id="stickyPlayBtn" type="button">Play</button>
   </div>
 
-  <h2>{game.title} FAQ</h2>
-  <div class="faq">
-    {
-      faqs.map((f) => (
-        <details>
-          <summary>{f.q}</summary>
-          <p>{f.a}</p>
-        </details>
-      ))
-    }
-  </div>
+  <script>
+    (() => {
+      const shell = document.getElementById('playerShell');
+      const frame = document.getElementById('playerFrame');
+      const facade = document.getElementById('playFacade');
+      const loading = document.getElementById('playerLoading');
+      const errorEl = document.getElementById('playerError');
+      const iframeWrap = document.getElementById('iframeWrap');
+      const restartBtn = document.getElementById('restartBtn');
+      const fsBtn = document.getElementById('fsBtn');
+      const theatreExitBtn = document.getElementById('theatreExitBtn');
+      const stickyBar = document.getElementById('stickyPlay');
+      const stickyBtn = document.getElementById('stickyPlayBtn');
+      const errorRetryBtn = document.getElementById('errorRetryBtn');
 
-  <h2 id="more-like-this">Games Like {game.title}</h2>
-  <GameGrid games={related} rail />
+      if (!shell || !facade || !iframeWrap) return;
+
+      const getEmbedUrl = () => facade.dataset.embed || '';
+      const getGameTitle = () => facade.dataset.title || '';
+      let started = false;
+      let isPlaying = false;
+      let isTheatre = false;
+      let loadTimer = null;
+      let currentIframe = null;
+
+      const showLoading = () => {
+        facade.hidden = true;
+        errorEl.hidden = true;
+        loading.hidden = false;
+        shell.dataset.state = 'loading';
+      };
+
+      const showError = () => {
+        loading.hidden = true;
+        facade.hidden = true;
+        errorEl.hidden = false;
+        shell.dataset.state = 'error';
+        if (currentIframe) {
+          currentIframe.remove();
+          currentIframe = null;
+        }
+      };
+
+      const showPlaying = () => {
+        loading.hidden = true;
+        errorEl.hidden = true;
+        facade.hidden = true;
+        isPlaying = true;
+        shell.dataset.state = 'playing';
+        if (stickyBtn) stickyBtn.textContent = 'Back to game';
+      };
+
+      const armTimeout = () => {
+        if (loadTimer) clearTimeout(loadTimer);
+        loadTimer = setTimeout(() => {
+          if (!isPlaying) {
+            showError();
+          }
+        }, 12000);
+      };
+
+      const buildIframe = () => {
+        if (currentIframe) {
+          currentIframe.remove();
+          currentIframe = null;
+        }
+        const ifr = document.createElement('iframe');
+        ifr.src = getEmbedUrl();
+        ifr.title = getGameTitle();
+        ifr.allow = 'fullscreen; autoplay; gamepad';
+        ifr.allowFullscreen = true;
+        ifr.setAttribute('scrolling', 'no');
+        ifr.addEventListener('load', () => {
+          if (loadTimer) clearTimeout(loadTimer);
+          showPlaying();
+          // Focus moved into the iframe on load only if the player is in the viewport
+          const rect = shell.getBoundingClientRect();
+          const inViewport = rect.top < window.innerHeight && rect.bottom > 0;
+          if (inViewport) {
+            try {
+              ifr.focus();
+              if (ifr.contentWindow) ifr.contentWindow.focus();
+            } catch (e) {}
+          }
+        });
+        iframeWrap.appendChild(ifr);
+        currentIframe = ifr;
+      };
+
+      const startOrRestart = () => {
+        started = true;
+        isPlaying = false;
+        showLoading();
+        armTimeout();
+        buildIframe();
+      };
+
+      // Tapping facade while loading is harmless and keeps state
+      facade.addEventListener('pointerdown', () => {
+        if (!started) startOrRestart();
+      });
+      facade.addEventListener('click', () => {
+        if (!started) startOrRestart();
+      });
+      facade.addEventListener('keydown', (e) => {
+        if ((e.key === 'Enter' || e.key === ' ') && !started) {
+          e.preventDefault();
+          startOrRestart();
+        }
+      });
+
+      restartBtn?.addEventListener('click', () => {
+        startOrRestart();
+      });
+
+      errorRetryBtn?.addEventListener('click', () => {
+        startOrRestart();
+      });
+
+      // Fullscreen + Theatre mode fallback
+      const syncFsUi = (active) => {
+        const fsLabel = fsBtn?.querySelector('.fs-label');
+        const iconExp = fsBtn?.querySelector('.icon-expand');
+        const iconComp = fsBtn?.querySelector('.icon-compress');
+        if (fsLabel) fsLabel.textContent = active ? 'Exit' : 'Fullscreen';
+        if (iconExp) iconExp.hidden = active;
+        if (iconComp) iconComp.hidden = !active;
+        if (theatreExitBtn) theatreExitBtn.hidden = !active || !isTheatre;
+      };
+
+      const enterTheatre = () => {
+        isTheatre = true;
+        shell.classList.add('theatre-mode');
+        document.body.style.overflow = 'hidden';
+        syncFsUi(true);
+      };
+
+      const exitTheatre = () => {
+        isTheatre = false;
+        shell.classList.remove('theatre-mode');
+        document.body.style.overflow = '';
+        syncFsUi(false);
+      };
+
+      const toggleFullscreen = () => {
+        if (!started) startOrRestart();
+        if (isTheatre) {
+          exitTheatre();
+          return;
+        }
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+          return;
+        }
+        if (shell.requestFullscreen) {
+          shell.requestFullscreen().then(() => {
+            syncFsUi(true);
+          }).catch(() => {
+            enterTheatre();
+          });
+        } else {
+          enterTheatre();
+        }
+      };
+
+      fsBtn?.addEventListener('click', toggleFullscreen);
+      theatreExitBtn?.addEventListener('click', exitTheatre);
+
+      document.addEventListener('fullscreenchange', () => {
+        const isNativeFs = !!document.fullscreenElement;
+        if (!isTheatre) {
+          syncFsUi(isNativeFs);
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isTheatre) {
+          exitTheatre();
+        }
+      });
+
+      // Contextual mobile sticky bar: hidden while player in viewport, appears when scrolled out
+      if (stickyBar && frame) {
+        document.body.classList.add('has-sticky');
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              stickyBar.classList.remove('is-active');
+            } else {
+              stickyBar.classList.add('is-active');
+            }
+          },
+          { threshold: 0.15 }
+        );
+        observer.observe(frame);
+
+        stickyBtn?.addEventListener('click', () => {
+          frame.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (!started) startOrRestart();
+        });
+      }
+
+      // Recently played in localStorage (spec §2.1)
+      try {
+        const slug = facade.dataset.slug;
+        const rawTitle = facade.dataset.rawTitle;
+        const thumb = facade.dataset.thumb;
+        const pageUrl = window.location.href;
+        const KEY = 'cp-recent';
+        const raw = localStorage.getItem(KEY);
+        let list = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(list)) list = [];
+        list = list.filter((item) => item && item.slug && item.slug !== slug);
+        list.unshift({ slug, title: rawTitle, thumb, url: pageUrl, ts: Date.now() });
+        if (list.length > 8) list = list.slice(0, 8);
+        localStorage.setItem(KEY, JSON.stringify(list));
+
+        // Populate side rail Jump back in if other items exist
+        const railRecent = document.getElementById('railRecent');
+        const railRecentList = document.getElementById('railRecentList');
+        const others = list.filter((item) => item.slug !== slug).slice(0, 5);
+        if (railRecent && railRecentList && others.length > 0) {
+          const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+          railRecentList.innerHTML = others.map((item) => `
+            <a class="rail-card" href="${esc(item.url)}">
+              <img src="${esc(item.thumb)}" alt="" width="68" height="51" loading="lazy" />
+              <div class="rail-card-text">
+                <div class="rail-card-title">${esc(item.title)}</div>
+                <div class="rail-card-cat">Jump back in</div>
+              </div>
+            </a>
+          `).join('');
+          railRecent.hidden = false;
+        }
+      } catch (e) {}
+
+      // AUTO-LOAD start per amended spec §2.3:
+      // The game begins loading automatically behind the poster facade without requiring a click.
+      startOrRestart();
+    })();
+  </script>
 </Base>
