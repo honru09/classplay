@@ -1,16 +1,38 @@
 ---
 import Base from '../layouts/Base.astro';
 import GameGrid from '../components/GameGrid.astro';
-import { shelves, u } from '../lib/games.mjs';
+import { shelves, u, buildHomeShelves } from '../lib/games.mjs';
 
-const featured = shelves.featured();
-const newGames = shelves.newGames();
-const math = shelves.math().slice(0, 10);
-const puzzle = shelves.puzzle().slice(0, 10);
-const brain = shelves.brain().slice(0, 10);
-const breaks = shelves.breaks().slice(0, 10);
-const twoPlayer = shelves.twoPlayer().slice(0, 10);
-const sports = shelves.sports().slice(0, 10);
+const mathPool = shelves.math();
+const mathSlugs = new Set(mathPool.map((g) => g.slug));
+const puzzlePool = shelves.puzzle().filter((g) => !mathSlugs.has(g.slug));
+const puzzleSlugs = new Set(puzzlePool.map((g) => g.slug));
+const brainPool = shelves.brain().sort((a, b) => {
+  const aDistinct = !puzzleSlugs.has(a.slug) && !mathSlugs.has(a.slug);
+  const bDistinct = !puzzleSlugs.has(b.slug) && !mathSlugs.has(b.slug);
+  return (bDistinct ? 1 : 0) - (aDistinct ? 1 : 0);
+});
+
+const rawHomeShelves = [
+  { name: 'featured', pool: shelves.featured(), max: 16 },
+  { name: 'new', pool: shelves.newGames(), max: 12 },
+  { name: 'math', pool: mathPool, max: 10 },
+  { name: 'puzzle', pool: puzzlePool, max: 10 },
+  { name: 'brain', pool: brainPool, max: 10 },
+  { name: 'breaks', pool: shelves.breaks(), max: 10 },
+  { name: 'twoPlayer', pool: shelves.twoPlayer(), max: 10 },
+  { name: 'sports', pool: shelves.sports(), max: 10 },
+];
+const dedupedShelves = buildHomeShelves(rawHomeShelves);
+const shelfMap = new Map(dedupedShelves.map((s) => [s.name, s.games]));
+const featured = shelfMap.get('featured') || [];
+const newGames = shelfMap.get('new') || [];
+const math = shelfMap.get('math') || [];
+const puzzle = shelfMap.get('puzzle') || [];
+const brain = shelfMap.get('brain') || [];
+const breaks = shelfMap.get('breaks') || [];
+const twoPlayer = shelfMap.get('twoPlayer') || [];
+const sports = shelfMap.get('sports') || [];
 
 const jsonLd = {
   '@context': 'https://schema.org',

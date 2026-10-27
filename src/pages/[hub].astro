@@ -52,6 +52,7 @@ const jsonLd = [
   <h1 class="shelf-h1">
     <span class="shelf-icon">{HUB_ICONS[hub.slug] || '🎮'}</span>
     {hub.h1}
+    <span class="shelf-count">{games.length} games</span>
   </h1>
 
   {/* Grid opens with 2x2 hero tile for the #1 game per Deliverable 3 */}
@@ -63,16 +64,6 @@ const jsonLd = [
       <a class="sib-card" href={u(`${h.slug}/`)}>{h.h1}</a>
     ))}
   </nav>
-
-  {/* LP1 (Poki): top-picks strip — our own shelf order */}
-  <section class="top-picks">
-    <h2>Top picks in {hub.h1}</h2>
-    <ol>
-      {games.slice(0, 5).map((g) => (
-        <li><a href={gameUrl(g)}>{g.title}</a></li>
-      ))}
-    </ol>
-  </section>
 
   {/* Intro copy relocated below grid per Section 6 */}
   <div class="expandable" style="margin-top:26px">

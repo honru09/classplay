@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/games.mjs';
+
+const title = 'About ClassPlay — Screened Classroom Games';
+const description = 'ClassPlay is a carefully screened shelf of free browser games for school: math, puzzles, logic, gentle skill games and sports. No downloads, no accounts.';
+const canonical = 'https://classplay.online/about/';
+---
+
+<Base title={title} description={description} canonical={canonical}>
+  <div class="crumbs">
+    <a href={u()}>Home</a> › About ClassPlay
+  </div>
+
+  <article class="prose" style="margin-top: 16px;">
+    <h1>About ClassPlay</h1>
+    <p class="lede">
+      ClassPlay is a curated catalog of free browser games screened specifically for the classroom,
+      school Chromebooks, and student break times.
+    </p>
+
+    <h2>Screened for the Classroom First</h2>
+    <p>
+      Most gaming websites serve anything they can find. ClassPlay is built with the opposite approach:
+      we start from what belongs in a school environment. Every game in our catalog is screened for content
+      and tone. You will find math puzzles, logic challenges, gentle arcade games, and two-player sports
+      that students can share on a single keyboard — but zero shooters, zero horror, zero zombie games,
+      and zero violent imagery. If a title would make a teacher or parent frown, it does not get listed.
+    </p>
+
+    <h2>Built for School Chromebooks &amp; Modern Browsers</h2>
+    <p>
+      Schools rely heavily on Chromebooks and managed devices. ClassPlay games run directly in modern web
+      browsers as lightweight HTML5 applications. There are no downloads, no installations, no browser
+      extensions, and no accounts required. Games load in seconds and fit neatly into a class break or
+      reward time.
+    </p>
+
+    <h2>Licensed Feeds &amp; Content Partners</h2>
+    <p>
+      Games on ClassPlay are sourced through licensed web game distribution networks, primarily GameDistribution
+      and GameMonetize, and remain the intellectual property of their talented independent developers.
+      We screen the upstream feeds to select only titles that meet our classroom standards.
+    </p>
+
+    <h2>Regular Reviews &amp; Safety Maintenance</h2>
+    <p>
+      We review our catalog continuously. Games that change content, slow down, or introduce intrusive
+      elements are promptly pruned. Teachers and parents with questions or suggestions are encouraged to
+      <a href={u('contact/')}>reach out to us</a>.
+    </p>
+  </article>
+</Base>

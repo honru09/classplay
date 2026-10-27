@@ -62,7 +62,7 @@ const jsonLd = [
     <a href={u()}>Home</a> › All Games A–Z
   </div>
 
-  <h1>All Classroom Games A–Z</h1>
+  <h1>All Classroom Games A–Z <span class="shelf-count">{sorted.length} games</span></h1>
   <p class="lede">
     Every game on ClassPlay in one list — {sorted.length} free classroom-appropriate browser games, sorted A to Z.
     No downloads, no sign-ups; everything runs in a normal browser tab on Chromebooks, laptops
@@ -76,7 +76,10 @@ const jsonLd = [
   {
     letters.map((L) => (
       <section class="az-group">
-        <h2 id={anchor(L)}>{label(L)}</h2>
+        <h2 id={anchor(L)}>
+          {label(L)}
+          <span class="az-count">{groups.get(L).length} games</span>
+        </h2>
         <GameGrid games={groups.get(L)} />
       </section>
     ))
@@ -92,4 +95,12 @@ const jsonLd = [
   }
   .az-nav a:hover { text-decoration: none; border-color: rgba(37, 64, 140, 0.4); }
   .az-group h2 { scroll-margin-top: 96px; }
+  .shelf-count, .az-count {
+    font-size: 0.52em;
+    font-weight: 600;
+    color: var(--muted);
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: normal;
+  }
 </style>

@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/games.mjs';
+
+const title = 'Contact Us — ClassPlay';
+const description = 'Get in touch with the ClassPlay team: report a broken game, raise classroom content concerns, or submit game feedback.';
+const canonical = 'https://classplay.online/contact/';
+---
+
+<Base title={title} description={description} canonical={canonical}>
+  <div class="crumbs">
+    <a href={u()}>Home</a> › Contact Us
+  </div>
+
+  <article class="prose" style="margin-top: 16px;">
+    <h1>Contact ClassPlay</h1>
+    <p class="lede">
+      Whether you are a teacher with feedback, a student who found a glitch, or a developer with a classroom-friendly game,
+      we welcome your message. Reach us directly at:
+    </p>
+
+    <p style="margin: 20px 0;">
+      <a href="mailto:hongrun01@gmail.com" class="btn" style="display: inline-block; font-size: 16px; padding: 12px 24px;">
+        ✉️ hongrun01@gmail.com
+      </a>
+    </p>
+
+    <h2>What to Write About</h2>
+    <p>We actively monitor and respond to:</p>
+    <ul>
+      <li>
+        <strong>Broken or Inaccessible Games:</strong> If a game does not load on your school network, hangs on a loading screen,
+        or has faulty Chromebook controls, let us know the game title and device model.
+      </li>
+      <li>
+        <strong>Classroom Appropriateness &amp; Content Concerns:</strong> If you believe any game does not meet classroom
+        screening standards or infringes on copyright, email us for an immediate review and removal.
+      </li>
+      <li>
+        <strong>Teacher Feedback &amp; Suggestions:</strong> Let us know what categories or topics (such as specific math topics
+        or logic puzzles) your students enjoy most.
+      </li>
+      <li>
+        <strong>Business &amp; Distribution Inquiries:</strong> Educational publishers and game studios interested in featuring
+        clean HTML5 titles on ClassPlay are invited to get in touch.
+      </li>
+    </ul>
+
+    <p>We typically review all messages within 1 to 2 school days.</p>
+  </article>
+</Base>

@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/games.mjs';
+
+const title = 'Privacy Policy — ClassPlay';
+const description = 'ClassPlay privacy policy: no user accounts, no student data collection, local storage only on your own device.';
+const canonical = 'https://classplay.online/privacy/';
+---
+
+<Base title={title} description={description} canonical={canonical}>
+  <div class="crumbs">
+    <a href={u()}>Home</a> › Privacy Policy
+  </div>
+
+  <article class="prose" style="margin-top: 16px;">
+    <h1>Privacy Policy</h1>
+    <p class="lede">
+      Student and visitor privacy is fundamental to how ClassPlay operates. Here is our straightforward privacy policy.
+    </p>
+
+    <h2>No User Accounts or Passwords</h2>
+    <p>
+      ClassPlay has no user accounts, registration forms, student rosters, or logins. Anyone can browse and play
+      without providing an email address, name, or password.
+    </p>
+
+    <h2>Local Storage on Your Device Only</h2>
+    <p>
+      Convenience features such as "Jump Back In" (your recently played games list) save lightweight data solely in
+      your web browser's local storage (<code>localStorage</code>) on your individual device. This data stays on your
+      machine, is never transmitted to our servers, and can be cleared whenever browser cache is cleared.
+    </p>
+
+    <h2>Third-Party Game Platforms &amp; Advertising</h2>
+    <p>
+      Games on ClassPlay are hosted and served through iframe embeds by licensed third-party platforms (including
+      GameDistribution and GameMonetize). In order to deliver game code and display ads that fund game development,
+      these providers and their advertising partners may process technical data (such as IP addresses and device
+      identifiers) in accordance with their respective privacy policies.
+    </p>
+
+    <h2>No Sale of Personal Data</h2>
+    <p>
+      ClassPlay does not collect, sell, or rent personal data to data brokers, advertisers, or third parties.
+    </p>
+
+    <h2>Questions</h2>
+    <p>
+      For any privacy questions or school compliance inquiries, please email us directly at
+      <a href="mailto:hongrun01@gmail.com">hongrun01@gmail.com</a> or visit our <a href={u('contact/')}>contact page</a>.
+    </p>
+  </article>
+</Base>

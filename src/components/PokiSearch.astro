@@ -82,6 +82,11 @@ const HUB_ICONS: Record<string, string> = {
     inset: 0;
     background: rgba(142, 241, 217, 0.95);
     z-index: 1;
+    opacity: 0;
+    transition: opacity 180ms ease-out;
+  }
+  .poki-search-panel.is-open .poki-search-scrim {
+    opacity: 1;
   }
   .poki-search-box {
     position: relative;
@@ -89,6 +94,20 @@ const HUB_ICONS: Record<string, string> = {
     max-width: 1180px;
     margin: 0 auto;
     padding: 20px 16px 60px;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 180ms ease-out, transform 180ms ease-out;
+  }
+  .poki-search-panel.is-open .poki-search-box {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .poki-search-scrim,
+    .poki-search-box {
+      transition: none !important;
+      transform: none !important;
+    }
   }
   .poki-search-bar {
     margin-bottom: 16px;
@@ -326,18 +345,42 @@ const HUB_ICONS: Record<string, string> = {
       return scored.slice(0, limit);
     };
 
+    const prefersReducedMotion = () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const openPanel = () => {
       panel.hidden = false;
       document.body.style.overflow = 'hidden';
       input.value = '';
       renderResults('');
-      setTimeout(() => input.focus(), 50);
+      if (prefersReducedMotion()) {
+        panel.classList.add('is-open');
+        input.focus();
+      } else {
+        requestAnimationFrame(() => {
+          panel.classList.add('is-open');
+        });
+        setTimeout(() => input.focus(), 50);
+      }
     };
 
     const closePanel = () => {
-      panel.hidden = true;
-      document.body.style.overflow = '';
-      input.value = '';
+      if (prefersReducedMotion()) {
+        panel.classList.remove('is-open');
+        panel.hidden = true;
+        document.body.style.overflow = '';
+        input.value = '';
+      } else {
+        panel.classList.remove('is-open');
+        setTimeout(() => {
+          if (!panel.classList.contains('is-open')) {
+            panel.hidden = true;
+            document.body.style.overflow = '';
+            input.value = '';
+          }
+        }, 180);
+      }
     };
 
     const renderResults = (query: string) => {

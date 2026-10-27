@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import { u } from '../lib/games.mjs';
+
+const title = 'Terms of Use — ClassPlay';
+const description = 'ClassPlay terms of use: game ownership, free classroom access, content availability, and service disclaimers.';
+const canonical = 'https://classplay.online/terms/';
+---
+
+<Base title={title} description={description} canonical={canonical}>
+  <div class="crumbs">
+    <a href={u()}>Home</a> › Terms of Use
+  </div>
+
+  <article class="prose" style="margin-top: 16px;">
+    <h1>Terms of Use</h1>
+    <p class="lede">
+      By using ClassPlay, you agree to these simple terms of service.
+    </p>
+
+    <h2>Free Access</h2>
+    <p>
+      ClassPlay provides free access to screened web games for educational, personal, and classroom break time use.
+      No subscriptions, payment methods, or user accounts are required.
+    </p>
+
+    <h2>Content Ownership</h2>
+    <p>
+      All games, assets, brand names, trademarks, and audio are the intellectual property of their original developers
+      and licensed syndication platforms (including GameDistribution and GameMonetize). ClassPlay operates as a curated
+      catalog and does not claim ownership of third-party game assets.
+    </p>
+
+    <h2>Catalog Availability</h2>
+    <p>
+      We make reasonable efforts to keep games accessible and reliable, but availability is subject to change.
+      Upstream providers may update or retire specific games at any time.
+    </p>
+
+    <h2>No Warranties</h2>
+    <p>
+      ClassPlay and all embedded games are provided on an "as is" and "as available" basis without warranties of any
+      kind. While games are pre-screened for classroom appropriateness, users and school administrators are encouraged
+      to review content according to their local classroom policies.
+    </p>
+
+    <h2>Contact &amp; Takedown Requests</h2>
+    <p>
+      If you are a rights holder or educator with questions about any game on our site, please contact us promptly at
+      <a href="mailto:hongrun01@gmail.com">hongrun01@gmail.com</a>.
+    </p>
+  </article>
+</Base>
