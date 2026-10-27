@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import GameGrid from '../components/GameGrid.astro';
 import { hubs } from '../data/hubs.mjs';
-import { shelves, allGames } from '../lib/games.mjs';
+import { shelves, allGames, gameUrl, u } from '../lib/games.mjs';
 import { accentFor } from '../lib/art.mjs';
 
 export function getStaticPaths() {
@@ -33,11 +33,28 @@ const jsonLd = {
     <h1>{hub.h1}</h1>
   </div>
 
+  {/* LP1 (Poki): sibling-category cards instead of a filter UI */}
+  <nav class="sib-row" aria-label="More game categories">
+    {hubs.filter((h) => h.slug !== hub.slug).map((h) => (
+      <a class="sib-card" href={u(`${h.slug}/`)}>{h.h1}</a>
+    ))}
+  </nav>
+
   {/* Client-side Jump back in rail (spec §2.1) */}
   <div id="jumpBackInRail"></div>
 
   <h2>Play Now — {games.length} Free Games</h2>
   <GameGrid games={games} />
+
+  {/* LP1 (Poki): top-picks strip — our own shelf order, no invented ratings */}
+  <section class="top-picks">
+    <h2>Top picks in {hub.h1}</h2>
+    <ol>
+      {games.slice(0, 5).map((g) => (
+        <li><a href={gameUrl(g)}>{g.title}</a></li>
+      ))}
+    </ol>
+  </section>
 
   {/* Intro copy moved below the grid (v5, TabArcade parity): the full text
       used to render inside the hero and fill the first screen before any

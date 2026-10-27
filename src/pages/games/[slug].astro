@@ -9,8 +9,10 @@ export function getStaticPaths() {
 }
 
 const { game } = Astro.props;
-const related = relatedGames(game, 6);
-const nextGame = related[0];
+const related12 = relatedGames(game, 12);
+const gamesLike = related12.slice(0, 6);
+const upNext = related12.slice(6, 12);
+const nextGame = upNext[0] || gamesLike[0];
 const faqs = gameFaqs(game);
 const ins = (game.instructions || '').toLowerCase();
 const ctrl = [];
@@ -222,7 +224,7 @@ const jsonLd = [
       </div>
 
       <h2 id="more-like-this">Games Like {game.title}</h2>
-      <GameGrid games={related} rail />
+      <GameGrid games={gamesLike} rail />
     </div>
 
     {/* Side rail column (spec §2.4) */}
@@ -230,7 +232,7 @@ const jsonLd = [
       <div class="rail-box up-next-box">
         <h3 class="rail-heading">Up next</h3>
         <div class="rail-items">
-          {related.map((r) => (
+          {upNext.map((r) => (
             <a href={gameUrl(r)} class="rail-card">
               <img src={r.thumb} alt="" width="68" height="51" loading="lazy" />
               <div class="rail-card-text">

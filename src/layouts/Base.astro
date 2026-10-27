@@ -576,6 +576,19 @@ const searchIndex = JSON.stringify(
       .hub-hero h1 { margin-bottom: 12px; }
       .hub-hero .prose { color: #33456b; }
 
+      /* LP1 (Poki): sibling-category cards + top-picks strip on hub pages */
+      .sib-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 6px; }
+      .sib-card {
+        background: #ffffff; border: 1px solid rgba(23, 35, 63, 0.12);
+        box-shadow: var(--shadow-card);
+        border-radius: 999px; padding: 7px 14px; font-size: 13.5px; font-weight: 700;
+        color: var(--text); text-decoration: none;
+      }
+      .sib-card:hover { text-decoration: none; border-color: rgba(23, 35, 63, 0.3); }
+      .top-picks { margin-top: 28px; }
+      .top-picks ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
+      .top-picks li a { font-weight: 700; }
+
       /* ---------- expandables ---------- */
       .expandable .exp-rest { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s cubic-bezier(0.2, 0.7, 0.3, 1); }
       .expandable.open .exp-rest { grid-template-rows: 1fr; }
