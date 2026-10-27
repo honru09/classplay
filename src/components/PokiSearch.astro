@@ -1,0 +1,287 @@
+---
+import { hubs } from '../data/hubs.mjs';
+import { u } from '../lib/games.mjs';
+
+const HUB_ICONS: Record<string, string> = {
+  'classroom-games': '🎒',
+  'math-games': '🧮',
+  'puzzle-games-for-school': '🧩',
+  'brain-games': '🧠',
+  'sports-games': '🏅',
+  'unblocked-games-for-chromebook': '💻',
+  'games-for-school-breaks': '⚡',
+  '2-player-classroom-games': '👥',
+};
+---
+
+<div
+  id="pokiSearchPanel"
+  class="poki-search-panel"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-label="Search games"
+>
+  <div class="poki-search-scrim" id="pokiSearchScrim"></div>
+  <div class="poki-search-box">
+    <div class="poki-search-bar">
+      <div class="poki-search-pill">
+        <svg class="poki-search-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+          <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z" />
+        </svg>
+        <input
+          type="search"
+          id="pokiSearchInput"
+          class="poki-input"
+          placeholder="What do you play?"
+          autocomplete="off"
+          aria-label="Search games"
+        />
+        <button type="button" id="pokiSearchClose" class="poki-close-btn" aria-label="Close search">
+          ✕
+        </button>
+      </div>
+    </div>
+
+    <!-- Category cards row (Poki shape) -->
+    <div class="poki-cats-scroller" aria-label="Game categories">
+      {
+        hubs.map((h) => (
+          <a href={u(`${h.slug}/`)} class="poki-cat-card">
+            <span class="cat-icon">{HUB_ICONS[h.slug] || '🎮'}</span>
+            <span class="cat-name">{h.h1.replace(/ Games?/i, '')}</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Results mosaic section -->
+    <div class="poki-results-wrap">
+      <div id="pokiResultsMosaic" class="tiles mosaic"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .poki-search-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 85;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .poki-search-panel:not([hidden]) {
+    display: block;
+  }
+  .poki-search-panel[hidden] {
+    display: none !important;
+  }
+  .poki-search-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(142, 241, 217, 0.95);
+    z-index: 1;
+  }
+  .poki-search-box {
+    position: relative;
+    z-index: 2;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+  .poki-search-bar {
+    margin-bottom: 16px;
+  }
+  .poki-search-pill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 8px 18px;
+    box-shadow: 0 8px 30px rgba(23, 35, 63, 0.18);
+  }
+  .poki-search-icon {
+    color: #17233f;
+    flex: 0 0 auto;
+  }
+  .poki-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: #17233f;
+    font-size: clamp(16px, 2.2vw, 20px);
+    font-weight: 800;
+    font-family: inherit;
+    outline: none;
+    padding: 6px 0;
+  }
+  .poki-input::placeholder {
+    color: #7b8fae;
+    font-weight: 700;
+  }
+  .poki-close-btn {
+    border: 0;
+    background: #eef5ff;
+    color: #17233f;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex: 0 0 auto;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  .poki-close-btn:hover {
+    background: #dbeaff;
+    transform: scale(1.06);
+  }
+  .poki-close-btn:active {
+    transform: scale(0.92);
+  }
+
+  /* Category cards scroller */
+  .poki-cats-scroller {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 6px 0 16px;
+    margin-bottom: 14px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .poki-cats-scroller::-webkit-scrollbar {
+    display: none;
+  }
+  .poki-cat-card {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    color: #17233f;
+    padding: 10px 18px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: 0 2px 10px rgba(23, 35, 63, 0.12);
+    text-decoration: none;
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+  }
+  .poki-cat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(23, 35, 63, 0.2);
+    text-decoration: none;
+    color: #0369a1;
+  }
+  .poki-cat-card .cat-icon {
+    font-size: 17px;
+  }
+
+  /* Results mosaic */
+  .poki-results-wrap {
+    min-height: 200px;
+  }
+</style>
+
+<script>
+  (() => {
+    const panel = document.getElementById('pokiSearchPanel');
+    const scrim = document.getElementById('pokiSearchScrim');
+    const input = document.getElementById('pokiSearchInput') as HTMLInputElement | null;
+    const closeBtn = document.getElementById('pokiSearchClose');
+    const resultsGrid = document.getElementById('pokiResultsMosaic');
+    const idxEl = document.getElementById('gameIndex');
+
+    if (!panel || !input || !resultsGrid) return;
+
+    let games: Array<{ t: string; u: string; i: string; s: number }> = [];
+    try {
+      if (idxEl && idxEl.textContent) {
+        games = JSON.parse(idxEl.textContent);
+      }
+    } catch (e) {}
+
+    const esc = (s: string) =>
+      s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] || c));
+
+    const openPanel = () => {
+      panel.hidden = false;
+      document.body.style.overflow = 'hidden';
+      input.value = '';
+      renderResults('');
+      setTimeout(() => input.focus(), 50);
+    };
+
+    const closePanel = () => {
+      panel.hidden = true;
+      document.body.style.overflow = '';
+      input.value = '';
+    };
+
+    const renderResults = (query: string) => {
+      const q = query.trim().toLowerCase();
+      let matched: typeof games = [];
+      if (!q) {
+        matched = games.slice(0, 24);
+      } else {
+        matched = games
+          .filter((g) => g.t.toLowerCase().includes(q))
+          .sort((a, b) => {
+            const aPrefix = a.t.toLowerCase().startsWith(q) ? 1000 : 0;
+            const bPrefix = b.t.toLowerCase().startsWith(q) ? 1000 : 0;
+            return (bPrefix + (b.s || 0)) - (aPrefix + (a.s || 0));
+          });
+      }
+
+      resultsGrid.innerHTML = matched
+        .map((g, i) => {
+          const isBig = i % 12 === 0 || i % 12 === 5;
+          return `
+            <a class="tile${isBig ? ' big' : ''}" href="${esc(g.u)}" title="${esc(g.t)}" aria-label="Play ${esc(g.t)} online">
+              <img class="tile-img" src="${esc(g.i)}" alt="" loading="lazy" width="512" height="384" />
+            </a>
+          `;
+        })
+        .join('');
+    };
+
+    input.addEventListener('input', () => {
+      renderResults(input.value);
+    });
+
+    closeBtn?.addEventListener('click', closePanel);
+    scrim?.addEventListener('click', closePanel);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) {
+        closePanel();
+      }
+    });
+
+    (window as any).openPokiSearch = openPanel;
+    (window as any).closePokiSearch = closePanel;
+    (window as any).togglePokiSearch = () => {
+      if (panel.hidden) openPanel();
+      else closePanel();
+    };
+
+    const headerInput = document.getElementById('siteSearch');
+    if (headerInput) {
+      headerInput.addEventListener('focus', (e) => {
+        e.preventDefault();
+        headerInput.blur();
+        openPanel();
+      });
+      headerInput.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPanel();
+      });
+    }
+  })();
+</script>

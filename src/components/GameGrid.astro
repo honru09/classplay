@@ -1,14 +1,23 @@
 ---
 import GameTile from './GameTile.astro';
-const { games, mosaic = false, rail = false } = Astro.props;
+const { games, mosaic = false, rail = false, hubHero = false } = Astro.props;
+
 /* Mosaic pattern (home Featured): in each run of 12 tiles, indices 0 and
    5 span 2x2. With grid-auto-flow: dense the supercell packs perfectly
    (18 cells) at the mosaic column counts — 2 (phones), 3 (>=600px) and
-   6 (>=1024px) — so there are never half-empty rows. Featured shelves
-   carry exactly 12 games = one supercell. */
-const isBig = (i) => mosaic && (i % 12 === 0 || i % 12 === 5);
+   6 (>=1024px).
+   V10 hub hero: if hubHero is true, tile 0 is always a 2x2 hero tile! */
+const isBig = (i) => (hubHero && i === 0) || (mosaic && (i % 12 === 0 || i % 12 === 5));
 ---
 
-<div class:list={['tiles', { mosaic }, { rail }]}>
-  {games.map((g, i) => <GameTile game={g} big={isBig(i)} eager={i < 2} />)}
+<div class:list={['tiles', { mosaic: mosaic || hubHero }, { rail }]}>
+  {games.map((g, i) => (
+    <GameTile
+      game={g}
+      big={isBig(i)}
+      hero={hubHero && i === 0}
+      badge={(!mosaic && !hubHero) || isBig(i)}
+      eager={i < 2}
+    />
+  ))}
 </div>

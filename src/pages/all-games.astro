@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import GameGrid from '../components/GameGrid.astro';
+import { allGames, u } from '../lib/games.mjs';
+
+/**
+ * /all-games/ — the crawl safety net (research/GROWTH.md §2.2): hub shelves
+ * cap at 48 games, so without this page tail games sit >2 clicks from home
+ * and risk never being crawled. One plain-text A–Z list of the full catalog.
+ */
+const letterOf = (t: string) => {
+  const c = (t || '').trim().charAt(0).toUpperCase();
+  return /[A-Z]/.test(c) ? c : '#';
+};
+const sorted = [...allGames].sort((a, b) =>
+  a.title.localeCompare(b.title, 'en', { sensitivity: 'base', numeric: true }),
+);
+const groups = new Map();
+for (const g of sorted) {
+  const L = letterOf(g.title);
+  if (!groups.has(L)) groups.set(L, []);
+  groups.get(L).push(g);
+}
+const letters = [...groups.keys()].sort((a, b) =>
+  a === '#' ? -1 : b === '#' ? 1 : a.localeCompare(b),
+);
+const anchor = (L: string) => `letter-${L === '#' ? 'num' : L.toLowerCase()}`;
+const label = (L: string) => (L === '#' ? '0–9' : L);
+
+const pageUrl = 'https://classplay.online/all-games/';
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'All Classroom Games A–Z',
+    numberOfItems: sorted.length,
+    itemListElement: sorted.map((g, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: g.title,
+      url: g.pageUrl,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://classplay.online/' },
+      { '@type': 'ListItem', position: 2, name: 'All Games A–Z', item: pageUrl },
+    ],
+  },
+];
+---
+
+<Base
+  title={`All Classroom Games A–Z — ${sorted.length} Free Browser Games | ClassPlay`}
+  description={`Browse all ${sorted.length} free classroom games on ClassPlay in one A–Z list: math, puzzle, brain, sports and gentle arcade games that work on Chromebooks. No downloads, no sign-up.`}
+  canonical={pageUrl}
+  jsonLd={jsonLd}
+>
+  <div class="crumbs">
+    <a href={u()}>Home</a> › All Games A–Z
+  </div>
+
+  <h1>All Classroom Games A–Z</h1>
+  <p class="lede">
+    Every game on ClassPlay in one list — {sorted.length} free classroom-appropriate browser games, sorted A to Z.
+    No downloads, no sign-ups; everything runs in a normal browser tab on Chromebooks, laptops
+    and phones. Tap a letter to jump, or just scroll the shelf.
+  </p>
+
+  <nav class="az-nav" aria-label="Jump to a letter">
+    {letters.map((L) => <a href={`#${anchor(L)}`}>{label(L)}</a>)}
+  </nav>
+
+  {
+    letters.map((L) => (
+      <section class="az-group">
+        <h2 id={anchor(L)}>{label(L)}</h2>
+        <GameGrid games={groups.get(L)} />
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .az-nav { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 4px; }
+  .az-nav a {
+    padding: 6px 11px; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--panel); color: var(--text);
+    font-weight: 800; font-size: 13.5px;
+  }
+  .az-nav a:hover { text-decoration: none; border-color: rgba(37, 64, 140, 0.4); }
+  .az-group h2 { scroll-margin-top: 96px; }
+</style>

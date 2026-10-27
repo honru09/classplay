@@ -1,5 +1,7 @@
 ---
 import { u, allGames, gameUrl, scoreGame } from '../lib/games.mjs';
+import QuickRail from '../components/QuickRail.astro';
+import PokiSearch from '../components/PokiSearch.astro';
 
 interface Props {
   title: string;
@@ -126,6 +128,7 @@ const searchIndex = JSON.stringify(
         --h-budget-mobile: calc(72svh - 48px);
       }
       * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
       html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
       body {
         margin: 0;
@@ -225,10 +228,123 @@ const searchIndex = JSON.stringify(
         padding: 4px max(16px, calc(50vw - 574px)) 30px;
       }
       .band-alt { background: #ffffff; }
-      .band-deep { background: #17233f; }
-      .band-deep > h2 { color: #ffffff; }
-      .band-deep > h2 .more { color: #a5e8ff; }
+      .band-deep { background: #bdf6e8; }
+      .band-deep > h2 { color: var(--text); }
+      .band-deep > h2 .more { color: var(--cyan); }
       .band > h2 { margin-top: 26px; }
+
+      /* Ribbons */
+      .ribbon {
+        position: absolute; z-index: 4; top: 8px; left: 8px;
+        display: inline-flex; align-items: center; gap: 4px;
+        font-size: 10.5px; font-weight: 900; letter-spacing: 0.09em;
+        padding: 3.5px 8px; border-radius: 7px; color: #22112e;
+        box-shadow: 0 4px 12px rgba(23, 35, 63, 0.2);
+      }
+      .ribbon.hot { background: linear-gradient(92deg, #ffd23e, #ff5da2); color: #22112e; }
+      .ribbon.new { background: #ffffff; color: #17233f; box-shadow: 0 4px 12px rgba(23, 35, 63, 0.25); }
+
+      /* V10 Hero tile (Hub #1 game) */
+      .tile.hero-tile {
+        grid-column: span 2;
+        grid-row: span 2;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+      }
+      .hero-shade {
+        position: absolute; inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0.78) 95%);
+        pointer-events: none;
+        z-index: 2;
+      }
+      .hero-info {
+        position: absolute;
+        left: 14px;
+        bottom: 14px;
+        right: 14px;
+        z-index: 3;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 10px;
+        pointer-events: none;
+      }
+      .hero-title {
+        color: #ffffff;
+        font-family: var(--disp);
+        font-size: clamp(16px, 2.4vw, 22px);
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .hero-play-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: #ffffff;
+        color: #17233f;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 800;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+        flex: 0 0 auto;
+        transition: transform 0.15s ease;
+      }
+      .hero-tile:hover .hero-play-chip {
+        transform: scale(1.06);
+      }
+
+      /* V10 Hub shelf H1 header */
+      .shelf-h1 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--disp);
+        font-size: clamp(22px, 3.2vw, 32px);
+        font-weight: 900;
+        margin: 8px 0 16px;
+      }
+      .shelf-h1 .shelf-icon {
+        font-size: 1.1em;
+      }
+      .hub-tagline {
+        font-size: 16px;
+        color: var(--text);
+        margin-bottom: 8px;
+      }
+
+      /* Rail grid for side rail */
+      .rail-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .rail-tile {
+        position: relative;
+        display: block;
+        aspect-ratio: 1;
+        border-radius: 12px;
+        overflow: hidden;
+        background: var(--panel2);
+        box-shadow: 0 1px 3px rgba(23, 35, 63, 0.15);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      .rail-tile:hover {
+        transform: scale(1.04);
+        box-shadow: 0 4px 10px rgba(23, 35, 63, 0.25);
+      }
+      .rail-tile img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+      }
 
       /* The tile system (Poki system) */
       .tiles { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
@@ -465,6 +581,7 @@ const searchIndex = JSON.stringify(
       .toolbar-btn:active { transform: scale(0.96); }
       .toolbar-btn.next-btn { background: #bfe0ff; border-color: rgba(3, 105, 161, 0.3); }
       .toolbar-btn.next-btn:hover { background: color-mix(in srgb, var(--cyan) 25%, #ffffff); }
+      .icon-expand[hidden], .icon-compress[hidden] { display: none !important; }
 
       /* Theatre mode (spec §2.4) */
       .player-shell.theatre-mode {
@@ -589,6 +706,30 @@ const searchIndex = JSON.stringify(
       .top-picks ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; }
       .top-picks li a { font-weight: 700; }
 
+      /* ---------- drawers & expandables ---------- */
+      .drawers { display: grid; gap: 14px; margin: 16px 0 6px; max-width: 980px; }
+      @media (min-width: 920px) { .drawers.two { grid-template-columns: 1fr 1fr; align-items: start; } }
+      .drawer {
+        border: 1px solid var(--line); border-radius: var(--radius-tile); overflow: hidden;
+        background: var(--panel);
+        box-shadow: var(--shadow-card);
+      }
+      .drawer-head {
+        width: 100%; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; text-align: left;
+        background: none; border: 0; cursor: pointer; color: var(--text);
+        font-family: var(--disp); font-size: 16.5px; font-weight: 800; letter-spacing: -0.01em;
+        padding: 15px 18px;
+      }
+      .drawer-head > span:first-child { white-space: nowrap; flex: 0 0 auto; }
+      .drawer-head .chev { margin-left: 8px; color: var(--muted); transition: transform 0.35s ease; flex: 0 0 auto; }
+      .drawer.open .drawer-head .chev { transform: rotate(180deg); }
+      .drawer-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s cubic-bezier(0.2, 0.7, 0.3, 1); }
+      .drawer.open .drawer-body { grid-template-rows: 1fr; }
+      .drawer-inner { overflow: hidden; min-height: 0; }
+      .drawer-inner .pad { padding: 2px 18px 17px; }
+      .drawer-inner p { color: var(--text); margin: 0 0 12px; font-size: 15px; }
+      .drawer-inner p:last-child { margin-bottom: 0; }
+
       /* ---------- expandables ---------- */
       .expandable .exp-rest { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s cubic-bezier(0.2, 0.7, 0.3, 1); }
       .expandable.open .exp-rest { grid-template-rows: 1fr; }
@@ -689,9 +830,18 @@ const searchIndex = JSON.stringify(
         <p>© {new Date().getFullYear()} ClassPlay. Have fun — and close the tab when the bell rings.</p>
       </div>
     </footer>
+    <QuickRail />
+    <PokiSearch />
     <script>
       (() => {
-        /* "Read more" expandables (hub intros, progressive disclosure). */
+        /* Drawers + "read more" expandables */
+        document.querySelectorAll('.drawer-head').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const d = btn.closest('.drawer');
+            const open = d.classList.toggle('open');
+            btn.setAttribute('aria-expanded', String(open));
+          });
+        });
         document.querySelectorAll('.exp-btn').forEach((btn) => {
           btn.addEventListener('click', () => {
             const x = btn.closest('.expandable');

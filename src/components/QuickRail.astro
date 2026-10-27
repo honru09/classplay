@@ -1,0 +1,381 @@
+---
+import { u } from '../lib/games.mjs';
+---
+
+<aside id="quickRail" class="quick-rail" aria-label="Quick navigation">
+  <div class="qr-pill" id="qrPill">
+    <button
+      type="button"
+      class="qr-btn"
+      id="qrBtnPopular"
+      data-action="popular"
+      title="Popular games"
+      aria-label="Popular games"
+    >
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+        <path d="M12.6 1.8c.5 3.9-2.2 5.4-3.4 7.2-.8 1.3-.9 2.7.1 3.9.8.9 2.2 1 3.1.2.8-.7.8-1.9.5-3 1.6 1 3.1 2.8 3.1 5a5.6 5.6 0 0 1-11.2 0c0-1.9 1-3.4 2-4.9C7.9 6.9 10.4 3.6 12.6 1.8z" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      class="qr-btn"
+      id="qrBtnNew"
+      data-action="new"
+      title="New games"
+      aria-label="New games"
+    >
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+        <path d="M12 2l2.4 5.6L20 10l-5.6 2.4L12 18l-2.4-5.6L4 10l5.6-2.4L12 2zm7 13l1.2 2.8L23 19l-2.8 1.2L19 23l-1.2-2.8L15 19l2.8-1.2L19 15zm-14 0l1.2 2.8L9 19l-2.8 1.2L5 23l-1.2-2.8L1 19l2.8-1.2L5 15z" />
+      </svg>
+    </button>
+    <a
+      href={u('all-games/')}
+      class="qr-btn"
+      id="qrBtnCategories"
+      data-action="categories"
+      title="All categories"
+      aria-label="All game categories"
+    >
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+        <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+      </svg>
+    </a>
+    <button
+      type="button"
+      class="qr-btn"
+      id="qrBtnSearch"
+      data-action="search"
+      title="Search games"
+      aria-label="Search games"
+    >
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      class="qr-btn"
+      id="qrBtnRecent"
+      data-action="recent"
+      title="Recently played"
+      aria-label="Recently played games"
+    >
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+        <path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
+      </svg>
+    </button>
+  </div>
+</aside>
+
+<style>
+  .quick-rail {
+    position: fixed;
+    z-index: 45;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+  }
+  .qr-pill {
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px;
+    background: #ffffff;
+    border-radius: 999px;
+    box-shadow: 0 4px 18px rgba(23, 35, 63, 0.2), 0 1px 3px rgba(23, 35, 63, 0.1);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .qr-pill.is-horizontal {
+    flex-direction: row;
+    padding: 5px 8px;
+    gap: 6px;
+  }
+  .qr-pill.is-dragging {
+    transform: scale(1.08);
+    box-shadow: 0 14px 34px rgba(23, 35, 63, 0.35), 0 2px 6px rgba(23, 35, 63, 0.15);
+    cursor: grabbing !important;
+  }
+  .qr-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: 0;
+    background: transparent;
+    color: #17233f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.14s ease, color 0.14s ease, transform 0.1s ease;
+    text-decoration: none;
+  }
+  .qr-btn:hover {
+    background: #e6f7ff;
+    color: #0369a1;
+    text-decoration: none;
+  }
+  .qr-btn:active {
+    transform: scale(0.92);
+  }
+  .qr-btn:focus-visible {
+    outline: 2px solid var(--cyan, #0369a1);
+    outline-offset: 2px;
+  }
+  /* Active-section accent fill (ClassPlay accent) */
+  .qr-btn.is-active {
+    background: var(--cyan, #0369a1) !important;
+    color: #ffffff !important;
+    font-weight: 900;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .qr-pill, .qr-btn {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script>
+  (() => {
+    const rail = document.getElementById('quickRail');
+    const pill = document.getElementById('qrPill');
+    if (!rail || !pill) return;
+
+    const isGamePage = !!document.getElementById('playerFrame');
+    const isMobile = window.innerWidth <= 640;
+
+    let currentPos = {
+      edge: 'right',
+      ratio: isGamePage ? 0.76 : (isMobile ? 0.45 : 0.50),
+    };
+
+    // Load persisted position
+    try {
+      const raw = localStorage.getItem('qr-pos');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed.edge === 'string' && typeof parsed.ratio === 'number') {
+          currentPos = parsed;
+        }
+      }
+    } catch (e) {}
+
+    const applyPosition = (pos) => {
+      rail.style.top = '';
+      rail.style.bottom = '';
+      rail.style.left = '';
+      rail.style.right = '';
+      rail.style.transform = '';
+
+      if (pos.edge === 'top') {
+        pill.classList.add('is-horizontal');
+        rail.style.top = '62px';
+        rail.style.left = '50%';
+        rail.style.transform = 'translateX(-50%)';
+      } else if (pos.edge === 'left') {
+        pill.classList.remove('is-horizontal');
+        rail.style.left = isMobile ? '8px' : '14px';
+        rail.style.top = `${Math.round(pos.ratio * 100)}%`;
+        rail.style.transform = 'translateY(-50%)';
+      } else {
+        // default right
+        pill.classList.remove('is-horizontal');
+        rail.style.right = isMobile ? '8px' : '14px';
+        rail.style.top = `${Math.round(pos.ratio * 100)}%`;
+        rail.style.transform = 'translateY(-50%)';
+      }
+    };
+
+    applyPosition(currentPos);
+
+    // Long-press and drag logic
+    let pressTimer = null;
+    let isDragging = false;
+    let dragJustEnded = false;
+    let startX = 0;
+    let startY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let pillOffset = { x: 0, y: 0 };
+
+    const startDrag = (e) => {
+      isDragging = true;
+      pill.classList.add('is-dragging');
+
+      const rect = pill.getBoundingClientRect();
+      pillOffset = {
+        x: e.clientX - (rect.left + rect.width / 2),
+        y: e.clientY - (rect.top + rect.height / 2),
+      };
+
+      try {
+        pill.setPointerCapture(e.pointerId);
+      } catch (err) {}
+    };
+
+    pill.addEventListener('pointerdown', (e) => {
+      if (e.button && e.button !== 0) return;
+      startX = e.clientX;
+      startY = e.clientY;
+      currentX = e.clientX;
+      currentY = e.clientY;
+
+      pressTimer = setTimeout(() => {
+        startDrag(e);
+      }, 350);
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!pressTimer && !isDragging) return;
+      currentX = e.clientX;
+      currentY = e.clientY;
+
+      if (!isDragging && pressTimer) {
+        const dist = Math.hypot(currentX - startX, currentY - startY);
+        if (dist > 8) {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+        }
+      }
+
+      if (isDragging) {
+        e.preventDefault();
+        rail.style.left = `${currentX - pillOffset.x}px`;
+        rail.style.top = `${currentY - pillOffset.y}px`;
+        rail.style.right = 'auto';
+        rail.style.bottom = 'auto';
+        rail.style.transform = 'translate(-50%, -50%)';
+      }
+    }, { passive: false });
+
+    const endDrag = (e) => {
+      if (pressTimer) {
+        clearTimeout(pressTimer);
+        pressTimer = null;
+      }
+
+      if (!isDragging) return;
+
+      isDragging = false;
+      dragJustEnded = true;
+      pill.classList.remove('is-dragging');
+
+      try {
+        pill.releasePointerCapture(e.pointerId);
+      } catch (err) {}
+
+      // Snap calculation
+      const cx = currentX;
+      const cy = currentY;
+      const winW = window.innerWidth;
+      const winH = window.innerHeight;
+
+      const dLeft = cx;
+      const dRight = winW - cx;
+      const dTop = cy;
+
+      let edge = 'right';
+      let ratio = 0.5;
+
+      if (dTop < 130 && Math.abs(cx - winW / 2) < winW * 0.35) {
+        edge = 'top';
+        ratio = 0.5;
+      } else if (dLeft < dRight) {
+        edge = 'left';
+        ratio = Math.max(0.12, Math.min(0.88, cy / winH));
+      } else {
+        edge = 'right';
+        ratio = Math.max(0.12, Math.min(0.88, cy / winH));
+      }
+
+      currentPos = { edge, ratio };
+      applyPosition(currentPos);
+
+      try {
+        localStorage.setItem('qr-pos', JSON.stringify(currentPos));
+      } catch (err) {}
+
+      setTimeout(() => {
+        dragJustEnded = false;
+      }, 250);
+    };
+
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+
+    // Button actions
+    pill.querySelectorAll('.qr-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        if (dragJustEnded) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+
+        const action = btn.dataset.action;
+        if (action === 'popular') {
+          e.preventDefault();
+          const target = document.getElementById('popular');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.location.href = `${(btn.getAttribute('href') || '/')}#popular`;
+          }
+        } else if (action === 'new') {
+          e.preventDefault();
+          const target = document.getElementById('new-games');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.location.href = `${(btn.getAttribute('href') || '/')}#new-games`;
+          }
+        } else if (action === 'search') {
+          e.preventDefault();
+          if (typeof window.togglePokiSearch === 'function') {
+            window.togglePokiSearch();
+          }
+        } else if (action === 'recent') {
+          e.preventDefault();
+          const railEl = document.getElementById('jumpBackInRail');
+          const hasRecents = railEl && railEl.querySelector('.shelf, .tiles, a');
+          if (hasRecents) {
+            railEl.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
+    // Active section highlight via IntersectionObserver
+    const tracked = [
+      { id: 'popular', btnId: 'qrBtnPopular' },
+      { id: 'new-games', btnId: 'qrBtnNew' },
+      { id: 'jumpBackInRail', btnId: 'qrBtnRecent' },
+    ];
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const item = tracked.find((t) => t.id === entry.target.id);
+        if (!item) return;
+        const btn = document.getElementById(item.btnId);
+        if (!btn) return;
+        if (entry.isIntersecting) {
+          pill.querySelectorAll('.qr-btn').forEach((b) => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+        } else if (btn.classList.contains('is-active')) {
+          btn.classList.remove('is-active');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    tracked.forEach((t) => {
+      const el = document.getElementById(t.id);
+      if (el) observer.observe(el);
+    });
+  })();
+</script>

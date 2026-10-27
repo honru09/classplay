@@ -26,9 +26,6 @@ const jsonLd = {
   description="Free classroom games that are actually classroom-appropriate: math puzzles, brain games, gentle skill games and friendly sports. No downloads, no sign-ups — runs in a browser tab on school Chromebooks."
   jsonLd={jsonLd}
 >
-  {/* v8 (Poki system): the hero panel, spotlight and trending marquee are
-      retired. A modest title strip carries the H1 + lede for SEO, then
-      the tiles start immediately on Poki's aqua. */}
   <div class="title-strip">
     <h1>Free Classroom Games — Safe, Fun &amp; Ready in Seconds</h1>
     <p class="lede">
@@ -42,8 +39,8 @@ const jsonLd = {
   {/* Client-side Jump back in rail (spec §2.1) */}
   <div id="jumpBackInRail"></div>
 
-  <section class="shelf">
-    <h2>⭐ Featured Games</h2>
+  <section class="shelf" id="popular">
+    <h2>🔥 Featured Games</h2>
     <GameGrid games={featured} mosaic />
   </section>
 
@@ -62,7 +59,7 @@ const jsonLd = {
     <GameGrid games={brain} />
   </div>
 
-  <div class="band band-deep">
+  <div class="band band-deep" id="new-games">
     <h2>⚡ Quick Break Games <a class="more" href={u('games-for-school-breaks/')}>games for school breaks →</a></h2>
     <GameGrid games={breaks} />
   </div>
@@ -77,24 +74,32 @@ const jsonLd = {
     <GameGrid games={sports} />
   </div>
 
-  <h2>Why ClassPlay?</h2>
-  <div class="prose">
-    <p>
-      Most game sites will happily show a ten-year-old anything. ClassPlay is built the other way
-      around: we start from what belongs in a classroom and only list games that pass that test. There
-      are no shooters here, no horror games, no zombie titles — just puzzles, math and logic games,
-      gentle skill games, and sports that two students can share on one keyboard. If a game would make
-      a teacher walk over and frown, it does not get in.
-    </p>
-    <p>
-      Everything also has to work the way school actually works. Games load in a plain browser tab on
-      the Chromebooks schools hand out, rounds fit inside a break or a reward-time slot, and every game
-      page explains the goal and the controls before anyone presses play — so students can start on
-      their own, and teachers and parents can see exactly what a game is in ten seconds. Start from
-      the <a href={u('classroom-games/')}>classroom games</a> shelf, the
-      <a href={u('brain-games/')}>brain games</a>, or the
-      <a href={u('unblocked-games-for-chromebook/')}>Chromebook hub</a>.
-    </p>
+  {/* Why ClassPlay prose relocated below all shelves per Section 6 */}
+  <div class="expandable" style="margin-top:36px">
+    <h2>Why ClassPlay?</h2>
+    <div class="prose">
+      <p>
+        Most game sites will happily show a ten-year-old anything. ClassPlay is built the other way
+        around: we start from what belongs in a classroom and only list games that pass that test. There
+        are no shooters here, no horror games, no zombie titles — just puzzles, math and logic games,
+        gentle skill games, and sports that two students can share on one keyboard. If a game would make
+        a teacher walk over and frown, it does not get in.
+      </p>
+      <div class="exp-rest">
+        <div class="exp-clip">
+          <p>
+            Everything also has to work the way school actually works. Games load in a plain browser tab on
+            the Chromebooks schools hand out, rounds fit inside a break or a reward-time slot, and every game
+            page explains the goal and the controls before anyone presses play — so students can start on
+            their own, and teachers and parents can see exactly what a game is in ten seconds. Start from
+            the <a href={u('classroom-games/')}>classroom games</a> shelf, the
+            <a href={u('brain-games/')}>brain games</a>, or the
+            <a href={u('unblocked-games-for-chromebook/')}>Chromebook hub</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <button class="exp-btn" type="button" aria-expanded="false" data-more="Read more ▾" data-less="Show less ▴">Read more ▾</button>
   </div>
 
   <script>
@@ -106,7 +111,7 @@ const jsonLd = {
         if (!Array.isArray(list) || !list.length) return;
         const container = document.getElementById('jumpBackInRail');
         if (!container) return;
-        const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         const shelf = document.createElement('section');
         shelf.className = 'shelf jump-back-in-shelf';
         shelf.innerHTML = `
@@ -115,7 +120,6 @@ const jsonLd = {
             ${list.slice(0, 8).map((item) => `
               <a class="tile" href="${esc(item.url)}" title="${esc(item.title)}" aria-label="Play ${esc(item.title)} online">
                 <img class="tile-img" src="${esc(item.thumb)}" alt="" loading="lazy" width="512" height="384" />
-                <span class="tile-cap">${esc(item.title)}</span>
               </a>
             `).join('')}
           </div>

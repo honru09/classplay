@@ -3,50 +3,68 @@ import Base from '../layouts/Base.astro';
 import GameGrid from '../components/GameGrid.astro';
 import { hubs } from '../data/hubs.mjs';
 import { shelves, allGames, gameUrl, u } from '../lib/games.mjs';
-import { accentFor } from '../lib/art.mjs';
 
 export function getStaticPaths() {
   return hubs.map((hub) => ({ params: { hub: hub.slug }, props: { hub } }));
 }
 
+const HUB_ICONS: Record<string, string> = {
+  'classroom-games': '🎒',
+  'math-games': '🧮',
+  'puzzle-games-for-school': '🧩',
+  'brain-games': '🧠',
+  'sports-games': '🏅',
+  'unblocked-games-for-chromebook': '💻',
+  'games-for-school-breaks': '⚡',
+  '2-player-classroom-games': '👥',
+};
+
 const { hub } = Astro.props;
 const games = (shelves[hub.shelf] ? shelves[hub.shelf]() : allGames).slice(0, 48);
-const accent = accentFor(games[0]);
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: hub.h1,
-  description: hub.metaDescription,
-  numberOfItems: games.length,
-  itemListElement: games.map((g, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    name: g.title,
-    url: g.pageUrl,
-  })),
-};
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: hub.h1,
+    description: hub.metaDescription,
+    numberOfItems: games.length,
+    itemListElement: games.map((g, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: g.title,
+      url: g.pageUrl,
+    })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ClassPlay', item: 'https://classplay.online/' },
+      { '@type': 'ListItem', position: 2, name: hub.h1, item: `https://classplay.online/${hub.slug}/` },
+    ],
+  },
+];
 ---
 
 <Base title={hub.metaTitle} description={hub.metaDescription} jsonLd={jsonLd}>
-  <div class="hub-hero" style={`--acc:${accent}`}>
-    <h1>{hub.h1}</h1>
-  </div>
+  {/* Above the grid: ONLY shelf-style H1 header per Section 6 */}
+  <h1 class="shelf-h1">
+    <span class="shelf-icon">{HUB_ICONS[hub.slug] || '🎮'}</span>
+    {hub.h1}
+  </h1>
 
-  {/* LP1 (Poki): sibling-category cards instead of a filter UI */}
+  {/* Grid opens with 2x2 hero tile for the #1 game per Deliverable 3 */}
+  <GameGrid games={games} hubHero={true} />
+
+  {/* LP1 (Poki): sibling-category cards relocated BELOW grid */}
   <nav class="sib-row" aria-label="More game categories">
     {hubs.filter((h) => h.slug !== hub.slug).map((h) => (
       <a class="sib-card" href={u(`${h.slug}/`)}>{h.h1}</a>
     ))}
   </nav>
 
-  {/* Client-side Jump back in rail (spec §2.1) */}
-  <div id="jumpBackInRail"></div>
-
-  <h2>Play Now — {games.length} Free Games</h2>
-  <GameGrid games={games} />
-
-  {/* LP1 (Poki): top-picks strip — our own shelf order, no invented ratings */}
+  {/* LP1 (Poki): top-picks strip — our own shelf order */}
   <section class="top-picks">
     <h2>Top picks in {hub.h1}</h2>
     <ol>
@@ -56,12 +74,10 @@ const jsonLd = {
     </ol>
   </section>
 
-  {/* Intro copy moved below the grid (v5, TabArcade parity): the full text
-      used to render inside the hero and fill the first screen before any
-      game appeared. First paragraph stays visible; the rest is behind
-      Read more. */}
+  {/* Intro copy relocated below grid per Section 6 */}
   <div class="expandable" style="margin-top:26px">
     <div class="prose">
+      <p class="hub-tagline"><strong>{hub.tagline || ''}</strong></p>
       <p>{hub.intro[0]}</p>
       <div class="exp-rest">
         <div class="exp-clip">
@@ -76,6 +92,9 @@ const jsonLd = {
     </div>
     <button class="exp-btn" type="button" aria-expanded="false" data-more="Read more ▾" data-less="Show less ▴">Read more ▾</button>
   </div>
+
+  {/* Client-side Jump back in rail (spec §2.1) */}
+  <div id="jumpBackInRail"></div>
 
   <script>
     (() => {
@@ -95,7 +114,6 @@ const jsonLd = {
             ${list.slice(0, 8).map((item) => `
               <a class="tile" href="${esc(item.url)}" title="${esc(item.title)}" aria-label="Play ${esc(item.title)} online">
                 <img class="tile-img" src="${esc(item.thumb)}" alt="" loading="lazy" width="512" height="384" />
-                <span class="tile-cap">${esc(item.title)}</span>
               </a>
             `).join('')}
           </div>

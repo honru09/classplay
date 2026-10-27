@@ -71,13 +71,9 @@ const jsonLd = [
     <a href={u('classroom-games/')} class="back-link">← All games</a>
   </div>
 
-  {/* Compact title row: H1 + category chip + control chips */}
+  {/* Compact title row: H1 only per Section 6 */}
   <div class="game-header">
     <h1>{game.title}</h1>
-    <div class="game-meta-chips">
-      <span class="chip" style={`--acc:${accent}`}>{primaryCat}</span>
-      {ctrl.map((c) => <span class="chip alt">{c}</span>)}
-    </div>
   </div>
 
   {/* Desktop >=1100px: two-column layout (player column + 300px side rail) */}
@@ -189,26 +185,53 @@ const jsonLd = [
         Play {game.title} free in your browser — no download, no sign-up. Works on Chromebooks, laptops and phones.
       </p>
 
-      <h2>About {game.title}</h2>
-      <div class="prose">
-        <p>{game.description}</p>
-        {
-          game.tags.length > 0 && (
-            <p>
-              Tags: {game.tags.join(' · ')}
-            </p>
-          )
-        }
-      </div>
+      {/* Below player drawers preserving SEO copy per Section 6 */}
+      <div class="drawers two" style="margin-top:20px">
+        <div class="drawer">
+          <button class="drawer-head" type="button" aria-expanded="false">
+            <span>About this game</span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
+          <div class="drawer-body">
+            <div class="drawer-inner">
+              <div class="pad">
+                <div class="chips" style="margin-bottom:12px">
+                  <span class="chip" style={`--acc:${accent}`}>{primaryCat}</span>
+                  {ctrl.map((c) => <span class="chip alt">{c}</span>)}
+                </div>
+                <p>{game.description}</p>
+                {
+                  game.tags.length > 0 && (
+                    <span class="chips">
+                      {game.tags.map((t) => (
+                        <span class="chip alt">{t}</span>
+                      ))}
+                    </span>
+                  )
+                }
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <h2>How to Play {game.title}</h2>
-      <div class="prose">
-        <p>{game.instructions || `Open the game above and follow the on-screen prompts. ${game.title} is designed to be picked up in seconds — most browser games use the arrow keys, WASD, the mouse, or touch controls.`}</p>
-        <p>
-          Tip: click the Fullscreen button for the biggest play area, especially on a Chromebook.
-          If the game seems stuck loading, wait a few seconds and refresh once — browser games stream
-          their assets on first load.
-        </p>
+        <div class="drawer">
+          <button class="drawer-head" type="button" aria-expanded="false">
+            <span>How to play</span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
+          <div class="drawer-body">
+            <div class="drawer-inner">
+              <div class="pad">
+                <p>{game.instructions || `Open the game above and follow the on-screen prompts. ${game.title} is designed to be picked up in seconds — most browser games use the arrow keys, WASD, the mouse, or touch controls.`}</p>
+                <p>
+                  Tip: click the Fullscreen button for the biggest play area, especially on a Chromebook.
+                  If the game seems stuck loading, wait a few seconds and refresh once — browser games stream
+                  their assets on first load.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <h2>{game.title} FAQ</h2>
@@ -227,18 +250,14 @@ const jsonLd = [
       <GameGrid games={gamesLike} rail />
     </div>
 
-    {/* Side rail column (spec §2.4) */}
+    {/* Side rail column (spec §2.4 & Section 6: ZERO text on rail tiles) */}
     <aside class="game-rail-col">
       <div class="rail-box up-next-box">
         <h3 class="rail-heading">Up next</h3>
-        <div class="rail-items">
+        <div class="rail-grid">
           {upNext.map((r) => (
-            <a href={gameUrl(r)} class="rail-card">
-              <img src={r.thumb} alt="" width="68" height="51" loading="lazy" />
-              <div class="rail-card-text">
-                <div class="rail-card-title">{r.title}</div>
-                <div class="rail-card-cat">{r.categories[0]}</div>
-              </div>
+            <a href={gameUrl(r)} class="rail-tile" title={r.title} aria-label={`Play ${r.title}`}>
+              <img src={r.thumb} alt="" width="512" height="384" loading="lazy" />
             </a>
           ))}
         </div>
@@ -246,7 +265,7 @@ const jsonLd = [
 
       <div class="rail-box recent-box" id="railRecent" hidden>
         <h3 class="rail-heading">Jump back in</h3>
-        <div class="rail-items" id="railRecentList"></div>
+        <div class="rail-grid" id="railRecentList"></div>
       </div>
     </aside>
   </div>
@@ -481,12 +500,8 @@ const jsonLd = [
         if (railRecent && railRecentList && others.length > 0) {
           const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
           railRecentList.innerHTML = others.map((item) => `
-            <a class="rail-card" href="${esc(item.url)}">
-              <img src="${esc(item.thumb)}" alt="" width="68" height="51" loading="lazy" />
-              <div class="rail-card-text">
-                <div class="rail-card-title">${esc(item.title)}</div>
-                <div class="rail-card-cat">Jump back in</div>
-              </div>
+            <a class="rail-tile" href="${esc(item.url)}" title="${esc(item.title)}" aria-label="Play ${esc(item.title)}">
+              <img src="${esc(item.thumb)}" alt="" width="512" height="384" loading="lazy" />
             </a>
           `).join('');
           railRecent.hidden = false;
