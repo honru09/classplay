@@ -28,12 +28,6 @@ const jsonLd = {
 >
   <div class="title-strip">
     <h1>Free Classroom Games — Safe, Fun &amp; Ready in Seconds</h1>
-    <p class="lede">
-      ClassPlay is a shelf of games chosen for school, not just found on the internet. Every title is
-      screened to be classroom-appropriate, opens in a normal browser tab, and asks for nothing — no
-      downloads, no installs, no accounts. Math, puzzles and brain games lead the shelf, with gentle
-      skill games and friendly sports for break time.
-    </p>
   </div>
 
   {/* Client-side Jump back in rail (spec §2.1) */}
@@ -78,6 +72,12 @@ const jsonLd = {
   <div class="expandable" style="margin-top:36px">
     <h2>Why ClassPlay?</h2>
     <div class="prose">
+      <p class="lede">
+        ClassPlay is a shelf of games chosen for school, not just found on the internet. Every title is
+        screened to be classroom-appropriate, opens in a normal browser tab, and asks for nothing — no
+        downloads, no installs, no accounts. Math, puzzles and brain games lead the shelf, with gentle
+        skill games and friendly sports for break time.
+      </p>
       <p>
         Most game sites will happily show a ten-year-old anything. ClassPlay is built the other way
         around: we start from what belongs in a classroom and only list games that pass that test. There
@@ -112,11 +112,12 @@ const jsonLd = {
         const container = document.getElementById('jumpBackInRail');
         if (!container) return;
         const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const isSparse = list.length <= 2;
         const shelf = document.createElement('section');
-        shelf.className = 'shelf jump-back-in-shelf';
+        shelf.className = `shelf jump-back-in-shelf${isSparse ? ' is-sparse' : ''}`;
         shelf.innerHTML = `
           <h2>🕒 Jump Back In</h2>
-          <div class="tiles rail">
+          <div class="tiles rail${isSparse ? ' is-sparse' : ''}">
             ${list.slice(0, 8).map((item) => `
               <a class="tile" href="${esc(item.url)}" title="${esc(item.title)}" aria-label="Play ${esc(item.title)} online">
                 <img class="tile-img" src="${esc(item.thumb)}" alt="" loading="lazy" width="512" height="384" />

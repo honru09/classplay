@@ -11,9 +11,10 @@ import { u } from '../lib/games.mjs';
       data-action="popular"
       title="Popular games"
       aria-label="Popular games"
+      draggable="false"
     >
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-        <path d="M12.6 1.8c.5 3.9-2.2 5.4-3.4 7.2-.8 1.3-.9 2.7.1 3.9.8.9 2.2 1 3.1.2.8-.7.8-1.9.5-3 1.6 1 3.1 2.8 3.1 5a5.6 5.6 0 0 1-11.2 0c0-1.9 1-3.4 2-4.9C7.9 6.9 10.4 3.6 12.6 1.8z" />
+        <path d="M11.5 1.25a.75.75 0 0 1 1.05.2c.2.28 1.8 2.57 2.1 4.55.15 1.03-.05 1.95-.45 2.75 1.62-.87 2.5-2.32 2.7-3.65a.75.75 0 0 1 1.3-.35C19.7 6.4 21 9.2 21 12.25 21 17.5 16.75 22 11.5 22 6.5 22 2.5 18 2.5 13c0-3.6 1.9-6.8 4.7-8.6a.75.75 0 0 1 1.15.55c.1 1.2.6 2.2 1.3 3 .3-1.6 1.1-4.8 1.85-6.7zM11.5 12c-1.38 0-2.5 1.12-2.5 2.5 0 1.28.97 2.33 2.22 2.48.1.01.19.02.28.02 1.38 0 2.5-1.12 2.5-2.5 0-1.02-.61-1.9-1.48-2.28-.31-.14-.66-.22-1.02-.22z" />
       </svg>
     </button>
     <button
@@ -23,6 +24,7 @@ import { u } from '../lib/games.mjs';
       data-action="new"
       title="New games"
       aria-label="New games"
+      draggable="false"
     >
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
         <path d="M12 2l2.4 5.6L20 10l-5.6 2.4L12 18l-2.4-5.6L4 10l5.6-2.4L12 2zm7 13l1.2 2.8L23 19l-2.8 1.2L19 23l-1.2-2.8L15 19l2.8-1.2L19 15zm-14 0l1.2 2.8L9 19l-2.8 1.2L5 23l-1.2-2.8L1 19l2.8-1.2L5 15z" />
@@ -35,9 +37,10 @@ import { u } from '../lib/games.mjs';
       data-action="categories"
       title="All categories"
       aria-label="All game categories"
+      draggable="false"
     >
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-        <path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M7 5h10a5 5 0 0 1 4.9 6l-1.4 6.7A2.5 2.5 0 0 1 18.1 20H17a3 3 0 0 1-2.8-2l-.7-2H10.5l-.7 2A3 3 0 0 1 7 20H5.9a2.5 2.5 0 0 1-2.4-2.3L2.1 11A5 5 0 0 1 7 5zm-1 5.5a.75.75 0 0 1 .75-.75h1v-1a.75.75 0 0 1 1.5 0v1h1a.75.75 0 0 1 0 1.5h-1v1a.75.75 0 0 1-1.5 0v-1h-1A.75.75 0 0 1 6 10.5zm10.25 1.75a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5zm2-2.5a1.25 1.25 0 1 0 0-2.5 1.25 1.25 0 0 0 0 2.5z" />
       </svg>
     </a>
     <button
@@ -47,9 +50,10 @@ import { u } from '../lib/games.mjs';
       data-action="search"
       title="Search games"
       aria-label="Search games"
+      draggable="false"
     >
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-        <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 14z" />
+        <path d="M15.5 14h-.79l-.28-.27A6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
       </svg>
     </button>
     <button
@@ -59,6 +63,7 @@ import { u } from '../lib/games.mjs';
       data-action="recent"
       title="Recently played"
       aria-label="Recently played games"
+      draggable="false"
     >
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
         <path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
@@ -74,7 +79,21 @@ import { u } from '../lib/games.mjs';
     pointer-events: none;
     user-select: none;
     -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
     touch-action: none;
+    transition: transform 0.22s ease, width 0.22s ease, opacity 0.2s ease;
+  }
+  .quick-rail.is-dragging {
+    transition: none !important;
+  }
+  .quick-rail.is-dragging .qr-pill {
+    transition: none !important;
+  }
+  .quick-rail.is-top-snap {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
   }
   .qr-pill {
     pointer-events: auto;
@@ -87,6 +106,10 @@ import { u } from '../lib/games.mjs';
     border-radius: 999px;
     box-shadow: 0 4px 18px rgba(23, 35, 63, 0.2), 0 1px 3px rgba(23, 35, 63, 0.1);
     transition: transform 0.18s ease, box-shadow 0.18s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
   }
   .qr-pill.is-horizontal {
     flex-direction: row;
@@ -112,6 +135,15 @@ import { u } from '../lib/games.mjs';
     padding: 0;
     transition: background 0.14s ease, color 0.14s ease, transform 0.1s ease;
     text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-drag: none;
+  }
+  .qr-btn svg {
+    pointer-events: none;
+    -webkit-user-drag: none;
   }
   .qr-btn:hover {
     background: #e6f7ff;
@@ -132,8 +164,50 @@ import { u } from '../lib/games.mjs';
     font-weight: 900;
   }
 
+  /* D2: 10px peek tab when #playerFrame intersects viewport */
+  .quick-rail.is-peek {
+    width: 10px !important;
+    min-width: 10px !important;
+    max-width: 10px !important;
+    overflow: hidden !important;
+    right: 0 !important;
+    left: auto !important;
+    top: 50% !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+    z-index: 45;
+  }
+  .quick-rail.is-peek .qr-pill {
+    width: 10px !important;
+    min-width: 10px !important;
+    max-width: 10px !important;
+    padding: 18px 0 !important;
+    border-radius: 8px 0 0 8px !important;
+    overflow: hidden !important;
+    background: #ffffff;
+    box-shadow: -2px 0 8px rgba(23, 35, 63, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0 !important;
+  }
+  .quick-rail.is-peek .qr-btn {
+    display: none !important;
+  }
+  .quick-rail.is-peek .qr-pill::after {
+    content: '';
+    display: block;
+    width: 3px;
+    height: 24px;
+    border-radius: 2px;
+    background: #94a3b8;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .qr-pill, .qr-btn {
+    .quick-rail, .qr-pill, .qr-btn {
       transition: none !important;
     }
   }
@@ -145,8 +219,22 @@ import { u } from '../lib/games.mjs';
     const pill = document.getElementById('qrPill');
     if (!rail || !pill) return;
 
-    const isGamePage = !!document.getElementById('playerFrame');
+    const playerFrame = document.getElementById('playerFrame');
+    const isGamePage = !!playerFrame;
     const isMobile = window.innerWidth <= 640;
+
+    // State variables (declared first to avoid TDZ in callbacks)
+    let isDragging = false;
+    let isPlayerIntersecting = false;
+    let isPeekExpanded = false;
+    let peekTimer: any = null;
+    let pressTimer: any = null;
+    let dragJustEnded = false;
+    let startX = 0;
+    let startY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let pillOffset = { x: 0, y: 0 };
 
     let currentPos = {
       edge: 'right',
@@ -164,7 +252,19 @@ import { u } from '../lib/games.mjs';
       }
     } catch (e) {}
 
-    const applyPosition = (pos) => {
+    const getHeaderHeight = () => {
+      const header = document.querySelector('header.site');
+      if (header) {
+        const h = Math.round(header.getBoundingClientRect().height);
+        if (h > 0) {
+          document.documentElement.style.setProperty('--header-h', `${h}px`);
+          return h;
+        }
+      }
+      return window.innerWidth <= 640 ? 96 : 64;
+    };
+
+    const applyPosition = (pos: { edge: string; ratio: number }) => {
       rail.style.top = '';
       rail.style.bottom = '';
       rail.style.left = '';
@@ -173,52 +273,117 @@ import { u } from '../lib/games.mjs';
 
       if (pos.edge === 'top') {
         pill.classList.add('is-horizontal');
-        rail.style.top = '62px';
+        rail.classList.add('is-top-snap');
+        const hH = getHeaderHeight();
+        // D3: fixed at top: calc(var(--header-h, 64px) + 8px), z-index 45 (< header z-index 50)
+        rail.style.top = `calc(var(--header-h, ${hH}px) + 8px)`;
         rail.style.left = '50%';
         rail.style.transform = 'translateX(-50%)';
-      } else if (pos.edge === 'left') {
-        pill.classList.remove('is-horizontal');
-        rail.style.left = isMobile ? '8px' : '14px';
-        rail.style.top = `${Math.round(pos.ratio * 100)}%`;
-        rail.style.transform = 'translateY(-50%)';
       } else {
-        // default right
-        pill.classList.remove('is-horizontal');
-        rail.style.right = isMobile ? '8px' : '14px';
-        rail.style.top = `${Math.round(pos.ratio * 100)}%`;
-        rail.style.transform = 'translateY(-50%)';
+        rail.classList.remove('is-top-snap');
+        if (pos.edge === 'left') {
+          pill.classList.remove('is-horizontal');
+          rail.style.left = isMobile ? '8px' : '14px';
+          rail.style.top = `${Math.round(pos.ratio * 1000) / 10}%`;
+          rail.style.transform = 'translateY(-50%)';
+        } else {
+          // default right
+          pill.classList.remove('is-horizontal');
+          rail.style.right = isMobile ? '8px' : '14px';
+          rail.style.top = `${Math.round(pos.ratio * 1000) / 10}%`;
+          rail.style.transform = 'translateY(-50%)';
+        }
       }
     };
 
     applyPosition(currentPos);
+    getHeaderHeight();
+    window.addEventListener('resize', getHeaderHeight);
 
-    // Long-press and drag logic
-    let pressTimer = null;
-    let isDragging = false;
-    let dragJustEnded = false;
-    let startX = 0;
-    let startY = 0;
-    let currentX = 0;
-    let currentY = 0;
-    let pillOffset = { x: 0, y: 0 };
+    // Suppress browser drag / ghost element artifacts (D8)
+    rail.addEventListener('dragstart', (e) => e.preventDefault());
+    pill.addEventListener('contextmenu', (e) => {
+      if (isDragging) e.preventDefault();
+    });
 
-    const startDrag = (e) => {
+    const collapseToPeek = () => {
+      if (!isGamePage || isDragging || isPeekExpanded) return;
+      rail.classList.add('is-peek');
+    };
+
+    const restoreFromPeek = () => {
+      rail.classList.remove('is-peek');
+      applyPosition(currentPos);
+    };
+
+    const expandPeekTemporarily = () => {
+      if (!rail.classList.contains('is-peek')) return;
+      restoreFromPeek();
+      isPeekExpanded = true;
+      if (peekTimer) clearTimeout(peekTimer);
+      peekTimer = setTimeout(() => {
+        isPeekExpanded = false;
+        if (isPlayerIntersecting && !isDragging) {
+          collapseToPeek();
+        }
+      }, 3000);
+    };
+
+    if (isGamePage && playerFrame) {
+      const io = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          isPlayerIntersecting = entry.isIntersecting;
+          if (isPlayerIntersecting) {
+            collapseToPeek();
+          } else {
+            if (!isDragging) {
+              restoreFromPeek();
+            }
+          }
+        }
+      }, { threshold: 0 });
+      io.observe(playerFrame);
+
+      // Check immediate initial view
+      const r = playerFrame.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < window.innerHeight) {
+        isPlayerIntersecting = true;
+        collapseToPeek();
+      }
+    }
+
+    const startDrag = (e: PointerEvent) => {
+      if (peekTimer) clearTimeout(peekTimer);
+      isPeekExpanded = false;
+      restoreFromPeek();
+
       isDragging = true;
+      rail.classList.add('is-dragging');
       pill.classList.add('is-dragging');
 
       const rect = pill.getBoundingClientRect();
+      // Pixel-perfect offset relative to pill top-left to avoid jumping
       pillOffset = {
-        x: e.clientX - (rect.left + rect.width / 2),
-        y: e.clientY - (rect.top + rect.height / 2),
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
       };
+
+      // Set base position for GPU transform-only drag (D8: during drag use a transform on the rail itself only)
+      rail.style.top = '0px';
+      rail.style.left = '0px';
+      rail.style.right = 'auto';
+      rail.style.bottom = 'auto';
+      rail.style.transform = `translate3d(${rect.left}px, ${rect.top}px, 0)`;
 
       try {
         pill.setPointerCapture(e.pointerId);
       } catch (err) {}
     };
 
-    pill.addEventListener('pointerdown', (e) => {
+    pill.addEventListener('pointerdown', (e: PointerEvent) => {
       if (e.button && e.button !== 0) return;
+      if (rail.classList.contains('is-peek')) return;
+
       startX = e.clientX;
       startY = e.clientY;
       currentX = e.clientX;
@@ -229,7 +394,7 @@ import { u } from '../lib/games.mjs';
       }, 350);
     });
 
-    window.addEventListener('pointermove', (e) => {
+    window.addEventListener('pointermove', (e: PointerEvent) => {
       if (!pressTimer && !isDragging) return;
       currentX = e.clientX;
       currentY = e.clientY;
@@ -244,15 +409,12 @@ import { u } from '../lib/games.mjs';
 
       if (isDragging) {
         e.preventDefault();
-        rail.style.left = `${currentX - pillOffset.x}px`;
-        rail.style.top = `${currentY - pillOffset.y}px`;
-        rail.style.right = 'auto';
-        rail.style.bottom = 'auto';
-        rail.style.transform = 'translate(-50%, -50%)';
+        // D8: during drag use a transform on the rail itself only
+        rail.style.transform = `translate3d(${currentX - pillOffset.x}px, ${currentY - pillOffset.y}px, 0)`;
       }
     }, { passive: false });
 
-    const endDrag = (e) => {
+    const endDrag = (e: PointerEvent) => {
       if (pressTimer) {
         clearTimeout(pressTimer);
         pressTimer = null;
@@ -262,6 +424,7 @@ import { u } from '../lib/games.mjs';
 
       isDragging = false;
       dragJustEnded = true;
+      rail.classList.remove('is-dragging');
       pill.classList.remove('is-dragging');
 
       try {
@@ -274,6 +437,7 @@ import { u } from '../lib/games.mjs';
       const winW = window.innerWidth;
       const winH = window.innerHeight;
 
+      // Distance to edges
       const dLeft = cx;
       const dRight = winW - cx;
       const dTop = cy;
@@ -281,15 +445,18 @@ import { u } from '../lib/games.mjs';
       let edge = 'right';
       let ratio = 0.5;
 
-      if (dTop < 130 && Math.abs(cx - winW / 2) < winW * 0.35) {
+      const headerH = getHeaderHeight();
+      // D3: Check if snapped to top (horizontal under header)
+      // Must land fully below the sticky header (rect.top >= header bottom + 4)
+      if (dTop < headerH + 110 && Math.abs(cx - winW / 2) < winW * 0.38) {
         edge = 'top';
         ratio = 0.5;
-      } else if (dLeft < dRight) {
-        edge = 'left';
-        ratio = Math.max(0.12, Math.min(0.88, cy / winH));
       } else {
-        edge = 'right';
-        ratio = Math.max(0.12, Math.min(0.88, cy / winH));
+        edge = (dLeft < dRight) ? 'left' : 'right';
+        const halfPill = 120;
+        const minY = (headerH + 8 + halfPill) / winH;
+        const maxY = (winH - 8 - halfPill) / winH;
+        ratio = Math.max(minY, Math.min(maxY, cy / winH));
       }
 
       currentPos = { edge, ratio };
@@ -299,6 +466,15 @@ import { u } from '../lib/games.mjs';
         localStorage.setItem('qr-pos', JSON.stringify(currentPos));
       } catch (err) {}
 
+      // If on game page and player is still intersecting, collapse back after short delay
+      if (isGamePage && isPlayerIntersecting) {
+        setTimeout(() => {
+          if (!isDragging && !isPeekExpanded && isPlayerIntersecting) {
+            collapseToPeek();
+          }
+        }, 1200);
+      }
+
       setTimeout(() => {
         dragJustEnded = false;
       }, 250);
@@ -307,16 +483,32 @@ import { u } from '../lib/games.mjs';
     window.addEventListener('pointerup', endDrag);
     window.addEventListener('pointercancel', endDrag);
 
+    // D2: Tap on peek tab to expand for 3s
+    rail.addEventListener('click', (e) => {
+      if (rail.classList.contains('is-peek')) {
+        e.preventDefault();
+        e.stopPropagation();
+        expandPeekTemporarily();
+      }
+    });
+    rail.addEventListener('pointerup', (e) => {
+      if (rail.classList.contains('is-peek')) {
+        e.preventDefault();
+        e.stopPropagation();
+        expandPeekTemporarily();
+      }
+    });
+
     // Button actions
     pill.querySelectorAll('.qr-btn').forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        if (dragJustEnded) {
+        if (dragJustEnded || rail.classList.contains('is-peek')) {
           e.preventDefault();
           e.stopPropagation();
           return;
         }
 
-        const action = btn.dataset.action;
+        const action = (btn as HTMLElement).dataset.action;
         if (action === 'popular') {
           e.preventDefault();
           const target = document.getElementById('popular');
@@ -335,8 +527,8 @@ import { u } from '../lib/games.mjs';
           }
         } else if (action === 'search') {
           e.preventDefault();
-          if (typeof window.togglePokiSearch === 'function') {
-            window.togglePokiSearch();
+          if (typeof (window as any).togglePokiSearch === 'function') {
+            (window as any).togglePokiSearch();
           }
         } else if (action === 'recent') {
           e.preventDefault();

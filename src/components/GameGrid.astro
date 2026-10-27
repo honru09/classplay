@@ -4,13 +4,20 @@ const { games, mosaic = false, rail = false, hubHero = false } = Astro.props;
 
 /* Mosaic pattern (home Featured): in each run of 12 tiles, indices 0 and
    5 span 2x2. With grid-auto-flow: dense the supercell packs perfectly
-   (18 cells) at the mosaic column counts — 2 (phones), 3 (>=600px) and
+   (18 cells) at the mosaic column counts — 3 (mobile <=720px), 4 (>=721px) and
    6 (>=1024px).
-   V10 hub hero: if hubHero is true, tile 0 is always a 2x2 hero tile! */
-const isBig = (i) => (hubHero && i === 0) || (mosaic && (i % 12 === 0 || i % 12 === 5));
+   V10 hub hero: if hubHero is true, tile 0 is always a 2x2 hero tile!
+   D5: no reserved mosaic rows when item count is below the pattern (< 6 items).
+   Shelves with 1-2 items render as a compact row at tile size. */
+const isBig = (i: number) => {
+  if (hubHero && i === 0) return true;
+  if (!mosaic || games.length < 6) return false;
+  return (i % 12 === 0 || i % 12 === 5);
+};
+const isSparse = games.length <= 2;
 ---
 
-<div class:list={['tiles', { mosaic: mosaic || hubHero }, { rail }]}>
+<div class:list={['tiles', { mosaic: (mosaic || hubHero) && games.length >= 6 }, { rail }, { 'is-sparse': isSparse }]}>
   {games.map((g, i) => (
     <GameTile
       game={g}

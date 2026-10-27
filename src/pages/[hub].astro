@@ -106,11 +106,12 @@ const jsonLd = [
         const container = document.getElementById('jumpBackInRail');
         if (!container) return;
         const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const isSparse = list.length <= 2;
         const shelf = document.createElement('section');
-        shelf.className = 'shelf jump-back-in-shelf';
+        shelf.className = `shelf jump-back-in-shelf${isSparse ? ' is-sparse' : ''}`;
         shelf.innerHTML = `
           <h2>🕒 Jump Back In</h2>
-          <div class="tiles rail">
+          <div class="tiles rail${isSparse ? ' is-sparse' : ''}">
             ${list.slice(0, 8).map((item) => `
               <a class="tile" href="${esc(item.url)}" title="${esc(item.title)}" aria-label="Play ${esc(item.title)} online">
                 <img class="tile-img" src="${esc(item.thumb)}" alt="" loading="lazy" width="512" height="384" />
