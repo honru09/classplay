@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import GameGrid from '../../components/GameGrid.astro';
 import { allGames, relatedGames, gameFaqs, gameUrl, u } from '../../lib/games.mjs';
 import { accentFor } from '../../lib/art.mjs';
+import { parseControls } from '../../lib/controls.mjs';
 
 export function getStaticPaths() {
   return allGames.map((game) => ({ params: { slug: game.slug }, props: { game } }));
@@ -14,6 +15,7 @@ const gamesLike = related12.slice(0, 6);
 const upNext = related12.slice(6, 12);
 const nextGame = upNext[0] || gamesLike[0];
 const faqs = gameFaqs(game);
+const controlSections = parseControls(game.instructions);
 const ins = (game.instructions || '').toLowerCase();
 const ctrl = [];
 if (/arrow|wasd|keyboard/.test(ins)) ctrl.push('Keyboard');
@@ -221,9 +223,22 @@ const jsonLd = [
           </button>
           <div class="drawer-body">
             <div class="drawer-inner">
-              <div class="pad">
-                <p>{game.instructions || `Open the game above and follow the on-screen prompts. ${game.title} is designed to be picked up in seconds — most browser games use the arrow keys, WASD, the mouse, or touch controls.`}</p>
-                <p>
+              <div class="pad how-to-body">
+                {
+                  controlSections.length > 0 ? (
+                    controlSections.map((sec) => (
+                      <div class="how-to-section">
+                        {sec.title && <div class="how-to-section-title">{sec.title}</div>}
+                        {sec.lines.map((line) => (
+                          <div set:html={line} />
+                        ))}
+                      </div>
+                    ))
+                  ) : (
+                    <p>{`Open the game above and follow the on-screen prompts. ${game.title} is designed to be picked up in seconds — most browser games use the arrow keys, WASD, the mouse, or touch controls.`}</p>
+                  )
+                }
+                <p class="ctrl-tip">
                   Tip: click the Fullscreen button for the biggest play area, especially on a Chromebook.
                   If the game seems stuck loading, wait a few seconds and refresh once — browser games stream
                   their assets on first load.

@@ -46,7 +46,7 @@
       "Puzzle",
       "Unity3D"
     ],
-    "description": "Step into the paws of a hero cat! Navigate tile by tile through tricky puzzles and dangerous paths to rescue your beloved human. Can you save your favorite owner? It&rsquo;s up to you, a brave little cat, to rescue your human! There are 50 Levels and a short Story Mode. Play Save My Human free on ClassPlay — a puzzle game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
+    "description": "Step into the paws of a hero cat! Navigate tile by tile through tricky puzzles and dangerous paths to rescue your beloved human. Can you save your favorite owner? It’s up to you, a brave little cat, to rescue your human! There are 50 Levels and a short Story Mode. Play Save My Human free on ClassPlay — a puzzle game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
     "instructions": "Control the cat to save the human with your keyboard or UI Arrow",
     "width": 1280,
     "height": 720,
@@ -148,7 +148,7 @@
       "Fun",
       "Logic"
     ],
-    "description": "**AnimalBrick** is a fun and addictive tile-matching puzzle game where you match three identical animal tiles to clear the board. Complete each level&rsquo;s objective, plan your moves carefully, and avoid filling all seven tile slots without making a match. With colorful animations, increasingly challenging levels, and strategic match-3 gameplay, AnimalBrick is perfect for puzzle fans of all ages! Play Animals Brick free on ClassPlay — a puzzle game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
+    "description": "**AnimalBrick** is a fun and addictive tile-matching puzzle game where you match three identical animal tiles to clear the board. Complete each level’s objective, plan your moves carefully, and avoid filling all seven tile slots without making a match. With colorful animations, increasingly challenging levels, and strategic match-3 gameplay, AnimalBrick is perfect for puzzle fans of all ages! Play Animals Brick free on ClassPlay — a puzzle game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
     "instructions": "Use mouse to play",
     "width": 800,
     "height": 600,
@@ -180,34 +180,6 @@
     "instructions": "Mouse click or drag across a rope to cut it Tap a bubble to pop it Touch swipe across a rope to cut it tap bubbles to pop them Watch the recipe card at the top and send the ingredients into the pot in that order",
     "width": 1280,
     "height": 720,
-    "mobile": true,
-    "featured": false,
-    "topMatch": null
-  },
-  {
-    "title": "Boo Chains",
-    "slug": "boo-chains",
-    "source": "gamemonetize",
-    "embedUrl": "https://html5.gamemonetize.co/meb1p0ebehdlwx4821lxmd1rxqfpxixv/",
-    "pageUrl": "https://classplay.online/games/boo-chains/",
-    "thumb": "https://img.gamemonetize.com/meb1p0ebehdlwx4821lxmd1rxqfpxixv/512x384.jpg",
-    "categories": [
-      "Puzzle"
-    ],
-    "tags": [
-      "Brain",
-      "Casual",
-      "Family",
-      "Halloween",
-      "HTML5",
-      "mapi games",
-      "Matching",
-      "Mobile"
-    ],
-    "description": "Link cute Halloween monsters with the same number or one apart and watch them blow up! Long chains create pumpkin bombs, lightning and a wild ghost that explode together for huge combos. Travel across a spooky map with 5 zones, free monsters trapped in webs, chains, tombstones and armor, and beat a giant boss every 10 stages. Play Boo Chains free on ClassPlay — a puzzle game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Desktop Click and drag across neighboring monsters with the same number or one apart 9 links to 1 then release Arrows or WASD move Enter links Space collects B power H hint R shuffle P or Esc pause Mobile Slide your finger across the monsters",
-    "width": 720,
-    "height": 1280,
     "mobile": true,
     "featured": false,
     "topMatch": null
@@ -264,34 +236,6 @@
     "topMatch": null
   },
   {
-    "title": "SPOOKY BOXING",
-    "slug": "spooky-boxing",
-    "source": "gamemonetize",
-    "embedUrl": "https://html5.gamemonetize.co/ll6suhn9wqqtauup2wpjr5xo1qovaulr/",
-    "pageUrl": "https://classplay.online/games/spooky-boxing/",
-    "thumb": "https://img.gamemonetize.com/ll6suhn9wqqtauup2wpjr5xo1qovaulr/512x384.jpg",
-    "categories": [
-      "Sports"
-    ],
-    "tags": [
-      "Arcade",
-      "Boxing",
-      "Fight",
-      "Halloween",
-      "HTML5",
-      "mapi games",
-      "Monster",
-      "Street Fighting"
-    ],
-    "description": "Enter the haunted ring in Spooky Boxing! Choose from 12 monsters with unique abilities, battle through spooky arenas and unlock each fighter&rsquo;s comic ending. Throw jabs, crosses and charged uppercuts while guarding and dodging enemy attacks. Play SPOOKY BOXING free on ClassPlay — a sports game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Desktop A D or Left Right Move W Up Hold guard S Down Dodge Z J Jab X K Cross C L Uppercut P Esc Pause Mobile Use the on-screen buttons Hold movement or guard buttons tap attack and dodge buttons Tap repeatedly when knocked down to get",
-    "width": 800,
-    "height": 600,
-    "mobile": true,
-    "featured": false,
-    "topMatch": null
-  },
-  {
     "title": "Rocket Car Football Championship",
     "slug": "rocket-car-football-championship",
     "source": "gamemonetize",
@@ -311,7 +255,7 @@
       "Ball",
       "Car"
     ],
-    "description": "Rocket-powered cars meet football in the floodlit Breymantech Arena! Boost, jump, flip and fly to smash a giant ball into the opponent&rsquo;s goal in fast 1v1, 2v2 and 3v3 matches against smart AI teams that rotate, defend, save shots and even go for aerials. Fight your way through the Championship: five cups from Bronze to Champions. Play Rocket Car Football Championship free on ClassPlay — a sports game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
+    "description": "Rocket-powered cars meet football in the floodlit Breymantech Arena! Boost, jump, flip and fly to smash a giant ball into the opponent’s goal in fast 1v1, 2v2 and 3v3 matches against smart AI teams that rotate, defend, save shots and even go for aerials. Fight your way through the Championship: five cups from Bronze to Champions. Play Rocket Car Football Championship free on ClassPlay — a sports game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
     "instructions": "Drive into the ball and score in the orange goal before time runs out Most goals wins a tie goes to overtime where the next goal wins Keyboard amp Mouse W A S D Arrow keys drive and steer Shift K Right mouse boost Space J Left mouse jum",
     "width": 900,
     "height": 600,
@@ -367,38 +311,10 @@
       "Platform",
       "Skill"
     ],
-    "description": "I Get You is a troll platformer where the level itself is your opponent. It has eyes, it talks, and every trap is something its body does: the floor yawns under your feet, the ground gets goosebumps, it sneezes you off a ledge, and doors turn into teeth. Every death teaches you its next trick. Beat a level and it gets deleted forever. 40 levels across two corridors, and the deleted ones come back. They&rsquo;re mad. Play I Get You free on ClassPlay — a agility game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
+    "description": "I Get You is a troll platformer where the level itself is your opponent. It has eyes, it talks, and every trap is something its body does: the floor yawns under your feet, the ground gets goosebumps, it sneezes you off a ledge, and doors turn into teeth. Every death teaches you its next trick. Beat a level and it gets deleted forever. 40 levels across two corridors, and the deleted ones come back. They’re mad. Play I Get You free on ClassPlay — a agility game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
     "instructions": "Move Arrow keys or A D Jump Space W Up arrow or Z hold for a higher jump Pause Esc or P middot Restart R middot Mute M middot Fullscreen F Mobile on-screen buttons",
     "width": 960,
     "height": 540,
-    "mobile": true,
-    "featured": false,
-    "topMatch": null
-  },
-  {
-    "title": "Ligmar Online",
-    "slug": "ligmar-online",
-    "source": "gamemonetize",
-    "embedUrl": "https://html5.gamemonetize.co/dp44mvajt7c6ceztkawj2i4orpo7frto/",
-    "pageUrl": "https://classplay.online/games/ligmar-online/",
-    "thumb": "https://img.gamemonetize.com/dp44mvajt7c6ceztkawj2i4orpo7frto/512x384.jpg",
-    "categories": [
-      ".IO"
-    ],
-    "tags": [
-      "2026 games",
-      "Best Games",
-      "free games for your site",
-      "free games for your website",
-      "free html5 games for your website",
-      "Game",
-      "HTML",
-      "html games for your website"
-    ],
-    "description": "Ligmar Online brings together what we loved about old-school browser MMORPGs: leveling, rare loot, dungeons, and PvP. There&rsquo;s always someone to beat or a piece of gear worth chasing. But it&rsquo;s the people that make it stick. You find your regular group, get to know your rivals, and fight for territory with your guild. And when something good drops, guild chat hears about it first. Play Ligmar Online free on ClassPlay — a .io game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Mouse click or tap to play",
-    "width": 800,
-    "height": 600,
     "mobile": true,
     "featured": false,
     "topMatch": null

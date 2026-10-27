@@ -159,32 +159,6 @@
     "topMatch": null
   },
   {
-    "title": "Adopt a Monster",
-    "slug": "adopt-a-monster",
-    "source": "gd",
-    "embedUrl": "https://html5.gamedistribution.com/06352b9e161d4fd2b76aa2fc10f8e07a/?gd_sdk_referrer_url=https%3A%2F%2Fclassplay.online%2Fgames%2Fadopt-a-monster%2F",
-    "pageUrl": "https://classplay.online/games/adopt-a-monster/",
-    "thumb": "https://img.gamedistribution.com/06352b9e161d4fd2b76aa2fc10f8e07a-512x384.jpg",
-    "categories": [
-      "Merge"
-    ],
-    "tags": [
-      "animal",
-      "halloween",
-      "matching",
-      "monster",
-      "Kids Friendly",
-      "No Blood"
-    ],
-    "description": "Merge spooky creatures and build your own monster collection in Adopt a Monster! Combine matching monsters to discover new forms, complete orders, and grow your collection in a cozy Halloween setting. Play Adopt a Monster free on ClassPlay — a merge game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Click or tap matching monsters to merge them into a new creature. Complete orders and collect rewards to expand your monster collection.",
-    "width": 1280,
-    "height": 720,
-    "mobile": false,
-    "featured": true,
-    "topMatch": null
-  },
-  {
     "title": "Blobby Jars",
     "slug": "blobby-jars",
     "source": "gd",
@@ -607,31 +581,6 @@
     "topMatch": null
   },
   {
-    "title": "Stickfront Conquest",
-    "slug": "stickfront-conquest",
-    "source": "gd",
-    "embedUrl": "https://html5.gamedistribution.com/daf71e893d804269a0b14b7793223964/?gd_sdk_referrer_url=https%3A%2F%2Fclassplay.online%2Fgames%2Fstickfront-conquest%2F",
-    "pageUrl": "https://classplay.online/games/stickfront-conquest/",
-    "thumb": "https://img.gamedistribution.com/daf71e893d804269a0b14b7793223964-512x384.jpg",
-    "categories": [
-      "Strategy"
-    ],
-    "tags": [
-      "army",
-      "upgrade",
-      "battlefield",
-      "Kids Friendly",
-      "No Blood"
-    ],
-    "description": "Lead a stickman army to victory in a strategic battle for territory. Gather gold and stone, recruit and upgrade diverse units, unlock new abilities, and destroy the enemy stronghold across increasingly challenging levels. Play Stickfront Conquest free on ClassPlay — a strategy game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Use the mouse or touch controls to select units, manage resources, and command your army. Recruit miners to gather gold and stone, then deploy combat units to attack the enemy base. Use the on-screen settings to adjust sound and language.",
-    "width": 1920,
-    "height": 1080,
-    "mobile": false,
-    "featured": false,
-    "topMatch": null
-  },
-  {
     "title": "Gnome Deep",
     "slug": "gnome-deep",
     "source": "gd",
@@ -680,29 +629,6 @@
     "instructions": "Mouse: press the ball, pull back and let go to putt. The arrow shows aim and power, so pull further for a harder hit. Drag anywhere else to look around and press Esc to pause. Touch: pull back from the ball and lift your finger to putt, then drag anywhere else to move the camera. Sink the ball in as few strokes as you can.",
     "width": 800,
     "height": 600,
-    "mobile": false,
-    "featured": false,
-    "topMatch": null
-  },
-  {
-    "title": "Flat Touchdown",
-    "slug": "flat-touchdown",
-    "source": "gd",
-    "embedUrl": "https://html5.gamedistribution.com/ad784ae0586f45779a9362414d189645/?gd_sdk_referrer_url=https%3A%2F%2Fclassplay.online%2Fgames%2Fflat-touchdown%2F",
-    "pageUrl": "https://classplay.online/games/flat-touchdown/",
-    "thumb": "https://img.gamedistribution.com/ad784ae0586f45779a9362414d189645-512x384.jpg",
-    "categories": [
-      "Football"
-    ],
-    "tags": [
-      "shoot-em-up",
-      "Kids Friendly",
-      "No Blood"
-    ],
-    "description": "Run down the football field, avoid the opponents and try to make it all the way to the end zone. The field is crowded with all kinds of opponents, and the further you run, the harder it becomes to find a way through them. Play Flat Touchdown free on ClassPlay — a football game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Use arrow keys, or - on touch devices, touch the left or right side of the screen to move the hero in that direction. Swipe up to activate the boost.",
-    "width": 800,
-    "height": 450,
     "mobile": false,
     "featured": false,
     "topMatch": null
@@ -1348,34 +1274,6 @@
     "topMatch": null
   },
   {
-    "title": "SUMI",
-    "slug": "sumi",
-    "source": "gd",
-    "embedUrl": "https://html5.gamedistribution.com/e87b78e351904f658bd260289c28df5e/?gd_sdk_referrer_url=https%3A%2F%2Fclassplay.online%2Fgames%2Fsumi%2F",
-    "pageUrl": "https://classplay.online/games/sumi/",
-    "thumb": "https://img.gamedistribution.com/e87b78e351904f658bd260289c28df5e-512x384.jpg",
-    "categories": [
-      "Adventure",
-      ".IO"
-    ],
-    "tags": [
-      "1player",
-      "2d",
-      "relax",
-      "relaxing",
-      "arcade",
-      "Kids Friendly",
-      "No Blood"
-    ],
-    "description": "You are a ball. There are other balls. You have to shoot them. Survive. Get stronger. Go further. And most importantly get the highest score you possibly can. Designed to be simple, relaxing, and easy to pick up, but surviving for a long time won't be quite as easy as it seems. How long can you survive? Play SUMI free on ClassPlay — a adventure game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Move: WASD Shoot: Hold the Left Mouse Button Pause: P, Esc Goal: Destroy enemies, survive as long as possible, and get the highest score.",
-    "width": 1280,
-    "height": 720,
-    "mobile": false,
-    "featured": false,
-    "topMatch": null
-  },
-  {
     "title": "+1 Speed Keyboard Lucky Escape",
     "slug": "1-speed-keyboard-lucky-escape",
     "source": "gd",
@@ -1564,32 +1462,6 @@
       "wanted": "Snow Rider 3D",
       "kind": "near-name"
     }
-  },
-  {
-    "title": "Wheelie Spooky",
-    "slug": "wheelie-spooky",
-    "source": "gd",
-    "embedUrl": "https://html5.gamedistribution.com/d84e079760bc40c1830548e87b6a1adf/?gd_sdk_referrer_url=https%3A%2F%2Fclassplay.online%2Fgames%2Fwheelie-spooky%2F",
-    "pageUrl": "https://classplay.online/games/wheelie-spooky/",
-    "thumb": "https://img.gamedistribution.com/d84e079760bc40c1830548e87b6a1adf-512x384.jpg",
-    "categories": [
-      "Racing & Driving"
-    ],
-    "tags": [
-      "halloween",
-      "motorbike",
-      "skill",
-      "wheelie",
-      "Kids Friendly",
-      "No Blood"
-    ],
-    "description": "Ride through haunted roads in Wheelie Spooky! Balance your bike, perform tricks, collect coins, and unlock spooky costumes and bikes. Play Wheelie Spooky free on ClassPlay — a racing & driving game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Keyboard: - Gas: → / D / Space - Brake: ← / A - Stand: ↑ / W stand on the seat - Trick: ↓ / S Touch: 4 zones under your two thumbs",
-    "width": 800,
-    "height": 600,
-    "mobile": false,
-    "featured": false,
-    "topMatch": null
   },
   {
     "title": "Obby Car Challenge: Drive",

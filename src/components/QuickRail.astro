@@ -22,6 +22,7 @@ import { u } from '../lib/games.mjs';
       class="qr-btn"
       id="qrBtnNew"
       data-action="new"
+      data-href={u('#new')}
       title="New games"
       aria-label="New games"
       draggable="false"
@@ -35,8 +36,8 @@ import { u } from '../lib/games.mjs';
       class="qr-btn"
       id="qrBtnCategories"
       data-action="categories"
-      title="All categories"
-      aria-label="All game categories"
+      title="All games"
+      aria-label="All games"
       draggable="false"
     >
       <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
@@ -519,11 +520,11 @@ import { u } from '../lib/games.mjs';
           }
         } else if (action === 'new') {
           e.preventDefault();
-          const target = document.getElementById('new-games');
+          const target = document.getElementById('new');
           if (target) {
             target.scrollIntoView({ behavior: 'smooth' });
           } else {
-            window.location.href = `${(btn.getAttribute('href') || '/')}#new-games`;
+            window.location.href = (btn as HTMLElement).dataset.href || '/#new';
           }
         } else if (action === 'search') {
           e.preventDefault();
@@ -546,7 +547,7 @@ import { u } from '../lib/games.mjs';
     // Active section highlight via IntersectionObserver
     const tracked = [
       { id: 'popular', btnId: 'qrBtnPopular' },
-      { id: 'new-games', btnId: 'qrBtnNew' },
+      { id: 'new', btnId: 'qrBtnNew' },
       { id: 'jumpBackInRail', btnId: 'qrBtnRecent' },
     ];
 

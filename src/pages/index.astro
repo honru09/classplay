@@ -4,6 +4,7 @@ import GameGrid from '../components/GameGrid.astro';
 import { shelves, u } from '../lib/games.mjs';
 
 const featured = shelves.featured();
+const newGames = shelves.newGames();
 const math = shelves.math().slice(0, 10);
 const puzzle = shelves.puzzle().slice(0, 10);
 const brain = shelves.brain().slice(0, 10);
@@ -30,13 +31,19 @@ const jsonLd = {
     <h1>Free Classroom Games — Safe, Fun &amp; Ready in Seconds</h1>
   </div>
 
-  {/* Client-side Jump back in rail (spec §2.1) */}
-  <div id="jumpBackInRail"></div>
-
   <section class="shelf" id="popular">
     <h2>🔥 Featured Games</h2>
     <GameGrid games={featured} mosaic />
   </section>
+
+  {/* Real New games shelf (A7) */}
+  <section class="shelf" id="new">
+    <h2>✨ New games</h2>
+    <GameGrid games={newGames} badgeContext="new" />
+  </section>
+
+  {/* Client-side Jump back in rail (spec §2.1, relocated below popular per A2) */}
+  <div id="jumpBackInRail"></div>
 
   <div class="band band-alt">
     <h2>🧮 Math &amp; Number Games <a class="more" href={u('math-games/')}>all math games →</a></h2>
@@ -53,7 +60,7 @@ const jsonLd = {
     <GameGrid games={brain} />
   </div>
 
-  <div class="band band-deep" id="new-games">
+  <div class="band band-deep">
     <h2>⚡ Quick Break Games <a class="more" href={u('games-for-school-breaks/')}>games for school breaks →</a></h2>
     <GameGrid games={breaks} />
   </div>

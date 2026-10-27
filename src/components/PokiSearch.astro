@@ -33,7 +33,7 @@ const HUB_ICONS: Record<string, string> = {
           type="search"
           id="pokiSearchInput"
           class="poki-input"
-          placeholder="What do you play?"
+          placeholder="Search games..."
           autocomplete="off"
           aria-label="Search games"
         />
@@ -55,9 +55,10 @@ const HUB_ICONS: Record<string, string> = {
       }
     </div>
 
-    <!-- Results mosaic section -->
+    <!-- Results section -->
     <div class="poki-results-wrap">
-      <div id="pokiResultsMosaic" class="tiles mosaic"></div>
+      <div id="pokiSearchMeta" class="poki-search-meta" aria-live="polite"></div>
+      <div id="pokiResultsMosaic" class="tiles"></div>
     </div>
   </div>
 </div>
@@ -183,9 +184,70 @@ const HUB_ICONS: Record<string, string> = {
     font-size: 17px;
   }
 
-  /* Results mosaic */
+  /* Results section */
   .poki-results-wrap {
     min-height: 200px;
+  }
+  .poki-search-meta {
+    margin-bottom: 12px;
+  }
+  .poki-count {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin: 0 0 10px 4px;
+  }
+  .poki-empty {
+    padding: 14px 4px 10px;
+  }
+  .poki-empty-msg {
+    font-size: clamp(16px, 2.2vw, 20px);
+    font-weight: 800;
+    color: #17233f;
+    margin: 0 0 14px;
+  }
+  .poki-suggestions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .poki-dym-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e3a5f;
+  }
+  .poki-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .poki-chip {
+    background: #ffffff;
+    color: #0369a1;
+    border: 1.5px solid #0284c7;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13.5px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(23, 35, 63, 0.1);
+    transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+  }
+  .poki-chip:hover {
+    background: #0284c7;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+  .poki-empty-popular-label {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1e3a5f;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 14px 0 12px 2px;
   }
 </style>
 
@@ -196,9 +258,10 @@ const HUB_ICONS: Record<string, string> = {
     const input = document.getElementById('pokiSearchInput') as HTMLInputElement | null;
     const closeBtn = document.getElementById('pokiSearchClose');
     const resultsGrid = document.getElementById('pokiResultsMosaic');
+    const metaEl = document.getElementById('pokiSearchMeta');
     const idxEl = document.getElementById('gameIndex');
 
-    if (!panel || !input || !resultsGrid) return;
+    if (!panel || !input || !resultsGrid || !metaEl) return;
 
     let games: Array<{ t: string; u: string; i: string; s: number }> = [];
     try {
@@ -209,6 +272,59 @@ const HUB_ICONS: Record<string, string> = {
 
     const esc = (s: string) =>
       s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] || c));
+
+    const levenshtein = (a: string, b: string): number => {
+      const m = a.length, n = b.length;
+      const d: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+      for (let i = 0; i <= m; i++) d[i][0] = i;
+      for (let j = 0; j <= n; j++) d[0][j] = j;
+      for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+        }
+      }
+      return d[m][n];
+    };
+
+    const scoreSuggestion = (query: string, title: string): number => {
+      const q = query.toLowerCase().trim();
+      const t = title.toLowerCase().trim();
+      if (t === q) return 100;
+      if (t.includes(q)) return 80;
+
+      const qTokens = q.split(/\s+/).filter(Boolean);
+      const tTokens = t.split(/[\s\-:]+/).filter(Boolean);
+
+      let tokenScore = 0;
+      for (const qTok of qTokens) {
+        let bestTokDist = 999;
+        for (const tTok of tTokens) {
+          if (tTok === qTok) { bestTokDist = 0; break; }
+          if (tTok.includes(qTok) || qTok.includes(tTok)) {
+            bestTokDist = Math.min(bestTokDist, 1);
+          } else {
+            const d = levenshtein(qTok, tTok);
+            if (d < bestTokDist) bestTokDist = d;
+          }
+        }
+        const tokMax = Math.max(qTok.length, 3);
+        const sim = Math.max(0, 1 - bestTokDist / tokMax);
+        tokenScore += sim;
+      }
+      const avgTokSim = qTokens.length ? tokenScore / qTokens.length : 0;
+      const fullDist = levenshtein(q, t);
+      const fullSim = Math.max(0, 1 - fullDist / Math.max(q.length, t.length));
+      return avgTokSim * 0.7 + fullSim * 0.3;
+    };
+
+    const getSuggestions = (query: string, limit = 3): Array<{ t: string; score: number }> => {
+      const scored = games
+        .map((g) => ({ t: g.t, score: scoreSuggestion(query, g.t) }))
+        .filter((item) => item.score > 0.22)
+        .sort((a, b) => b.score - a.score);
+      return scored.slice(0, limit);
+    };
 
     const openPanel = () => {
       panel.hidden = false;
@@ -226,29 +342,75 @@ const HUB_ICONS: Record<string, string> = {
 
     const renderResults = (query: string) => {
       const q = query.trim().toLowerCase();
-      let matched: typeof games = [];
       if (!q) {
-        matched = games.slice(0, 24);
-      } else {
-        matched = games
-          .filter((g) => g.t.toLowerCase().includes(q))
-          .sort((a, b) => {
-            const aPrefix = a.t.toLowerCase().startsWith(q) ? 1000 : 0;
-            const bPrefix = b.t.toLowerCase().startsWith(q) ? 1000 : 0;
-            return (bPrefix + (b.s || 0)) - (aPrefix + (a.s || 0));
-          });
-      }
-
-      resultsGrid.innerHTML = matched
-        .map((g, i) => {
-          const isBig = i % 12 === 0 || i % 12 === 5;
-          return `
-            <a class="tile${isBig ? ' big' : ''}" href="${esc(g.u)}" title="${esc(g.t)}" aria-label="Play ${esc(g.t)} online">
+        metaEl.innerHTML = '';
+        const topGames = games.slice(0, 24);
+        resultsGrid.innerHTML = topGames
+          .map((g) => `
+            <a class="tile" href="${esc(g.u)}" title="${esc(g.t)}" aria-label="Play ${esc(g.t)} online">
               <img class="tile-img" src="${esc(g.i)}" alt="" loading="lazy" width="512" height="384" />
             </a>
-          `;
-        })
-        .join('');
+          `)
+          .join('');
+        return;
+      }
+
+      const matched = games
+        .filter((g) => g.t.toLowerCase().includes(q))
+        .sort((a, b) => {
+          const aPrefix = a.t.toLowerCase().startsWith(q) ? 1000 : 0;
+          const bPrefix = b.t.toLowerCase().startsWith(q) ? 1000 : 0;
+          return (bPrefix + (b.s || 0)) - (aPrefix + (a.s || 0));
+        });
+
+      if (matched.length > 0) {
+        // N games count line above results
+        metaEl.innerHTML = `<div class="poki-count">${matched.length} ${matched.length === 1 ? 'game' : 'games'}</div>`;
+        resultsGrid.innerHTML = matched
+          .map((g) => `
+            <a class="tile" href="${esc(g.u)}" title="${esc(g.t)}" aria-label="Play ${esc(g.t)} online">
+              <img class="tile-img" src="${esc(g.i)}" alt="" loading="lazy" width="512" height="384" />
+            </a>
+          `)
+          .join('');
+      } else {
+        // Zero results empty state with "Did you mean" chips + 6 popular games
+        const suggestions = getSuggestions(query, 3);
+        metaEl.innerHTML = `
+          <div class="poki-empty">
+            <p class="poki-empty-msg">No games found for ‘<strong>${esc(query)}</strong>’.</p>
+            ${suggestions.length > 0 ? `
+              <div class="poki-suggestions">
+                <span class="poki-dym-label">Did you mean:</span>
+                <div class="poki-chips">
+                  ${suggestions.map((s) => `
+                    <button type="button" class="poki-chip" data-query="${esc(s.t)}">${esc(s.t)}</button>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+            <div class="poki-empty-popular-label">Popular games</div>
+          </div>
+        `;
+
+        metaEl.querySelectorAll('.poki-chip').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const fillQuery = (btn as HTMLElement).dataset.query || '';
+            input.value = fillQuery;
+            renderResults(fillQuery);
+            input.focus();
+          });
+        });
+
+        // 6 popular games below (existing revenue-first order)
+        resultsGrid.innerHTML = games.slice(0, 6)
+          .map((g) => `
+            <a class="tile" href="${esc(g.u)}" title="${esc(g.t)}" aria-label="Play ${esc(g.t)} online">
+              <img class="tile-img" src="${esc(g.i)}" alt="" loading="lazy" width="512" height="384" />
+            </a>
+          `)
+          .join('');
+      }
     };
 
     input.addEventListener('input', () => {

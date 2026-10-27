@@ -147,6 +147,7 @@ export function buildFeatured(games) {
 /** Named shelves used by the home page and the hub pages. */
 export const shelves = {
   featured: () => buildFeatured(allGames),
+  newGames: () => allGames.slice(-12),
   popular: () => [...allGames].slice(0, 36),
   chromebook: () => [...allGames].slice(0, 36),
   math: () =>

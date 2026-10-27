@@ -605,8 +605,16 @@ const searchIndex = JSON.stringify(
       .player-spinner { width: 48px; height: 48px; animation: playerSpin 0.9s linear infinite; }
       @keyframes playerSpin { to { transform: rotate(360deg); } }
       .loading-title {
-        font-family: var(--disp); font-size: clamp(16px, 2.2vw, 20px); font-weight: 800;
-        color: #ffffff; max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        font-family: var(--disp);
+        font-size: clamp(14px, 2vw, 19px);
+        font-weight: 800;
+        color: #ffffff;
+        max-width: 92%;
+        text-align: center;
+        line-height: 1.25;
+        white-space: normal;
+        word-break: break-word;
+        overflow-wrap: break-word;
       }
       .loading-hint { font-size: 13px; font-weight: 600; color: #dbe7fd; }
 
@@ -801,6 +809,29 @@ const searchIndex = JSON.stringify(
       .drawer-inner .pad { padding: 2px 18px 17px; }
       .drawer-inner p { color: var(--text); margin: 0 0 12px; font-size: 15px; }
       .drawer-inner p:last-child { margin-bottom: 0; }
+
+      /* How-to-play drawer formatting (A6) */
+      .how-to-body { display: flex; flex-direction: column; gap: 12px; }
+      .how-to-section { display: flex; flex-direction: column; gap: 6px; }
+      .how-to-section-title {
+        font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;
+        color: #0284c7; margin: 6px 0 2px;
+      }
+      .ctrl-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; line-height: 1.5; font-size: 14.5px; }
+      .ctrl-keys { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+      .ctrl-sep { color: #64748b; font-weight: 700; }
+      .ctrl-action { font-weight: 600; color: #17233f; }
+      .ctrl-line { line-height: 1.5; font-size: 14.5px; color: #17233f; }
+      .ctrl-tip {
+        margin-top: 8px; font-size: 13px !important; color: #475569 !important;
+        border-top: 1px solid #e2e8f0; padding-top: 10px;
+      }
+      kbd {
+        display: inline-block; padding: 2px 7px; font-family: inherit; font-size: 12px; font-weight: 800;
+        line-height: 1.3; color: #17233f; background: #ffffff; border: 1px solid #cbd5e1;
+        border-bottom: 2px solid #94a3b8; border-radius: 6px; box-shadow: 0 1px 2px rgba(23, 35, 63, 0.08);
+        margin: 0 2px; vertical-align: middle;
+      }
 
       /* ---------- expandables ---------- */
       .expandable .exp-rest { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s cubic-bezier(0.2, 0.7, 0.3, 1); }

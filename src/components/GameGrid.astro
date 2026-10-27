@@ -1,6 +1,6 @@
 ---
 import GameTile from './GameTile.astro';
-const { games, mosaic = false, rail = false, hubHero = false } = Astro.props;
+const { games, mosaic = false, rail = false, hubHero = false, badgeContext = null } = Astro.props;
 
 /* Mosaic pattern (home Featured): in each run of 12 tiles, indices 0 and
    5 span 2x2. With grid-auto-flow: dense the supercell packs perfectly
@@ -24,6 +24,7 @@ const isSparse = games.length <= 2;
       big={isBig(i)}
       hero={hubHero && i === 0}
       badge={(!mosaic && !hubHero) || isBig(i)}
+      badgeContext={badgeContext}
       eager={i < 2}
     />
   ))}

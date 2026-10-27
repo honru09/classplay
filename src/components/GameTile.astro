@@ -1,11 +1,10 @@
 ---
 import { gameUrl } from '../lib/games.mjs';
-const { game, big = false, hero = false, eager = false, badge = true } = Astro.props;
+const { game, big = false, hero = false, eager = false, badge = true, badgeContext = null } = Astro.props;
 
-/* Badges are sparse by design (Poki shows an occasional corner chip, not
-   one per tile). Keep HOT only for featured games. NEW badge is supported
-   for verified recent additions. */
-const ribbon = badge && game.featured ? 'hot' : badge && game.isNew ? 'new' : null;
+/* Badges: existing NEW ribbon ONLY on tiles inside this New shelf (pass badge context), nowhere else.
+   Keep HOT for featured games. */
+const ribbon = badgeContext === 'new' ? 'new' : (badge && game.featured ? 'hot' : null);
 ---
 
 {/* v10 (Poki system): pure cover art on regular tiles. Zero text noise on
