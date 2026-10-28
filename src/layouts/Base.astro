@@ -56,8 +56,7 @@ const searchIndex = JSON.stringify(
     {/* Every page renders feed thumbnails from these two CDNs; warming the
         connections up front shaves a DNS+TLS round trip off the first cards
         and off the game-page poster (the LCP element there). */}
-    <link rel="preconnect" href="https://img.gamedistribution.com" />
-    <link rel="preconnect" href="https://img.gamemonetize.com" />
+        <link rel="preconnect" href="https://img.gamemonetize.com" />
     {embedOrigin && (
       <>
         <link rel="preconnect" href={embedOrigin} />

@@ -74,7 +74,7 @@ export const hubs = [
       'Games that work on school Chromebooks: no installs, no extensions, nothing to download. Puzzles, math games and gentle arcade titles that run in Chrome.',
     intro: [
       `A school Chromebook is a locked-down machine: no app store, no installing programs, and a hard drive that is mostly a rumor. Browser games sidestep all of that, because there is nothing to install — the game is a web page, and it runs in the same Chrome tab as a document or a classroom site. If the tab opens, the game plays.`,
-      `This hub is simply the best of ClassPlay for Chromebook users: the full classroom-screened catalog led by the puzzle, math, and brain games we are known for, with gentle skill games and sports mixed in. Controls stick to keyboard, mouse, trackpad, or touch, and rounds are sized for real school schedules — a break, a bus ride, the wait for pickup. Bookmark this page and the whole collection, all 80 games, is one click away on any Chromebook you sign into. No downloads, no sign-ups, and nothing on this site that a teacher would need to apologize for.`,
+      `This hub is simply the best of ClassPlay for Chromebook users: the full classroom-screened catalog led by the puzzle, math, and brain games we are known for, with gentle skill games and sports mixed in. Controls stick to keyboard, mouse, trackpad, or touch, and rounds are sized for real school schedules — a break, a bus ride, the wait for pickup. Bookmark this page and the whole collection, the whole collection, is one click away on any Chromebook you sign into. No downloads, no sign-ups, and nothing on this site that a teacher would need to apologize for.`,
     ],
   },
   {
