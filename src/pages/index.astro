@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import GameGrid from '../components/GameGrid.astro';
-import { shelves, u, buildHomeShelves } from '../lib/games.mjs';
+import { shelves, gameUrl, u, buildHomeShelves } from '../lib/games.mjs';
 
 const mathPool = shelves.math();
 const mathSlugs = new Set(mathPool.map((g) => g.slug));
@@ -58,10 +58,10 @@ const jsonLd = {
     <GameGrid games={featured} mosaic />
   </section>
 
-  {/* Real New games shelf (A7) */}
+  {/* Shelf remainder / more from the shelf */}
   <section class="shelf" id="new">
-    <h2>✨ New games</h2>
-    <GameGrid games={newGames} badgeContext="new" />
+    <h2>🎮 More from the shelf</h2>
+    <GameGrid games={newGames} />
   </section>
 
   {/* Client-side Jump back in rail (spec §2.1, relocated below popular per A2) */}
@@ -130,6 +130,16 @@ const jsonLd = {
     </div>
     <button class="exp-btn" type="button" aria-expanded="false" data-more="Read more ▾" data-less="Show less ▴">Read more ▾</button>
   </div>
+
+  <section class="top-picks">
+    <h2>Top picks on ClassPlay</h2>
+    <ol>
+      {featured.slice(0, 10).map((g) => (
+        <li><a href={gameUrl(g)}>{g.title}</a></li>
+      ))}
+    </ol>
+    <p>Every title below opens in a browser tab on Chromebooks, laptops and phones — no download, no sign-up.</p>
+  </section>
 
   <script>
     (() => {
