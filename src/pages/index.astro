@@ -15,6 +15,7 @@ const brainPool = shelves.brain().sort((a, b) => {
 
 const rawHomeShelves = [
   { name: 'featured', pool: shelves.featured(), max: 16 },
+  { name: 'classroom', pool: shelves.classroom(), max: 10 },
   { name: 'new', pool: shelves.newGames(), max: 12 },
   { name: 'math', pool: mathPool, max: 10 },
   { name: 'puzzle', pool: puzzlePool, max: 10 },
@@ -26,6 +27,7 @@ const rawHomeShelves = [
 const dedupedShelves = buildHomeShelves(rawHomeShelves);
 const shelfMap = new Map(dedupedShelves.map((s) => [s.name, s.games]));
 const featured = shelfMap.get('featured') || [];
+const classroom = shelfMap.get('classroom') || [];
 const newGames = shelfMap.get('new') || [];
 const math = shelfMap.get('math') || [];
 const puzzle = shelfMap.get('puzzle') || [];
@@ -51,11 +53,17 @@ const jsonLd = {
 >
   <div class="title-strip">
     <h1>Free Classroom Games — Safe, Fun &amp; Ready in Seconds</h1>
+    <p class="lede">Math, puzzle and brain games screened for school, plus gentle arcade and sports titles — no downloads, no sign-ups, works on Chromebooks.</p>
   </div>
 
   <section class="shelf" id="popular">
     <h2>🔥 Featured Games</h2>
     <GameGrid games={featured} mosaic />
+  </section>
+
+  <section class="shelf">
+    <h2>🏫 Classroom Games <a class="more" href={u('classroom-games/')}>all classroom games →</a></h2>
+    <GameGrid games={classroom} />
   </section>
 
   {/* Shelf remainder / more from the shelf */}
