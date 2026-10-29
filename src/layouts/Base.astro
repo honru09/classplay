@@ -35,7 +35,7 @@ const nav = [
    inlined as JSON so the header search can filter and rank it revenue-first with zero requests.
    `<` is escaped so a title can never break out of the script element. */
 const searchIndex = JSON.stringify(
-  allGames.map((g) => ({ t: g.title, u: gameUrl(g), i: g.thumb, s: scoreGame(g) })),
+  allGames.map((g) => ({ t: g.title, u: gameUrl(g), i: g.thumb, s: scoreGame(g), f: g.featured ? 1 : 0 })),
 ).replace(/</g, '\\u003c');
 ---
 
@@ -129,7 +129,7 @@ const searchIndex = JSON.stringify(
       }
       * { box-sizing: border-box; }
       [hidden] { display: none !important; }
-      html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
+      html { scroll-behavior: smooth; }
       body {
         margin: 0;
         background-color: var(--bg);
@@ -364,7 +364,26 @@ const searchIndex = JSON.stringify(
         box-shadow: 0 4px 10px rgba(23, 35, 63, 0.25);
       }
       .rail-tile img {
-        width: 100%; height: 100%; object-fit: cover; display: block;
+        width: 100%; height: 100%; display: block;
+      }
+      .rail-tile .rail-thumb-bg {
+        position: absolute;
+        inset: -15%;
+        width: 130%;
+        height: 130%;
+        max-width: none;
+        object-fit: cover;
+        filter: blur(8px) brightness(0.75);
+        transform: scale(1.1);
+        pointer-events: none;
+      }
+      .rail-tile .rail-thumb-fg {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        z-index: 1;
       }
 
       /* The tile system (Poki system) */
@@ -394,16 +413,27 @@ const searchIndex = JSON.stringify(
           grid-template-columns: repeat(3, 1fr);
         }
       }
+      @keyframes tile-shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
       .tile {
         position: relative; display: block; aspect-ratio: 1; overflow: hidden;
-        border-radius: var(--radius-tile); background: var(--panel2);
+        border-radius: var(--radius-tile);
+        background: linear-gradient(90deg, var(--panel2) 0%, rgba(255, 255, 255, 0.7) 50%, var(--panel2) 100%);
+        background-size: 200% 100%;
+        animation: tile-shimmer 2s infinite linear;
         box-shadow: var(--shadow-tile);
         transition: transform 160ms ease-out, box-shadow 160ms ease-out, opacity 160ms ease-out;
       }
       .tile.big { grid-column: span 2; grid-row: span 2; }
       .tile-img {
         width: 100%; height: 100%; object-fit: cover; display: block;
-        transition: transform 160ms ease-out;
+        opacity: 0;
+        transition: opacity 200ms ease-out, transform 160ms ease-out;
+      }
+      .tile-img.is-loaded {
+        opacity: 1;
       }
       .tile:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
       .tile:active { transform: scale(0.97); opacity: 0.92; }
@@ -454,7 +484,7 @@ const searchIndex = JSON.stringify(
         .tiles.rail .tile { flex: 0 0 42%; scroll-snap-align: start; }
       }
 
-      /* D5: Jump Back In & sparse shelves collapse to content height */
+      /* D5: Jump back in & sparse shelves collapse to content height */
       .jump-back-in-shelf {
         margin: 6px 0 10px;
       }
@@ -509,7 +539,14 @@ const searchIndex = JSON.stringify(
       }
       .faq summary { font-weight: 700; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; }
       .faq summary::-webkit-details-marker { display: none; }
-      .faq summary::after { content: "▾"; margin-left: auto; color: var(--muted); transition: transform 180ms ease-out; }
+      .faq summary::after {
+        content: "▾";
+        margin-left: auto;
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--text);
+        transition: transform 180ms ease-out;
+      }
       .faq details[open] summary::after { transform: rotate(180deg); }
       .faq details p {
         color: var(--muted); margin: 8px 0 2px;
@@ -705,17 +742,32 @@ const searchIndex = JSON.stringify(
         border-radius: 0 !important; border: 0 !important; margin: 0 !important;
         background: var(--theatre-bg, #000000) !important; box-shadow: none !important;
       }
-      .theatre-exit-btn:not([hidden]) {
-        display: inline-flex;
-      }
-      .theatre-exit-btn {
-        position: absolute; top: 14px; right: 14px; z-index: 10;
+      .theatre-exit-btn, .player-exit-chip {
+        position: absolute; top: 14px; right: 14px; z-index: 25;
         align-items: center; gap: 6px;
         padding: 8px 14px; border-radius: 999px;
         background: rgba(14, 25, 48, 0.92); border: 1px solid rgba(255, 255, 255, 0.3);
         color: #ffffff; font-size: 13.5px; font-weight: 800; cursor: pointer;
+        opacity: 1; transform: translateY(0);
+        transition: opacity 0.22s ease, transform 0.22s ease, background 0.18s ease;
       }
-      .theatre-exit-btn:hover { background: #17233f; }
+      .theatre-exit-btn:hover, .player-exit-chip:hover { background: #17233f; }
+      .theatre-exit-btn.is-idle, .player-exit-chip.is-idle {
+        opacity: 0; pointer-events: none; transform: translateY(-4px);
+      }
+      .theatre-exit-btn:not([hidden]), .player-exit-chip:not([hidden]) { display: inline-flex; }
+      .theatre-exit-btn[hidden], .player-exit-chip[hidden] { display: none !important; }
+
+      /* Restart toast feedback (C7) */
+      .player-toast {
+        position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 25;
+        padding: 7px 16px; border-radius: 999px;
+        background: rgba(14, 25, 48, 0.94); border: 1px solid rgba(255, 255, 255, 0.22);
+        color: #ffffff; font-size: 13.5px; font-weight: 700; pointer-events: none;
+        opacity: 0; transition: opacity 0.2s ease;
+      }
+      .player-toast.is-visible { opacity: 1; }
+      .player-toast[hidden] { display: none !important; }
 
       /* Desktop >=1100px Two-column layout (spec §2.4) */
       .game-layout { display: block; }
@@ -949,9 +1001,12 @@ const searchIndex = JSON.stringify(
           transition-duration: 0.01ms !important;
           transform: none !important;
         }
+        .tile { animation: none !important; background: var(--panel2) !important; }
+        .tile-img { transition: none !important; opacity: 1 !important; }
         .player-spinner { animation: none !important; }
       }
     </style>
+    <noscript><style>.tile-img { opacity: 1 !important; }</style></noscript>
   </head>
   <body>
     <header class="site">
@@ -1084,6 +1139,12 @@ const searchIndex = JSON.stringify(
         document.addEventListener('pointerenter', onIntent, { capture: true, passive: true });
         document.addEventListener('focusin', onIntent, { capture: true, passive: true });
         document.addEventListener('touchstart', onIntent, { capture: true, passive: true });
+
+        // Loading placeholder: mark cached/already-loaded images as loaded
+        document.querySelectorAll('img.tile-img').forEach((img) => {
+          if ((img as HTMLImageElement).complete) img.classList.add('is-loaded');
+          else img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
+        });
       })();
     </script>
   </body>

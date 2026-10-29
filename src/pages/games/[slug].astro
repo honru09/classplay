@@ -13,7 +13,7 @@ const { game } = Astro.props;
 const related12 = relatedGames(game, 12);
 const gamesLike = related12.slice(0, 6);
 const upNext = related12.slice(6, 12);
-const nextGame = upNext[0] || gamesLike[0];
+const nextGame = gamesLike[0] || upNext[0];
 const faqs = gameFaqs(game);
 const controlSections = parseControls(game.instructions);
 const ins = (game.instructions || '').toLowerCase();
@@ -27,7 +27,7 @@ const primaryCat = game.categories[0] || 'Game';
 const accent = accentFor(game);
 const embedOrigin = new URL(game.embedUrl).origin;
 
-const title = `Play ${game.title} Online Free — No Download | ClassPlay`;
+const title = `Play ${game.title} Online — Free Classroom Game | ClassPlay`;
 const description = game.description.slice(0, 158);
 
 const jsonLd = [
@@ -75,7 +75,7 @@ const jsonLd = [
 
   {/* Compact title row: H1 only per Section 6 */}
   <div class="game-header">
-    <h1>{game.title}</h1>
+    <h1>Play {game.title} Online</h1>
   </div>
 
   {/* Desktop >=1100px: two-column layout (player column + 300px side rail) */}
@@ -142,11 +142,14 @@ const jsonLd = [
           {/* Container for injected iframe */}
           <div class="player-iframe-wrap" id="iframeWrap"></div>
 
-          {/* Theatre mode exit button */}
-          <button type="button" class="theatre-exit-btn" id="theatreExitBtn" aria-label="Exit theatre mode" hidden>
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          {/* Fullscreen / theatre mode exit chip (spec C2) */}
+          <button type="button" class="theatre-exit-btn player-exit-chip" id="theatreExitBtn" aria-label="Exit fullscreen or theatre mode" hidden>
+            <span aria-hidden="true">✕</span>
             <span>Exit</span>
           </button>
+
+          {/* Action feedback toast on restart (spec C7) */}
+          <div class="player-toast" id="playerToast" aria-live="polite" hidden>Restarted</div>
 
           <noscript>
             <iframe
@@ -272,7 +275,8 @@ const jsonLd = [
         <div class="rail-grid">
           {upNext.map((r) => (
             <a href={gameUrl(r)} class="rail-tile" title={r.title} aria-label={`Play ${r.title}`}>
-              <img src={r.thumb} alt="" width="512" height="384" loading="lazy" />
+              <img class="rail-thumb-bg" src={r.thumb} alt="" aria-hidden="true" loading="lazy" />
+              <img class="rail-thumb-fg" src={r.thumb} alt="" width="512" height="384" loading="lazy" />
             </a>
           ))}
         </div>
@@ -402,15 +406,48 @@ const jsonLd = [
         }
       });
 
+      let toastTimer = null;
+      const showRestartToast = () => {
+        const toast = document.getElementById('playerToast');
+        if (!toast) return;
+        toast.hidden = false;
+        toast.classList.add('is-visible');
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.remove('is-visible');
+          setTimeout(() => { toast.hidden = true; }, 200);
+        }, 1200);
+      };
+
       restartBtn?.addEventListener('click', () => {
         startOrRestart();
+        showRestartToast();
       });
 
       errorRetryBtn?.addEventListener('click', () => {
         startOrRestart();
       });
 
-      // Fullscreen + Theatre mode fallback
+      // Fullscreen + Theatre mode exit chip (spec C2)
+      let exitIdleTimer = null;
+
+      const resetExitChipIdle = () => {
+        const isNativeFs = !!document.fullscreenElement;
+        const isActive = isNativeFs || isTheatre;
+        if (!theatreExitBtn || !isActive) return;
+        theatreExitBtn.hidden = false;
+        theatreExitBtn.classList.remove('is-idle');
+        if (exitIdleTimer) clearTimeout(exitIdleTimer);
+        // On desktop theatre mode, keep exit chip visible; in fullscreen or mobile, auto-hide after 2.5s idle
+        if (!isTheatre || window.innerWidth <= 1024) {
+          exitIdleTimer = setTimeout(() => {
+            if (!theatreExitBtn.matches(':hover')) {
+              theatreExitBtn.classList.add('is-idle');
+            }
+          }, 2500);
+        }
+      };
+
       const syncFsUi = (active) => {
         const fsLabel = fsBtn?.querySelector('.fs-label');
         const iconExp = fsBtn?.querySelector('.icon-expand');
@@ -418,7 +455,16 @@ const jsonLd = [
         if (fsLabel) fsLabel.textContent = active ? 'Exit' : 'Fullscreen';
         if (iconExp) iconExp.hidden = active;
         if (iconComp) iconComp.hidden = !active;
-        if (theatreExitBtn) theatreExitBtn.hidden = !active || !isTheatre;
+        if (theatreExitBtn) {
+          if (active) {
+            theatreExitBtn.hidden = false;
+            resetExitChipIdle();
+          } else {
+            theatreExitBtn.hidden = true;
+            theatreExitBtn.classList.remove('is-idle');
+            if (exitIdleTimer) clearTimeout(exitIdleTimer);
+          }
+        }
       };
 
       const enterTheatre = () => {
@@ -456,8 +502,21 @@ const jsonLd = [
         }
       };
 
+      const handleExitClick = () => {
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+        } else if (isTheatre) {
+          exitTheatre();
+        }
+      };
+
       fsBtn?.addEventListener('click', toggleFullscreen);
-      theatreExitBtn?.addEventListener('click', exitTheatre);
+      theatreExitBtn?.addEventListener('click', handleExitClick);
+
+      // Pointermove and tap on shell resets idle timer when active
+      shell.addEventListener('pointermove', resetExitChipIdle);
+      shell.addEventListener('pointerdown', resetExitChipIdle);
+      shell.addEventListener('touchstart', resetExitChipIdle, { passive: true });
 
       document.addEventListener('fullscreenchange', () => {
         const isNativeFs = !!document.fullscreenElement;
@@ -516,7 +575,8 @@ const jsonLd = [
           const esc = (s) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
           railRecentList.innerHTML = others.map((item) => `
             <a class="rail-tile" href="${esc(item.url)}" title="${esc(item.title)}" aria-label="Play ${esc(item.title)}">
-              <img src="${esc(item.thumb)}" alt="" width="512" height="384" loading="lazy" />
+              <img class="rail-thumb-bg" src="${esc(item.thumb)}" alt="" aria-hidden="true" loading="lazy" />
+              <img class="rail-thumb-fg" src="${esc(item.thumb)}" alt="" width="512" height="384" loading="lazy" />
             </a>
           `).join('');
           railRecent.hidden = false;

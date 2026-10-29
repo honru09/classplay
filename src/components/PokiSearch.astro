@@ -282,7 +282,7 @@ const HUB_ICONS: Record<string, string> = {
 
     if (!panel || !input || !resultsGrid || !metaEl) return;
 
-    let games: Array<{ t: string; u: string; i: string; s: number }> = [];
+    let games: Array<{ t: string; u: string; i: string; s: number; f?: number }> = [];
     try {
       if (idxEl && idxEl.textContent) {
         games = JSON.parse(idxEl.textContent);
@@ -291,6 +291,20 @@ const HUB_ICONS: Record<string, string> = {
 
     const esc = (s: string) =>
       s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] || c));
+
+    const renderTile = (g: { t: string; u: string; i: string; s: number; f?: number }) => `
+      <a class="tile" href="${esc(g.u)}" title="${esc(g.t)}" aria-label="Play ${esc(g.t)} online">
+        <img class="tile-img" src="${esc(g.i)}" alt="" loading="lazy" width="512" height="384" onload="this.classList.add('is-loaded')" />
+        ${g.f ? `
+          <span class="ribbon hot" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor">
+              <path d="M12.6 1.8c.5 3.9-2.2 5.4-3.4 7.2-.8 1.3-.9 2.7.1 3.9.8.9 2.2 1 3.1.2.8-.7.8-1.9.5-3 1.6 1 3.1 2.8 3.1 5a5.6 5.6 0 0 1-11.2 0c0-1.9 1-3.4 2-4.9C7.9 6.9 10.4 3.6 12.6 1.8z" />
+            </svg>
+            HOT
+          </span>
+        ` : ''}
+      </a>
+    `;
 
     const levenshtein = (a: string, b: string): number => {
       const m = a.length, n = b.length;
@@ -388,13 +402,7 @@ const HUB_ICONS: Record<string, string> = {
       if (!q) {
         metaEl.innerHTML = '';
         const topGames = games.slice(0, 24);
-        resultsGrid.innerHTML = topGames
-          .map((g) => `
-            <a class="tile" href="${esc(g.u)}" title="${esc(g.t)}" aria-label="Play ${esc(g.t)} online">
-              <img class="tile-img" src="${esc(g.i)}" alt="" loading="lazy" width="512" height="384" />
-            </a>
-          `)
-          .join('');
+        resultsGrid.innerHTML = topGames.map(renderTile).join('');
         return;
       }
 
@@ -409,13 +417,7 @@ const HUB_ICONS: Record<string, string> = {
       if (matched.length > 0) {
         // N games count line above results
         metaEl.innerHTML = `<div class="poki-count">${matched.length} ${matched.length === 1 ? 'game' : 'games'}</div>`;
-        resultsGrid.innerHTML = matched
-          .map((g) => `
-            <a class="tile" href="${esc(g.u)}" title="${esc(g.t)}" aria-label="Play ${esc(g.t)} online">
-              <img class="tile-img" src="${esc(g.i)}" alt="" loading="lazy" width="512" height="384" />
-            </a>
-          `)
-          .join('');
+        resultsGrid.innerHTML = matched.map(renderTile).join('');
       } else {
         // Zero results empty state with "Did you mean" chips + 6 popular games
         const suggestions = getSuggestions(query, 3);
@@ -446,13 +448,7 @@ const HUB_ICONS: Record<string, string> = {
         });
 
         // 6 popular games below (existing revenue-first order)
-        resultsGrid.innerHTML = games.slice(0, 6)
-          .map((g) => `
-            <a class="tile" href="${esc(g.u)}" title="${esc(g.t)}" aria-label="Play ${esc(g.t)} online">
-              <img class="tile-img" src="${esc(g.i)}" alt="" loading="lazy" width="512" height="384" />
-            </a>
-          `)
-          .join('');
+        resultsGrid.innerHTML = games.slice(0, 6).map(renderTile).join('');
       }
     };
 

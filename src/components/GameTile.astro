@@ -24,6 +24,7 @@ const ribbon = badgeContext === 'new' ? 'new' : (badge && game.featured ? 'hot' 
     fetchpriority={eager ? 'high' : undefined}
     width="512"
     height="384"
+    onload="this.classList.add('is-loaded')"
   />
   {
     hero ? (

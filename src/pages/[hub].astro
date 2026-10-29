@@ -111,11 +111,11 @@ const jsonLd = [
         const shelf = document.createElement('section');
         shelf.className = `shelf jump-back-in-shelf${isSparse ? ' is-sparse' : ''}`;
         shelf.innerHTML = `
-          <h2>🕒 Jump Back In</h2>
+          <h2>🕒 Jump back in</h2>
           <div class="tiles rail${isSparse ? ' is-sparse' : ''}">
             ${list.slice(0, 8).map((item) => `
               <a class="tile" href="${esc(item.url)}" title="${esc(item.title)}" aria-label="Play ${esc(item.title)} online">
-                <img class="tile-img" src="${esc(item.thumb)}" alt="" loading="lazy" width="512" height="384" />
+                <img class="tile-img" src="${esc(item.thumb)}" alt="" loading="lazy" width="512" height="384" onload="this.classList.add('is-loaded')" />
               </a>
             `).join('')}
           </div>

@@ -230,22 +230,22 @@ export const shelves = {
   },
 };
 
+/** Related games: (1) same primary category, (2) shared tags count, (3) revenue-first score (spec C7) */
 export function relatedGames(game, n = 6) {
+  const primaryCat = (game.categories && game.categories[0]) || '';
+  const gameTags = game.tags || [];
   const scored = allGames
     .filter((g) => g.slug !== game.slug)
     .map((g) => {
-      const catMatches = (g.categories || []).filter((c) => (game.categories || []).includes(c)).length;
-      const tagMatches = (g.tags || []).filter((t) => (game.tags || []).includes(t)).length;
-      const relScore = catMatches * 10 + tagMatches * 2;
-      return {
-        g,
-        relScore,
-        revScore: scoreGame(g),
-      };
+      const sameCat = (g.categories && g.categories[0] === primaryCat) ? 1 : 0;
+      const sharedTags = (g.tags || []).filter((t) => gameTags.includes(t)).length;
+      const score = scoreGame(g);
+      return { g, sameCat, sharedTags, score };
     })
     .sort((a, b) => {
-      if (b.relScore !== a.relScore) return b.relScore - a.relScore;
-      return b.revScore - a.revScore;
+      if (b.sameCat !== a.sameCat) return b.sameCat - a.sameCat;
+      if (b.sharedTags !== a.sharedTags) return b.sharedTags - a.sharedTags;
+      return b.score - a.score;
     });
   return scored.slice(0, n).map((s) => s.g);
 }
@@ -257,18 +257,16 @@ export function gameFaqs(game) {
       a: `Yes — ${game.title} is free on ClassPlay, like every game here. It opens in a regular browser tab with no downloads, no installs and no account, so it is ready the moment the page loads.`,
     },
     {
-      q: `Can I play ${game.title} on a school Chromebook?`,
+      q: `Do I need to download or sign up?`,
+      a: `No downloads and no sign-up. ClassPlay runs entirely in Chrome or any modern browser tab, keeping student devices clean and secure.`,
+    },
+    {
+      q: `Does ${game.title} work on a school Chromebook?`,
       a: `Yes. ClassPlay games are picked to run well on school Chromebooks: they load in Chrome, ask for very little from the hardware, and use simple keyboard, mouse or touch controls. Nothing needs to be installed first.`,
     },
     {
       q: `Is ${game.title} appropriate for the classroom?`,
       a: `ClassPlay only lists games we would be comfortable seeing on a classroom screen — no shooters, no horror, no zombie titles. Every game page shows its category, a plain-language description and the controls, so a teacher or parent can see exactly what it is before anyone presses play.`,
-    },
-    {
-      q: `Does ${game.title} work on phones and tablets?`,
-      a: game.mobile
-        ? `Yes. ${game.title} supports touch controls, so it works on phones and tablets as well as computers. For the biggest screen, use the fullscreen button above the game.`
-        : `${game.title} plays in any modern mobile browser, but it is most comfortable with a keyboard and a larger screen, such as a Chromebook or laptop. The fullscreen button above the game gives it more room.`,
     },
   ];
 }
