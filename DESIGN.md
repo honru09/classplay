@@ -123,3 +123,10 @@ A bright, tactile school games shelf designed to transition a student from brows
 - **Favicon Simplification (16px / 32px)**:
   - For browser tab legibility, sub-pixel details (1.5px specular sparkle dots and 3px 80% opacity blush circles) are omitted to prevent chromatic blurring on low-DPI displays.
   - The mint aqua dome silhouette, 3-scallop skirt, high-contrast white eye sclera, solid ink navy pupils, and curved smile are preserved with reinforced stroke weight, ensuring instant recognition at 16×16 and 32×32 pixels on both light and dark browser themes.
+
+## 9. v11 Owner Fixes (2026-10-31, user screenshot review)
+
+- **QuickRail removed.** The fixed right-side pill floated over the game grid on phones and covered the right column of tiles — the owner's screenshot showed it sitting on top of two game cards. Poki has no such overlay; neither do we now. Search still opens the full-screen overlay from the header input; the rail's Popular/More/Recent buttons were scroll shortcuts to shelves already on the page. `QuickRail.astro` is no longer imported anywhere (file kept in repo, unshipped).
+- **Tiles are 4:3, not square.** Feed art is 512×384; square tiles with `object-fit: cover` side-cropped the baked-in cover titles ("RUBBER DOODLE" rendered as "UBBER OODLE"). 4:3 tiles show the full cover. Mosaic big tiles span 2×2 cells, which keeps the same ~4:3 proportion. The hover/focus title caption (`.tile-cap`) is rendered again — its CSS existed but the component never emitted it.
+- **Header/H1 text.** Search placeholder shortened to "Search games…" (the long one truncated mid-word on phones). The home H1 no longer uses nowrap+ellipsis; it wraps, in ink color at 800 weight.
+- **Game-page toolbar on phones.** `.toolbar-title` is hidden ≤640px: the H1 above the player carries the full title, and in the toolbar it was squeezed to "2244…" between the buttons.
