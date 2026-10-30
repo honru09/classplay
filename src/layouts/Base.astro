@@ -962,8 +962,15 @@ const searchIndex = JSON.stringify(
         color: var(--muted); font-size: 13px; padding: 26px 0 34px; margin-top: 26px;
       }
       footer.site .links { display: flex; gap: 6px 16px; flex-wrap: wrap; margin-bottom: 12px; }
-      footer.site .links a { color: var(--muted); font-weight: 600; }
-      footer.site .links a:hover { color: var(--text); }
+      footer.site .links a, footer.site .links button { color: var(--muted); font-weight: 600; }
+      footer.site .links button {
+        background: none;
+        border: 0;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+      }
+      footer.site .links a:hover, footer.site .links button:hover { color: var(--text); }
       footer.site .trust-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 8px 0 14px; font-size: 13px; }
       footer.site .trust-links a { color: var(--muted); font-weight: 600; }
       footer.site .trust-links a:hover { color: var(--text); }
@@ -1013,7 +1020,7 @@ const searchIndex = JSON.stringify(
       <div class="wrap bar">
         <a class="logo" href={u()} aria-label="ClassPlay Home"><svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" fill="none" aria-hidden="true"><path d="M 32 10 C 20.9 10 12 18.9 12 30 L 12 47 C 12 50.5 15.5 53 19 51 C 21 49.8 23 49.8 25 51 C 29 53.5 35 53.5 39 51 C 41 49.8 43 49.8 45 51 C 48.5 53 52 50.5 52 47 L 52 30 C 52 18.9 43.1 10 32 10 Z" fill="#8EF1D9" /><circle cx="23" cy="28" r="6.5" fill="#FFFFFF" /><circle cx="41" cy="28" r="6.5" fill="#FFFFFF" /><circle cx="25" cy="28" r="3.8" fill="#17233F" /><circle cx="43" cy="28" r="3.8" fill="#17233F" /><circle cx="26.5" cy="26.5" r="1.5" fill="#FFFFFF" /><circle cx="44.5" cy="26.5" r="1.5" fill="#FFFFFF" /><circle cx="16" cy="37" r="3" fill="#38BDF8" opacity="0.8" /><circle cx="48" cy="37" r="3" fill="#38BDF8" opacity="0.8" /><path d="M 28 38 Q 32 42.5 36 38" stroke="#17233F" stroke-width="3.5" stroke-linecap="round" /></svg>Class<span>Play</span></a>
         <div class="search" role="search">
-          <input id="siteSearch" type="search" placeholder="Search games…" aria-label="Search games" autocomplete="off" />
+          <input id="siteSearch" type="search" placeholder="Search games and categories…" aria-label="Search games and categories" autocomplete="off" />
           <div class="search-results" id="searchResults" hidden></div>
         </div>
         <script type="application/json" id="gameIndex" set:html={searchIndex} />
@@ -1029,6 +1036,7 @@ const searchIndex = JSON.stringify(
       <div class="wrap">
         <div class="links">
           {nav.map(([label, href]) => <a href={href}>{label}</a>)}
+          <button type="button" id="randomGameBtn">🎲 Random game</button>
         </div>
         <div class="trust-links">
           <a href={u('about/')}>About</a>
@@ -1145,6 +1153,24 @@ const searchIndex = JSON.stringify(
           if ((img as HTMLImageElement).complete) img.classList.add('is-loaded');
           else img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
         });
+
+        /* Footer: Random game button */
+        const randomBtn = document.getElementById('randomGameBtn');
+        if (randomBtn) {
+          randomBtn.addEventListener('click', () => {
+            const idx = document.getElementById('gameIndex');
+            if (!idx) return;
+            try {
+              const list = JSON.parse(idx.textContent || '[]');
+              if (Array.isArray(list) && list.length > 0) {
+                const choice = list[Math.floor(Math.random() * list.length)];
+                if (choice && choice.u) {
+                  window.location.href = choice.u;
+                }
+              }
+            } catch (e) {}
+          });
+        }
       })();
     </script>
   </body>
