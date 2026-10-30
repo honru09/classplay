@@ -41,7 +41,9 @@ const ribbon = badgeContext === 'new' ? 'new' : (badge && game.featured ? 'hot' 
         </div>
       </>
     ) : (
-      ribbon && (
+      <>
+      <span class="tile-cap" aria-hidden="true">{game.title}</span>
+      {ribbon && (
         <span class:list={['ribbon', ribbon]} aria-hidden="true">
           {ribbon === 'hot' ? (
             <>
@@ -59,7 +61,8 @@ const ribbon = badgeContext === 'new' ? 'new' : (badge && game.featured ? 'hot' 
             </>
           )}
         </span>
-      )
+      )}
+      </>
     )
   }
 </a>
