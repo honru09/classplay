@@ -73,8 +73,28 @@ const jsonLd = [
         <li><a href={gameUrl(g)}>{g.title}</a></li>
       ))}
     </ol>
-    <p>First five games on this shelf, in shelf order.</p>
+    <p>First {Math.min(5, games.length)} games on this shelf, in shelf order.</p>
   </section>
+
+  <h2>{hub.h1} FAQ</h2>
+  <div class="faq">
+    <details>
+      <summary>What are the best {hub.h1} for school?</summary>
+      <p set:html={`Here are the first ${Math.min(5, games.length)} games on this shelf, in shelf order: ` + games.slice(0, 5).map((g) => `<a href="${gameUrl(g)}">${g.title.replace(/&/g, '&amp;')}</a>`).join(', ') + '.'} />
+    </details>
+    <details>
+      <summary>Do {hub.h1} work on Chromebooks?</summary>
+      <p>
+        These games open in a normal browser tab with no downloads and no sign-ups, and work on Chromebooks, laptops and phones.
+      </p>
+    </details>
+    <details>
+      <summary>Do I need to download or sign up?</summary>
+      <p>
+        No downloads and no sign-ups — play directly in a browser tab.
+      </p>
+    </details>
+  </div>
 
   {/* Intro copy relocated below grid per Section 6 */}
   <div class="expandable" style="margin-top:26px">

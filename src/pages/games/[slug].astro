@@ -1,9 +1,10 @@
 ---
 import Base from '../../layouts/Base.astro';
 import GameGrid from '../../components/GameGrid.astro';
-import { allGames, relatedGames, gameFaqs, gameUrl, u } from '../../lib/games.mjs';
+import { allGames, relatedGames, gameFaqs, gameUrl, u, shelves } from '../../lib/games.mjs';
 import { accentFor } from '../../lib/art.mjs';
 import { parseControls } from '../../lib/controls.mjs';
+import { hubs } from '../../data/hubs.mjs';
 
 export function getStaticPaths() {
   return allGames.map((game) => ({ params: { slug: game.slug }, props: { game } }));
@@ -65,12 +66,18 @@ const jsonLd = [
     ],
   },
 ];
+const parentHub = hubs.find((h) => {
+  const shelfFn = shelves[h.shelf];
+  return shelfFn ? shelfFn().some((g) => g.slug === game.slug) : false;
+});
+const backLinkText = parentHub ? `← ${parentHub.h1}` : '← Classroom games';
+const backLinkHref = parentHub ? u(`${parentHub.slug}/`) : u('classroom-games/');
 ---
 
 <Base title={title} description={description} canonical={game.pageUrl} ogImage={game.thumb} jsonLd={jsonLd} embedOrigin={embedOrigin}>
   {/* Single back link per spec §2.2 */}
   <div class="back-nav">
-    <a href={u('classroom-games/')} class="back-link">← Classroom games</a>
+    <a href={backLinkHref} class="back-link">{backLinkText}</a>
   </div>
 
   {/* Compact title row: H1 only per Section 6 */}
