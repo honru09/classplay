@@ -1,6 +1,8 @@
+import { decodeEntities } from './games.mjs';
+
 export function parseControls(text) {
   if (!text) return [];
-  const raw = text.trim();
+  const raw = decodeEntities(text).trim();
   const sectionRegex = /(?:^|\s*)(Desktop Controls|Mobile Controls|PC Controls|Touch Controls|Player \d Controls|Player \d|Desktop|Mobile|Keyboard|Touch|PC|Controls|Gameplay|Goal|LAUNCH|SHIFT|NOS):/gi;
 
   const matches = [...raw.matchAll(sectionRegex)];

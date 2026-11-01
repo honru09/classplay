@@ -228,6 +228,16 @@ export const shelves = {
     ];
     return [...new Map(picks.map((g) => [g.slug, g])).values()].slice(0, 36);
   },
+  school: () => {
+    const picks = [
+      ...shelves.math().slice(0, 8),
+      ...shelves.puzzle().slice(0, 10),
+      ...shelves.brain().slice(0, 8),
+      ...shelves.sports().slice(0, 6),
+      ...shelves.twoPlayer().slice(0, 6),
+    ];
+    return [...new Map(picks.map((g) => [g.slug, g])).values()];
+  },
 };
 
 /** Related games: (1) same primary category, (2) shared tags count, (3) revenue-first score (spec C7) */
@@ -347,4 +357,21 @@ export function buildHomeShelves(shelfSpecs) {
   }
 
   return completed;
+}
+
+/** Decode feed entity names (F4, mirrors TabArcade) */
+export function decodeEntities(text) {
+  if (!text) return '';
+  return text
+    .replace(/(?:&(?:rarr|larr|uarr|darr|mdash|ndash|hellip);?|\b(?:rarr|larr|uarr|darr|mdash|ndash|hellip)\b)/g, (m) => {
+      if (m.includes('rarr')) return '→';
+      if (m.includes('larr')) return '←';
+      if (m.includes('uarr')) return '↑';
+      if (m.includes('darr')) return '↓';
+      if (m.includes('mdash')) return '—';
+      if (m.includes('ndash')) return '–';
+      if (m.includes('hellip')) return '…';
+      return m;
+    })
+    .replace(/(?<!&)\bamp\b(?!;)/g, '&');
 }

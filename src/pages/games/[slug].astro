@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import GameGrid from '../../components/GameGrid.astro';
-import { allGames, relatedGames, gameFaqs, gameUrl, u, shelves } from '../../lib/games.mjs';
+import { allGames, relatedGames, gameFaqs, gameUrl, u, shelves, decodeEntities } from '../../lib/games.mjs';
 import { accentFor } from '../../lib/art.mjs';
 import { parseControls } from '../../lib/controls.mjs';
 import { hubs } from '../../data/hubs.mjs';
@@ -11,13 +11,15 @@ export function getStaticPaths() {
 }
 
 const { game } = Astro.props;
+const cleanDesc = decodeEntities(game.description);
+const cleanInstructions = decodeEntities(game.instructions);
 const related12 = relatedGames(game, 12);
 const gamesLike = related12.slice(0, 6);
 const upNext = related12.slice(6, 12);
 const nextGame = gamesLike[0] || upNext[0];
 const faqs = gameFaqs(game);
-const controlSections = parseControls(game.instructions);
-const ins = (game.instructions || '').toLowerCase();
+const controlSections = parseControls(cleanInstructions);
+const ins = (cleanInstructions || '').toLowerCase();
 const ctrl = [];
 if (/arrow|wasd|keyboard/.test(ins)) ctrl.push('Keyboard');
 if (/mouse|click/.test(ins)) ctrl.push('Mouse');
@@ -29,14 +31,25 @@ const accent = accentFor(game);
 const embedOrigin = new URL(game.embedUrl).origin;
 
 const title = `Play ${game.title} Online — Free Classroom Game | ClassPlay`;
-const description = game.description.slice(0, 158);
+const description = cleanDesc.slice(0, 158);
+
+const parentHub = hubs.find((h) => {
+  const shelfFn = shelves[h.shelf];
+  return shelfFn ? shelfFn().some((g) => g.slug === game.slug) : false;
+});
+const backLinkText = parentHub ? `← ${parentHub.h1}` : '← All games';
+const backLinkHref = parentHub ? u(`${parentHub.slug}/`) : u('all-games/');
+const breadcrumbHubName = parentHub ? parentHub.h1 : 'All Games';
+const breadcrumbHubUrl = parentHub
+  ? `https://classplay.online/${parentHub.slug}/`
+  : 'https://classplay.online/all-games/';
 
 const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'VideoGame',
     name: game.title,
-    description: game.description,
+    description: cleanDesc,
     url: game.pageUrl,
     image: game.thumb,
     genre: game.categories,
@@ -61,17 +74,12 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'ClassPlay', item: 'https://classplay.online/' },
-      { '@type': 'ListItem', position: 2, name: 'Classroom Games', item: 'https://classplay.online/classroom-games/' },
+      { '@type': 'ListItem', position: 2, name: breadcrumbHubName, item: breadcrumbHubUrl },
       { '@type': 'ListItem', position: 3, name: game.title, item: game.pageUrl },
     ],
   },
 ];
-const parentHub = hubs.find((h) => {
-  const shelfFn = shelves[h.shelf];
-  return shelfFn ? shelfFn().some((g) => g.slug === game.slug) : false;
-});
-const backLinkText = parentHub ? `← ${parentHub.h1}` : '← Classroom games';
-const backLinkHref = parentHub ? u(`${parentHub.slug}/`) : u('classroom-games/');
+
 ---
 
 <Base title={title} description={description} canonical={game.pageUrl} ogImage={game.thumb} jsonLd={jsonLd} embedOrigin={embedOrigin}>
@@ -211,7 +219,7 @@ const backLinkHref = parentHub ? u(`${parentHub.slug}/`) : u('classroom-games/')
                   <span class="chip" style={`--acc:${accent}`}>{primaryCat}</span>
                   {ctrl.map((c) => <span class="chip alt">{c}</span>)}
                 </div>
-                <p>{game.description}</p>
+                <p>{cleanDesc}</p>
                 {
                   game.tags.length > 0 && (
                     <span class="chips">

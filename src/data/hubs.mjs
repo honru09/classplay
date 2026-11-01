@@ -103,7 +103,7 @@ export const hubs = [
   },
   {
     slug: 'unblocked-games-for-school',
-    shelf: 'chromebook',
+    shelf: 'school',
     h1: 'Unblocked Games for School',
     metaTitle: 'Unblocked Games for School — Free & Classroom-Safe | ClassPlay',
     metaDescription:
