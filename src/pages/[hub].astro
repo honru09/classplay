@@ -39,6 +39,44 @@ const jsonLd = [
   },
   {
     '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `What are the best ${hub.h1} for school?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Here are the first ${Math.min(5, games.length)} games on this shelf, in shelf order: ` + games.slice(0, 5).map((g) => g.title).join(', ') + '.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `How do you play ${hub.h1} for school?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Pick a game from the shelf above and press play. Every game page explains the goal and the controls before anyone starts, so students can start on their own.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `Do ${hub.h1} work on Chromebooks?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'These games open in a normal browser tab with no downloads and no sign-ups, and work on Chromebooks, laptops and phones.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do I need to download or sign up?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No downloads and no sign-ups — play directly in a browser tab.',
+        },
+      },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'ClassPlay', item: 'https://classplay.online/' },
@@ -89,6 +127,12 @@ const jsonLd = [
     <details>
       <summary>What are the best {hub.h1} for school?</summary>
       <p set:html={`Here are the first ${Math.min(5, games.length)} games on this shelf, in shelf order: ` + games.slice(0, 5).map((g) => `<a href="${gameUrl(g)}">${g.title.replace(/&/g, '&amp;')}</a>`).join(', ') + '.'} />
+    </details>
+    <details>
+      <summary>How do you play {hub.h1} for school?</summary>
+      <p>
+        Pick a game from the shelf above and press play. Every game page explains the goal and the controls before anyone starts, so students can start on their own.
+      </p>
     </details>
     <details>
       <summary>Do {hub.h1} work on Chromebooks?</summary>

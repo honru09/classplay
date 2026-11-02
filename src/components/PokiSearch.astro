@@ -435,7 +435,7 @@ const HUB_ICONS: Record<string, string> = {
                 </div>
               </div>
             ` : ''}
-            <div class="poki-empty-popular-label">Popular games</div>
+            <div class="poki-empty-popular-label">Featured games</div>
           </div>
         `;
 
@@ -448,7 +448,7 @@ const HUB_ICONS: Record<string, string> = {
           });
         });
 
-        // 6 popular games below (existing revenue-first order)
+        // 6 featured games below (existing revenue-first order)
         resultsGrid.innerHTML = games.slice(0, 6).map(renderTile).join('');
       }
     };
