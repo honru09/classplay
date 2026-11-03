@@ -57,12 +57,12 @@ export const hubs = [
     slug: 'sports-games',
     shelf: 'sports',
     h1: 'Sports Games',
-    metaTitle: 'Sports Games for School — Free Tennis, Soccer & Golf Browser Games | ClassPlay',
+    metaTitle: 'Sports Games for School — Free Volleyball, Car Football & Motorsport Browser Games | ClassPlay',
     metaDescription:
-      'Friendly sports games that play in your browser: tennis, soccer penalties, volleyball, golf and more. Free, no downloads, great on Chromebooks.',
+      'Friendly sports games that play in your browser: volleyball, car football, motorsport, pool and hurdles. Free, no downloads, great on Chromebooks.',
     intro: [
-      `Sports games bring the playground indoors. A tennis rally, a penalty shootout, a miniature golf hole — the rules are already known, the rounds last a couple of minutes, and the rematch button is right there when a friendly rivalry needs settling. For students, they are the most social games on the shelf; for teachers, they are among the easiest to say yes to.`,
-      `This page collects the sports titles in the ClassPlay catalog: tennis and volleyball for two players sharing one keyboard, soccer and football games built around timing and aim, golf and target games for a calmer pace. Several support head-to-head play on a single Chromebook, which turns one device into a whole lunchtime tournament. Everything runs in a browser tab with no downloads or accounts, and each game page spells out both players' controls before the match starts, so the first point is never lost to a keyboard mystery.`,
+      `Sports games bring the playground indoors. A volleyball rally, a car football match, a track hurdle sprint — the rules are already known, the rounds last a couple of minutes, and the rematch button is right there when a friendly rivalry needs settling. For students, they are the most social games on the shelf; for teachers, they are among the easiest to say yes to.`,
+      `This page collects the sports titles in the ClassPlay catalog: volleyball for two players sharing one keyboard, car football games built around timing and aim, motorsport, quad and motorcycle racing, hurdles, and pool and billiards for a calmer pace. Several support head-to-head play on a single Chromebook, which turns one device into a whole lunchtime tournament. Everything runs in a browser tab with no downloads or sign-ups, and each game page spells out both players' controls before the match starts, so the first point is never lost to a keyboard mystery.`,
     ],
   },
   {

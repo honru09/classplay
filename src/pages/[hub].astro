@@ -21,7 +21,14 @@ const HUB_ICONS: Record<string, string> = {
 };
 
 const { hub } = Astro.props;
-const games = (shelves[hub.shelf] ? shelves[hub.shelf]() : allGames).slice(0, 48);
+const pool = shelves[hub.shelf] ? shelves[hub.shelf]() : allGames;
+const totalCount = pool.length;
+const games = pool.slice(0, 48);
+
+const cleanH1 = hub.h1.startsWith('Best ') ? hub.h1.slice(5) : hub.h1;
+const q1Question = /for school$/i.test(cleanH1)
+  ? `What are the best ${cleanH1}?`
+  : `What are the best ${cleanH1} for school?`;
 
 const jsonLd = [
   {
@@ -43,7 +50,7 @@ const jsonLd = [
     mainEntity: [
       {
         '@type': 'Question',
-        name: `What are the best ${hub.h1} for school?`,
+        name: q1Question,
         acceptedAnswer: {
           '@type': 'Answer',
           text: `Here are the first ${Math.min(5, games.length)} games on this shelf, in shelf order: ` + games.slice(0, 5).map((g) => g.title).join(', ') + '.',
@@ -97,6 +104,10 @@ const jsonLd = [
   {/* Grid opens with 2x2 hero tile for the #1 game per Deliverable 3 */}
   <GameGrid games={games} hubHero={true} />
 
+  {totalCount > games.length && (
+    <p class="shelf-note">Showing {games.length} of {totalCount} games on this shelf — <a href={u('all-games/')}>see the full A–Z list →</a></p>
+  )}
+
   {/* LP1 (Poki): sibling-category cards relocated BELOW grid */}
   <nav class="sib-row" aria-label="More game categories">
     {hubs.filter((h) => h.slug !== hub.slug).map((h) => (
@@ -125,7 +136,7 @@ const jsonLd = [
   <h2>{hub.h1} FAQ</h2>
   <div class="faq">
     <details>
-      <summary>What are the best {hub.h1} for school?</summary>
+      <summary>{q1Question}</summary>
       <p set:html={`Here are the first ${Math.min(5, games.length)} games on this shelf, in shelf order: ` + games.slice(0, 5).map((g) => `<a href="${gameUrl(g)}">${g.title.replace(/&/g, '&amp;')}</a>`).join(', ') + '.'} />
     </details>
     <details>
@@ -147,6 +158,14 @@ const jsonLd = [
       </p>
     </details>
   </div>
+
+  <nav class="explore-row" aria-label="Keep exploring" style="margin-top:24px;font-size:14px;line-height:1.6;">
+    Keep exploring: {hubs.filter((h) => h.slug !== hub.slug).map((h, i, arr) => (
+      <>
+        <a href={u(`${h.slug}/`)}>{h.h1}</a>{i < arr.length - 1 ? ' · ' : ''}
+      </>
+    ))}
+  </nav>
 
   {/* Intro copy below grid, fully visible (Kizi pattern) */}
   <div class="prose" style="margin-top:26px">
