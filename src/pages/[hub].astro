@@ -74,6 +74,14 @@ const jsonLd = [
       },
       {
         '@type': 'Question',
+        name: `Do ${hub.h1} work on phones and tablets?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes — these games run in a browser tab on phones and tablets too, with no app to install and no sign-up.',
+        },
+      },
+      {
+        '@type': 'Question',
         name: 'Do I need to download or sign up?',
         acceptedAnswer: {
           '@type': 'Answer',
@@ -149,6 +157,12 @@ const jsonLd = [
       <summary>Do {hub.h1} work on Chromebooks?</summary>
       <p>
         These games open in a normal browser tab with no downloads and no sign-ups, and work on Chromebooks, laptops and phones.
+      </p>
+    </details>
+    <details>
+      <summary>Do {hub.h1} work on phones and tablets?</summary>
+      <p>
+        Yes — these games run in a browser tab on phones and tablets too, with no app to install and no sign-up.
       </p>
     </details>
     <details>
