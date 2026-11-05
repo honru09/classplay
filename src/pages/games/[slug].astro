@@ -287,6 +287,7 @@ const jsonLd = [
       </div>
 
       <h2 id="more-like-this">Games Like {game.title}</h2>
+      <p>More {primaryCat} games to try: {gamesLike.slice(0, 3).map((g, i, arr) => <><a href={gameUrl(g)}>{g.title}</a>{i < arr.length - 1 ? ', ' : ''}</>)}</p>
       <GameGrid games={gamesLike} rail />
     </div>
 

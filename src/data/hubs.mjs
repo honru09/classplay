@@ -62,7 +62,7 @@ export const hubs = [
       'Friendly sports games that play in your browser: volleyball, car football, motorsport, pool and hurdles. Free, no downloads, great on Chromebooks.',
     intro: [
       `Sports games bring the playground indoors. A volleyball rally, a car football match, a track hurdle sprint — the rules are already known, the rounds last a couple of minutes, and the rematch button is right there when a friendly rivalry needs settling. For students, they are the most social games on the shelf; for teachers, they are among the easiest to say yes to.`,
-      `This page collects the sports titles in the ClassPlay catalog: volleyball for two players sharing one keyboard, car football games built around timing and aim, motorsport, quad and motorcycle racing, hurdles, and pool and billiards for a calmer pace. Several support head-to-head play on a single Chromebook, which turns one device into a whole lunchtime tournament. Everything runs in a browser tab with no downloads or sign-ups, and each game page spells out both players' controls before the match starts, so the first point is never lost to a keyboard mystery.`,
+      `This page collects the sports titles in the ClassPlay catalog: volleyball for two players sharing one keyboard, car football games built around timing and aim, motorsport, quad and motorcycle racing, hurdles, and pool and billiards for a calmer pace. Several support head-to-head play on a single Chromebook, which turns one device into a whole lunchtime tournament. Everything runs in a browser tab with no downloads or sign-ups, and the head-to-head titles spell out both players' controls before the match starts, so the first point is never lost to a keyboard mystery.`,
     ],
   },
   {
@@ -95,9 +95,9 @@ export const hubs = [
     h1: '2 Player Classroom Games',
     metaTitle: '2 Player Games — Free 2 Player Games Unblocked for School | ClassPlay',
     metaDescription:
-      'Free 2 player games unblocked for school: share one keyboard for volleyball and head-to-head challenges, or play gentle .io rounds online. No downloads, Chromebook friendly.',
+      'Free 2 player games unblocked for school: volleyball and head-to-head challenges, plus gentle .io rounds online. No downloads, Chromebook friendly.',
     intro: [
-      `Two students, one Chromebook, one keyboard — some of the best break-time entertainment ever invented fits in that sentence. One player takes the WASD keys, the other takes the arrows, and a volleyball match or a head-to-head duel becomes a best-of-five with real stakes: winner picks the next game. This shelf collects the ClassPlay titles built for exactly that.`,
+      `Two students, one Chromebook, one keyboard — some of the best break-time entertainment ever invented fits in that sentence. Some games split the keyboard, others race side by side, and a volleyball match, a head-to-head duel, or a gentle .io round becomes a best-of-five with real stakes: winner picks the next game. This shelf collects the ClassPlay titles built for exactly that.`,
       `You will find same-keyboard sports like volleyball, head-to-head skill games where two players race side by side, and a few gentle multiplayer .io games for classmates on different devices. Everything here passed the same classroom screen as the rest of ClassPlay — friendly competition, no combat games — and each game page explains the goal and controls before the match, so nobody drops the first point wondering what to press. All games are free and run in a browser tab with no downloads or sign-ups. Shake hands, then play hard.`,
     ],
   },
