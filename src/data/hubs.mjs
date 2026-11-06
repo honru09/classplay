@@ -35,10 +35,10 @@ export const hubs = [
     h1: 'Puzzle Games for School',
     metaTitle: 'Puzzle Games — Free Online Puzzle Games for School | ClassPlay',
     metaDescription:
-      'Free puzzle games online, chosen for school: color sorting, match-3, merge puzzles and hidden-object games that play in your browser. No downloads, works on Chromebooks.',
+      'Free puzzle games online, chosen for school: color sorting, match-3, merge puzzles and memory games that play in your browser. No downloads, works on Chromebooks.',
     intro: [
-      `Puzzle games are the quiet achievers of classroom gaming. They ask for patience instead of reflexes, reward looking before clicking, and keep a whole table happily silent for ten minutes at a stretch. Sorting colors into the right tube, finding the one object that does not belong, planning a merge three steps ahead — these are small, satisfying problems, and solving them feels like play because it is.`,
-      `Here you will find the puzzle shelf of the ClassPlay catalog: color-sort and match-3 games, merge puzzles, hidden-object scenes, and gentle logic challenges. None of them rush the player, most of them can be paused mid-thought without losing anything, and all of them run in a normal browser tab on school Chromebooks — no downloads, no accounts, no setup. They are a natural choice for brain breaks, indoor recess, and the early-finisher corner, and every game page describes the goal and controls before the first click.`,
+      `Puzzle games are the quiet achievers of classroom gaming. They ask for patience instead of reflexes, reward looking before clicking, and keep a whole table happily silent for ten minutes at a stretch. Sorting colors into the right tube, matching pairs from memory, planning a merge three steps ahead — these are small, satisfying problems, and solving them feels like play because it is.`,
+      `Here you will find the puzzle shelf of the ClassPlay catalog: color-sort and match-3 games, merge puzzles, memory matching and escape-room puzzles, and gentle logic challenges. None of them rush the player, most of them can be paused mid-thought without losing anything, and all of them run in a normal browser tab on school Chromebooks — no downloads, no accounts, no setup. They are a natural choice for brain breaks, indoor recess, and the early-finisher corner, and every game page describes the goal and controls before the first click.`,
     ],
   },
   {
@@ -47,10 +47,10 @@ export const hubs = [
     h1: 'Brain Games',
     metaTitle: 'Brain Games — Free Brain Games for Students Online | ClassPlay',
     metaDescription:
-      'Free brain games for students: logic puzzles, strategy, memory-style challenges and trivia that run in a browser tab. School-friendly and Chromebook ready.',
+      'Free brain games for students: logic and merge puzzles, memory and matching games, sudoku and escape-room puzzles that run in a browser tab. School-friendly and Chromebook ready.',
     intro: [
       `A brain game makes a promise most games do not: you will leave a little sharper than you arrived. The challenge is the content — a board that punishes careless moves, a puzzle with exactly one clean solution, a trivia question you almost know. Students who would never volunteer for "extra practice" will happily spend a break doing exactly that, provided it arrives dressed as a game.`,
-      `The ClassPlay brain shelf collects our most thinking-heavy titles: strategy and tower-planning games, logic and merge puzzles, card and board-style challenges, and a trivia adventure that tours general knowledge. Difficulty ranges from a relaxing warm-up to genuinely stubborn, so there is something here for the student who finishes everything early and the one who just likes a hard problem. Everything is free, runs in a browser tab on Chromebooks, and skips the sign-up screens entirely. Each game page explains the rules in plain language before play begins.`,
+      `The ClassPlay brain shelf collects our most thinking-heavy titles: logic and merge puzzles, memory and matching games, and sudoku and escape-room puzzles. Difficulty ranges from a relaxing warm-up to genuinely stubborn, so there is something here for the student who finishes everything early and the one who just likes a hard problem. Everything is free, runs in a browser tab on Chromebooks, and skips the sign-up screens entirely. Each game page explains the rules in plain language before play begins.`,
     ],
   },
   {

@@ -285,6 +285,10 @@ export function gameFaqs(game) {
       q: `Is ${game.title} appropriate for the classroom?`,
       a: `ClassPlay only lists games we would be comfortable seeing on a classroom screen — no shooters, no horror, no zombie titles. Every game page shows its category, a plain-language description and the controls, so a teacher or parent can see exactly what it is before anyone presses play.`,
     },
+    {
+      q: `Can I play ${game.title} in fullscreen?`,
+      a: `Yes — use the Fullscreen button in the player toolbar above the game. It fills your whole screen; press Esc or the button again to leave fullscreen.`,
+    },
   ];
 }
 
