@@ -282,6 +282,10 @@ export function gameFaqs(game) {
       a: `Yes. ClassPlay games are picked to run well on school Chromebooks: they load in Chrome, ask for very little from the hardware, and use simple keyboard, mouse or touch controls. Nothing needs to be installed first.`,
     },
     {
+      q: `Can I play ${game.title} on my phone or tablet?`,
+      a: `Yes — ${game.title} opens in a browser tab on phones and tablets too, just like on a Chromebook. No app to install, no sign-up.`,
+    },
+    {
       q: `Is ${game.title} appropriate for the classroom?`,
       a: `ClassPlay only lists games we would be comfortable seeing on a classroom screen — no shooters, no horror, no zombie titles. Every game page shows its category, a plain-language description and the controls, so a teacher or parent can see exactly what it is before anyone presses play.`,
     },

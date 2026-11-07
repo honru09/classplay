@@ -23,10 +23,10 @@ export const hubs = [
     h1: 'Math Games',
     metaTitle: 'Math Games for School — Free Number & Logic Games | ClassPlay',
     metaDescription:
-      'Free math games for the classroom: fun math games, 2048-style merges, number puzzles, counting and logic games that play in your browser. No downloads, Chromebook friendly.',
+      'Free math games for the classroom: fun math games, 2048-style merges, number puzzles and logic games that play in your browser. No downloads, Chromebook friendly.',
     intro: [
       `The best math games never feel like a worksheet. They hide real arithmetic inside decisions — which tile to merge, which move sets up the next one, how to reach a target number before the board fills up. Students practice estimating, sequencing, and mental math because the game asks them to, not because a timer is running. That is why math games have earned a permanent place on classroom laptops.`,
-      `This shelf gathers the number-first games from the ClassPlay catalog: 2048-style merge puzzles, counting and sorting challenges, logic boards, and a trivia quiz for good measure. Rounds are short — most fit inside five minutes — and every game opens in a browser tab with nothing to install, which makes the shelf an easy fit for math centers, early finishers, and Friday reward time. Each game page lists the controls and the goal up front, so students can start on their own while the teacher helps someone else.`,
+      `This shelf gathers the number-first games from the ClassPlay catalog: 2048-style merge puzzles, sorting challenges, logic boards and a sudoku, and a prank puzzle for good measure. Rounds are short — most fit inside five minutes — and every game opens in a browser tab with nothing to install, which makes the shelf an easy fit for math centers, early finishers, and Friday reward time. Each game page lists the controls and the goal up front, so students can start on their own while the teacher helps someone else.`,
     ],
   },
   {
@@ -95,10 +95,10 @@ export const hubs = [
     h1: '2 Player Classroom Games',
     metaTitle: '2 Player Games — Free 2 Player Games Unblocked for School | ClassPlay',
     metaDescription:
-      'Free 2 player games unblocked for school: volleyball and head-to-head challenges, plus gentle .io rounds online. No downloads, Chromebook friendly.',
+      'Free 2 player games unblocked for school: volleyball and head-to-head challenges, plus one gentle .io game online. No downloads, Chromebook friendly.',
     intro: [
       `Two students, one Chromebook, one keyboard — some of the best break-time entertainment ever invented fits in that sentence. Some games split the keyboard, others race side by side, and a volleyball match, a head-to-head duel, or a gentle .io round becomes a best-of-five with real stakes: winner picks the next game. This shelf collects the ClassPlay titles built for exactly that.`,
-      `You will find same-keyboard sports like volleyball, head-to-head skill games where two players race side by side, and a few gentle multiplayer .io games for classmates on different devices. Everything here passed the same classroom screen as the rest of ClassPlay — friendly competition, no combat games — and each game page explains the goal and controls before the match, so nobody drops the first point wondering what to press. All games are free and run in a browser tab with no downloads or sign-ups. Shake hands, then play hard.`,
+      `You will find same-keyboard sports like volleyball, head-to-head skill games where two players race side by side, and one gentle multiplayer .io game for classmates on a different device. Everything here passed the same classroom screen as the rest of ClassPlay — friendly competition, no combat games — and each game page explains the goal and controls before the match, so nobody drops the first point wondering what to press. All games are free and run in a browser tab with no downloads or sign-ups. Shake hands, then play hard.`,
     ],
   },
   {

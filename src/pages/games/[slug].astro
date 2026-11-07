@@ -287,7 +287,20 @@ const jsonLd = [
       </div>
 
       <h2 id="more-like-this">Games Like {game.title}</h2>
-      <p>More {primaryCat} games to try: {gamesLike.slice(0, 3).map((g, i, arr) => <><a href={gameUrl(g)}>{g.title}</a>{i < arr.length - 1 ? ', ' : ''}</>)}</p>
+      <p>More {primaryCat} games to try:</p>
+      <ol style="margin: 0 0 16px; padding-left: 22px; display: grid; gap: 8px;">
+        {gamesLike.slice(0, 3).map((g) => {
+          const desc = decodeEntities(g.description || '');
+          const dot = desc.indexOf('. ');
+          const hook = dot > 40 ? desc.slice(0, dot + 1) : desc.slice(0, 150);
+          return (
+            <li>
+              <a href={gameUrl(g)}>{g.title}</a>
+              <span class="hook" style="display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:2px;">{hook}</span>
+            </li>
+          );
+        })}
+      </ol>
       <GameGrid games={gamesLike} rail />
     </div>
 
