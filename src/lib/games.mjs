@@ -378,7 +378,7 @@ export function buildHomeShelves(shelfSpecs) {
 export function decodeEntities(text) {
   if (!text) return '';
   return text
-    .replace(/(?:&(?:rarr|larr|uarr|darr|mdash|ndash|hellip);?|\b(?:rarr|larr|uarr|darr|mdash|ndash|hellip)\b)/g, (m) => {
+    .replace(/(?:&(?:rarr|larr|uarr|darr|mdash|ndash|hellip|rsquo|lsquo|ldquo|rdquo|quot|apos);?|\b(?:rarr|larr|uarr|darr|mdash|ndash|hellip|rsquo|lsquo|ldquo|rdquo|quot|apos)\b)/g, (m) => {
       if (m.includes('rarr')) return '→';
       if (m.includes('larr')) return '←';
       if (m.includes('uarr')) return '↑';
@@ -386,6 +386,12 @@ export function decodeEntities(text) {
       if (m.includes('mdash')) return '—';
       if (m.includes('ndash')) return '–';
       if (m.includes('hellip')) return '…';
+      if (m.includes('rsquo')) return '’';
+      if (m.includes('lsquo')) return '‘';
+      if (m.includes('ldquo')) return '“';
+      if (m.includes('rdquo')) return '”';
+      if (m.includes('quot')) return '"';
+      if (m.includes('apos')) return "'";
       return m;
     })
     .replace(/(?<!&)\bamp\b(?!;)/g, '&');

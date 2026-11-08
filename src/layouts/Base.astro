@@ -171,11 +171,13 @@ const searchIndex = JSON.stringify(
         -webkit-overflow-scrolling: touch;
       }
       nav.main::-webkit-scrollbar { display: none; }
-      nav.main a {
+      nav.main a,
+      nav.main .nav-current {
         color: var(--muted); font-weight: 700; font-size: 14px; white-space: nowrap;
         padding: 7px 9px; border-radius: 999px; transition: color 0.2s, background 0.2s;
       }
       nav.main a:hover { color: var(--text); background: var(--panel2); text-decoration: none; }
+      .nav-current { cursor: default; }
 
       main { padding: 14px 0 44px; }
       h1 {
@@ -959,7 +961,7 @@ const searchIndex = JSON.stringify(
         color: var(--muted); font-size: 13px; padding: 26px 0 34px; margin-top: 26px;
       }
       footer.site .links { display: flex; gap: 6px 16px; flex-wrap: wrap; margin-bottom: 12px; }
-      footer.site .links a, footer.site .links button { color: var(--muted); font-weight: 600; }
+      footer.site .links a, footer.site .links button, footer.site .links .nav-current { color: var(--muted); font-weight: 600; }
       footer.site .links button {
         background: none;
         border: 0;
@@ -982,7 +984,8 @@ const searchIndex = JSON.stringify(
         .search { order: 1; flex: 1 1 120px; max-width: none; }
         .search input { padding: 8px 13px; font-size: 13.5px; }
         nav.main { order: 2; width: 100%; padding-bottom: 1px; }
-        nav.main a { padding: 6px 10px; }
+        nav.main a,
+        nav.main .nav-current { padding: 6px 10px; }
         main { padding-top: 4px; }
         h2 { margin-top: 20px; }
         .back-nav { margin-bottom: 2px; }
@@ -1025,7 +1028,15 @@ const searchIndex = JSON.stringify(
         </div>
         <script type="application/json" id="gameIndex" set:html={searchIndex} />
         <nav class="main">
-          {nav.map(([label, href]) => <a href={href}>{label}</a>)}
+          {
+            nav.map(([label, href]) =>
+              href === Astro.url.pathname ? (
+                <span class="nav-current" aria-current="page">{label}</span>
+              ) : (
+                <a href={href}>{label}</a>
+              )
+            )
+          }
         </nav>
       </div>
     </header>
@@ -1035,8 +1046,22 @@ const searchIndex = JSON.stringify(
     <footer class="site">
       <div class="wrap">
         <div class="links">
-          {nav.map(([label, href]) => <a href={href}>{label}</a>)}
-          <a href={u('all-games/')}>All Games A–Z</a>
+          {
+            nav.map(([label, href]) =>
+              href === Astro.url.pathname ? (
+                <span class="nav-current" aria-current="page">{label}</span>
+              ) : (
+                <a href={href}>{label}</a>
+              )
+            )
+          }
+          {
+            u('all-games/') === Astro.url.pathname ? (
+              <span class="nav-current" aria-current="page">All Games A–Z</span>
+            ) : (
+              <a href={u('all-games/')}>All Games A–Z</a>
+            )
+          }
           <button type="button" id="randomGameBtn">🎲 Random game</button>
         </div>
         <div class="trust-links">

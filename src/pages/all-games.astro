@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import GameGrid from '../components/GameGrid.astro';
-import { allGames, u } from '../lib/games.mjs';
+import { hubs } from '../data/hubs.mjs';
+import { allGames, u, shelves } from '../lib/games.mjs';
 
 /**
  * /all-games/ — the crawl safety net (research/GROWTH.md §2.2): hub shelves
@@ -26,6 +27,23 @@ const letters = [...groups.keys()].sort((a, b) =>
 );
 const anchor = (L: string) => `letter-${L === '#' ? 'num' : L.toLowerCase()}`;
 const label = (L: string) => (L === '#' ? '0–9' : L);
+
+/* LP1 (2026-11-08, Hooda index pattern): hub-grouped plain-text links.
+   Each hub section lists its full shelf, in shelf order — a game in several
+   hubs appears under each of them, as in Hooda's index (an earlier draft
+   listed each game once under its first hub, which left several hubs with no
+   section at all). Hub-less games go under "More games". */
+const firstHubOf = (g) =>
+  hubs.find((h) => {
+    const fn = shelves[h.shelf];
+    return fn ? fn().some((x) => x.slug === g.slug) : false;
+  });
+const hubGroups = hubs
+  .map((h) => ({ hub: h, games: shelves[h.shelf]() }))
+  .filter((s) => s.games.length > 0);
+const moreGames = [...allGames]
+  .filter((g) => !firstHubOf(g))
+  .sort((a, b) => a.title.localeCompare(b.title, 'en', { sensitivity: 'base', numeric: true }));
 
 const pageUrl = 'https://classplay.online/all-games/';
 const jsonLd = [
@@ -73,6 +91,41 @@ const jsonLd = [
     {letters.map((L) => <a href={`#${anchor(L)}`}>{label(L)}</a>)}
   </nav>
 
+  <h2>Browse by category</h2>
+  <nav class="az-nav" aria-label="Jump to a category">
+    {hubGroups.map(({ hub }) => <a href={`#hub-${hub.slug}`}>{hub.h1}</a>)}
+    {moreGames.length > 0 && <a href="#hub-more">More games</a>}
+  </nav>
+
+  {
+    hubGroups.map(({ hub, games }) => (
+      <section class="hub-group">
+        <h2 id={`hub-${hub.slug}`}>
+          {hub.h1}
+          <span class="az-count">{games.length} games</span>
+        </h2>
+        <ul class="hub-links">
+          {games.map((g) => (
+            <li><a href={g.pageUrl}>{g.title}</a></li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+  {moreGames.length > 0 && (
+    <section class="hub-group">
+      <h2 id="hub-more">
+        More games
+        <span class="az-count">{moreGames.length} games</span>
+      </h2>
+      <ul class="hub-links">
+        {moreGames.map((g) => (
+          <li><a href={g.pageUrl}>{g.title}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
   {
     letters.map((L) => (
       <section class="az-group">
@@ -95,6 +148,9 @@ const jsonLd = [
   }
   .az-nav a:hover { text-decoration: none; border-color: rgba(37, 64, 140, 0.4); }
   .az-group h2 { scroll-margin-top: 96px; }
+  .hub-group h2 { scroll-margin-top: 96px; }
+  .hub-links { list-style: none; padding: 0; margin: 6px 0 8px; display: flex; flex-wrap: wrap; gap: 4px 22px; }
+  .hub-links a { font-weight: 600; }
   .shelf-count, .az-count {
     font-size: 0.52em;
     font-weight: 600;
