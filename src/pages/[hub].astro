@@ -29,6 +29,46 @@ const cleanH1 = hub.h1.startsWith('Best ') ? hub.h1.slice(5) : hub.h1;
 const q1Question = /for school$/i.test(cleanH1)
   ? `What are the best ${cleanH1}?`
   : `What are the best ${cleanH1} for school?`;
+const is2Player = hub.slug === '2-player-games' || hub.slug === '2-player-classroom-games';
+
+const STOPLIST = new Set([
+  '1 player', '2 player', '2 player games', '3d', '3d games', '2d',
+  'fun', 'funny', 'cool', 'best', 'best games', 'hot', '2026 games', '2026',
+  'boys', 'girls', 'android', 'mobile', 'webgl', 'html5', 'unity3d',
+  'crazygamesunblocked', 'kids', 'amazing', 'mapi games', 'mapi',
+  'free html5 games for your website',
+]);
+
+// Group tags by a normalized key (lowercase, trailing " games" stripped)
+// so near-duplicate feed tags (".io" / ".io Games") form one group, not two.
+const normTag = (t: string) => t.toLowerCase().replace(/\s+games$/, '');
+const tagCounts = new Map<string, number>();
+const tagLabel = new Map<string, string>();
+const tagFirstIndex = new Map<string, number>();
+pool.forEach((game, idx) => {
+  for (const key of new Set((game.tags || []).map(normTag))) {
+    tagCounts.set(key, (tagCounts.get(key) || 0) + 1);
+    if (!tagFirstIndex.has(key)) tagFirstIndex.set(key, idx);
+  }
+  for (const t of game.tags || []) {
+    const key = normTag(t);
+    const cur = tagLabel.get(key);
+    if (!cur || t.length < cur.length) tagLabel.set(key, t);
+  }
+});
+
+const qualifyingTags = [...tagCounts.entries()]
+  .filter(([key, count]) => count >= 3 && !STOPLIST.has(key))
+  .sort((a, b) => (b[1] !== a[1] ? b[1] - a[1] : (tagFirstIndex.get(a[0]) ?? 0) - (tagFirstIndex.get(b[0]) ?? 0)));
+
+const topTags = qualifyingTags.slice(0, 3);
+const typesGroups =
+  topTags.length >= 2
+    ? topTags.map(([key]) => ({
+        tag: tagLabel.get(key) ?? key,
+        games: pool.filter((g) => (g.tags || []).some((t) => normTag(t) === key)).slice(0, 3),
+      }))
+    : [];
 
 const jsonLd = [
   {
@@ -64,6 +104,18 @@ const jsonLd = [
           text: 'Pick a game from the shelf above and press play. Every game page explains the goal and the controls before anyone starts, so students can start on their own.',
         },
       },
+      ...(is2Player
+        ? [
+            {
+              '@type': 'Question',
+              name: 'Do 2 player games use one keyboard?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Some of them do — one player on WASD, the other on the arrow keys. Others take turns, race side by side, or play online. Every game page lists its own controls before you press play.',
+              },
+            },
+          ]
+        : []),
       {
         '@type': 'Question',
         name: `Do ${hub.h1} work on Chromebooks?`,
@@ -141,6 +193,24 @@ const jsonLd = [
     <p>First {Math.min(5, games.length)} games on this shelf, in shelf order.</p>
   </section>
 
+  {typesGroups.length >= 2 && (
+    <section class="top-picks">
+      <h2>Types of {hub.h1}</h2>
+      {typesGroups.map((group) => (
+        <div style="margin-top:16px;">
+          <h3 style="font-size:16px;margin:0 0 8px;">{group.tag}</h3>
+          <ol>
+            {group.games.map((g) => (
+              <li>
+                <a href={gameUrl(g)}>{g.title}</a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </section>
+  )}
+
   <h2>{hub.h1} FAQ</h2>
   <div class="faq">
     <details>
@@ -153,6 +223,14 @@ const jsonLd = [
         Pick a game from the shelf above and press play. Every game page explains the goal and the controls before anyone starts, so students can start on their own.
       </p>
     </details>
+    {is2Player && (
+      <details>
+        <summary>Do 2 player games use one keyboard?</summary>
+        <p>
+          Some of them do — one player on WASD, the other on the arrow keys. Others take turns, race side by side, or play online. Every game page lists its own controls before you press play.
+        </p>
+      </details>
+    )}
     <details>
       <summary>Do {hub.h1} work on Chromebooks?</summary>
       <p>

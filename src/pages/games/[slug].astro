@@ -30,6 +30,13 @@ const primaryCat = game.categories[0] || 'Game';
 const accent = accentFor(game);
 const embedOrigin = new URL(game.embedUrl).origin;
 
+const TAG_BLOCKLIST = new Set([
+  'casino', 'girls', 'boys', 'gun', 'shooter', 'first person shooter',
+  'fps', 'shooting', 'kill', 'zombie', 'horror', 'battle',
+  '2026 games', 'best', 'best games', 'hot', 'cool', 'crazygamesunblocked',
+]);
+const visibleTags = (game.tags || []).filter((t) => !TAG_BLOCKLIST.has(t.toLowerCase()));
+
 const title = `Play ${game.title} Online — Free Classroom Game | ClassPlay`;
 const description = cleanDesc.slice(0, 158);
 
@@ -225,9 +232,9 @@ const jsonLd = [
                 </div>
                 <p>{cleanDesc}</p>
                 {
-                  game.tags.length > 0 && (
+                  visibleTags.length > 0 && (
                     <span class="chips">
-                      {game.tags.map((t) => (
+                      {visibleTags.map((t) => (
                         <span class="chip alt">{t}</span>
                       ))}
                     </span>
