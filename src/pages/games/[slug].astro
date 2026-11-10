@@ -299,7 +299,12 @@ const jsonLd = [
         {gamesLike.slice(0, 3).map((g) => {
           const desc = decodeEntities(g.description || '');
           const dot = desc.indexOf('. ');
-          const hook = dot > 40 ? desc.slice(0, dot + 1) : desc.slice(0, 150);
+          const cut = desc.slice(0, 150);
+          const lastSpace = cut.lastIndexOf(' ');
+          const hook =
+            dot > 40 && dot <= 150
+              ? desc.slice(0, dot + 1)
+              : (lastSpace !== -1 ? cut.slice(0, lastSpace) : cut) + '…';
           return (
             <li>
               <a href={gameUrl(g)}>{g.title}</a>

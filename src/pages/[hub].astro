@@ -37,7 +37,28 @@ const STOPLIST = new Set([
   'boys', 'girls', 'android', 'mobile', 'webgl', 'html5', 'unity3d',
   'crazygamesunblocked', 'kids', 'amazing', 'mapi games', 'mapi',
   'free html5 games for your website',
+  'action', 'arcade', 'casual',
 ]);
+
+const TYPE_BLURBS: Record<string, string> = {
+  '.io': 'Live multiplayer arenas that load in a tab — join a match in seconds, no lobby codes.',
+  'racing': 'Race against the clock or the pack — clean lines and sharp corners win.',
+  'platform': 'Jump, climb and dodge through obstacle courses — timing beats speed.',
+  'jumping': 'Jumping games built on timing — clear each gap or start the level again.',
+  'adventure': 'Explore, collect and push forward through themed worlds and quests.',
+  'multiplayer': 'Play against or alongside other players, on one keyboard or online.',
+  'car': 'Car games — driving, parking and stunt challenges behind the wheel.',
+  'driving': 'Driving games — steer, drift and park your way through traffic and tracks.',
+  'simulation': 'Simulation games — run the job, from driving a truck to tending a farm.',
+  'brain': 'Brain games — logic and memory challenges that reward thinking ahead.',
+  'logic': 'Logic games — fixed rules, one right answer, and a chain of deductions to find it.',
+  'puzzle': 'Puzzle games — match, sort and merge your way to a clear board.',
+  'halloween': 'Halloween games — haunted mazes, zombie rounds and spooky-season chaos.',
+  'monster': 'Monster games — creatures, chases and spooky showdowns.',
+  'zombie': 'Zombie games — hold the line against the horde, round after round.',
+  'animal': 'Animal games — creatures great and small, from ducks to dinosaurs.',
+  'snow': 'Snow games — icy tracks, snowball runs and winter driving.',
+};
 
 // Group tags by a normalized key (lowercase, trailing " games" stripped)
 // so near-duplicate feed tags (".io" / ".io Games") form one group, not two.
@@ -66,6 +87,7 @@ const typesGroups =
   topTags.length >= 2
     ? topTags.map(([key]) => ({
         tag: tagLabel.get(key) ?? key,
+        blurb: TYPE_BLURBS[key] ?? null,
         games: pool.filter((g) => (g.tags || []).some((t) => normTag(t) === key)).slice(0, 3),
       }))
     : [];
@@ -181,7 +203,12 @@ const jsonLd = [
       {games.slice(0, 5).map((g) => {
         const desc = decodeEntities(g.description || '');
         const dot = desc.indexOf('. ');
-        const hook = dot > 40 ? desc.slice(0, dot + 1) : desc.slice(0, 150);
+        const cut = desc.slice(0, 150);
+        const lastSpace = cut.lastIndexOf(' ');
+        const hook =
+          dot > 40 && dot <= 150
+            ? desc.slice(0, dot + 1)
+            : (lastSpace !== -1 ? cut.slice(0, lastSpace) : cut) + '…';
         return (
           <li>
             <a href={gameUrl(g)}>{g.title}</a>
@@ -199,6 +226,9 @@ const jsonLd = [
       {typesGroups.map((group) => (
         <div style="margin-top:16px;">
           <h3 style="font-size:16px;margin:0 0 8px;">{group.tag}</h3>
+          {group.blurb && (
+            <p style="color:var(--muted);font-size:14px;margin:0 0 8px;">{group.blurb}</p>
+          )}
           <ol>
             {group.games.map((g) => (
               <li>

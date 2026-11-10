@@ -206,7 +206,11 @@ export const shelves = {
   agility: () => allGames.filter((g) => hasCat(g, ['Agility'])),
   io: () => allGames.filter((g) => hasCat(g, ['.IO'])),
   twoPlayer: () =>
-    allGames.filter((g) => /2 ?player|two player|multiplayer|1 ?vs ?1|versus|2players|co-op/i.test(text(g))),
+    allGames.filter(
+      (g) =>
+        g.slug !== 'obby-toilet-line' &&
+        /2 ?player|two player|multiplayer|1 ?vs ?1|versus|2players|co-op/i.test(text(g)),
+    ),
   classroom: () => {
     const picks = [
       ...shelves.math().slice(0, 8),
@@ -263,7 +267,14 @@ export function relatedGames(game, n = 6) {
 export function gameFaqs(game) {
   const cleanDesc = decodeEntities(game.description);
   const dot = cleanDesc.indexOf('. ');
-  const teaser = dot > 40 ? cleanDesc.slice(0, dot + 1) : cleanDesc.slice(0, 150);
+  let teaser;
+  if (dot > 40 && dot <= 150) {
+    teaser = cleanDesc.slice(0, dot + 1);
+  } else {
+    const cut = cleanDesc.slice(0, 150);
+    const lastSpace = cut.lastIndexOf(' ');
+    teaser = (lastSpace !== -1 ? cut.slice(0, lastSpace) : cut) + '…';
+  }
   return [
     {
       q: `What is the goal in ${game.title}?`,
