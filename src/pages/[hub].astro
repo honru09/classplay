@@ -41,13 +41,13 @@ const STOPLIST = new Set([
 ]);
 
 const TYPE_BLURBS: Record<string, string> = {
-  '.io': 'Live multiplayer arenas that load in a tab — join a match in seconds, no lobby codes.',
+  '.io': 'Browser .io games — arenas, builders and quick rounds that load in a tab, no lobby codes.',
   'racing': 'Race against the clock or the pack — clean lines and sharp corners win.',
   'platform': 'Jump, climb and dodge through obstacle courses — timing beats speed.',
   'jumping': 'Jumping games built on timing — clear each gap or start the level again.',
   'adventure': 'Explore, collect and push forward through themed worlds and quests.',
   'multiplayer': 'Play against or alongside other players, on one keyboard or online.',
-  'car': 'Car games — driving, parking and stunt challenges behind the wheel.',
+  'car': 'Car games — driving and parking challenges behind the wheel.',
   'driving': 'Driving games — steer, drift and park your way through traffic and tracks.',
   'simulation': 'Simulation games — run the job, from driving a truck to tending a farm.',
   'brain': 'Brain games — logic and memory challenges that reward thinking ahead.',
@@ -219,6 +219,22 @@ const jsonLd = [
     </ol>
     <p>First {Math.min(5, games.length)} games on this shelf, in shelf order.</p>
   </section>
+
+  {hub.slug === '2-player-classroom-games' && (
+    <section class="top-picks">
+      <h3>2-player sports games</h3>
+      <ol>
+        <li>
+          <a href={u('games/volley-clash/')}>VOLLEY CLASH</a>
+          <span class="hook" style="display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:2px;">Jump high, hit hard, and rule the court in Volley Clash!</span>
+        </li>
+        <li>
+          <a href={u('games/8-ball-pool-2d/')}>8 Ball Pool 2D</a>
+          <span class="hook" style="display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:2px;">8-Ball Pool is a game you can play solo or with friends for as long as you like.</span>
+        </li>
+      </ol>
+    </section>
+  )}
 
   {typesGroups.length >= 2 && (
     <section class="top-picks">
