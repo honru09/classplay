@@ -49,7 +49,7 @@ export const hubs = [
     metaDescription:
       'Free brain games for students: logic and merge puzzles, memory and matching games, sudoku and escape-room puzzles that run in a browser tab. School-friendly and Chromebook ready.',
     intro: [
-      `A brain game makes a promise most games do not: you will leave a little sharper than you arrived. The challenge is the content — a board that punishes careless moves, a puzzle with exactly one clean solution, a trivia question you almost know. Students who would never volunteer for "extra practice" will happily spend a break doing exactly that, provided it arrives dressed as a game.`,
+      `A brain game makes a promise most games do not: you will leave a little sharper than you arrived. The challenge is the content — a board that punishes careless moves, a puzzle with exactly one clean solution, a code you almost cracked. Students who would never volunteer for "extra practice" will happily spend a break doing exactly that, provided it arrives dressed as a game.`,
       `The ClassPlay brain shelf collects our most thinking-heavy titles: logic and merge puzzles, memory and matching games, and sudoku and escape-room puzzles. Difficulty ranges from a relaxing warm-up to genuinely stubborn, so there is something here for the student who finishes everything early and the one who just likes a hard problem. Everything is free, runs in a browser tab on Chromebooks, and skips the sign-up screens entirely. Each game page explains the rules in plain language before play begins.`,
     ],
   },
@@ -62,7 +62,7 @@ export const hubs = [
       'Friendly sports games that play in your browser: volleyball, car football, motorsport, pool and hurdles. Free, no downloads, great on Chromebooks.',
     intro: [
       `Sports games bring the playground indoors. A volleyball rally, a car football match, a track hurdle sprint — the rules are already known, the rounds last a couple of minutes, and the rematch button is right there when a friendly rivalry needs settling. For students, they are the most social games on the shelf; for teachers, they are among the easiest to say yes to.`,
-      `This page collects the sports titles in the ClassPlay catalog: volleyball for two players sharing one keyboard, car football games built around timing and aim, motorsport, quad and motorcycle racing, hurdles, and pool and billiards for a calmer pace. VOLLEY CLASH supports head-to-head play on a single Chromebook, which turns one device into a whole lunchtime tournament. Everything runs in a browser tab with no downloads or sign-ups, and VOLLEY CLASH spells out both players' controls before the match starts, so the first point is never lost to a keyboard mystery.`,
+      `This page collects the sports titles in the ClassPlay catalog: volleyball for two players sharing one keyboard, a car football game built around timing and aim, motorsport, quad and motorcycle racing, hurdles, and pool and billiards for a calmer pace. VOLLEY CLASH supports head-to-head play on a single Chromebook, which turns one device into a whole lunchtime tournament. Everything runs in a browser tab with no downloads or sign-ups, and VOLLEY CLASH spells out both players' controls before the match starts, so the first point is never lost to a keyboard mystery.`,
     ],
   },
   {
