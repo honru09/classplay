@@ -162,6 +162,18 @@ const jsonLd = [
           text: 'No downloads and no sign-ups — play directly in a browser tab.',
         },
       },
+      ...(hub.slug === 'sports-games'
+        ? [
+            {
+              '@type': 'Question',
+              name: 'Can you play sports games with 2 players?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Yes — VOLLEY CLASH spells out controls for Player 1 and Player 2 on one keyboard, and 8 Ball Pool 2D is tagged for two players and lets you play solo or with friends. The rest of this shelf is solo.',
+              },
+            },
+          ]
+        : []),
     ],
   },
   {
@@ -236,6 +248,26 @@ const jsonLd = [
     </section>
   )}
 
+  {hub.slug === 'puzzle-games-for-school' && (
+    <section class="top-picks">
+      <h3>Sorting games</h3>
+      <ol>
+        <li>
+          <a href={u('games/color-sort-party/')}>Color Sort Party</a>
+          <span class="hook" style="display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:2px;">Have fun with this super-addictive game. Get to work: pour liquids between tubes, sort the colors and beat increasingly challenging levels. Use…</span>
+        </li>
+        <li>
+          <a href={u('games/sort-master-satisfeel-asmr/')}>Sort Master: Satisfeel ASMR</a>
+          <span class="hook" style="display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:2px;">Sort Master - Satisfeel ASMR is a relaxing puzzle game that combines item organization, satisfying sorting tasks, and calming ASMR moments.</span>
+        </li>
+        <li>
+          <a href={u('games/sorting-ball-quiz/')}>Sorting Ball Quiz</a>
+          <span class="hook" style="display:block;color:var(--muted);font-size:14px;font-weight:400;margin-top:2px;">Test your brain and sharpen your logic skills with Sorting Ball Quiz! This addictive puzzle game challenges you to sort colorful balls into the…</span>
+        </li>
+      </ol>
+    </section>
+  )}
+
   {typesGroups.length >= 2 && (
     <section class="top-picks">
       <h2>Types of {hub.h1}</h2>
@@ -295,6 +327,14 @@ const jsonLd = [
         No downloads and no sign-ups — play directly in a browser tab.
       </p>
     </details>
+    {hub.slug === 'sports-games' && (
+      <details>
+        <summary>Can you play sports games with 2 players?</summary>
+        <p>
+          Yes — VOLLEY CLASH spells out controls for Player 1 and Player 2 on one keyboard, and 8 Ball Pool 2D is tagged for two players and lets you play solo or with friends. The rest of this shelf is solo.
+        </p>
+      </details>
+    )}
   </div>
 
   <nav class="explore-row" aria-label="Keep exploring" style="margin-top:24px;font-size:14px;line-height:1.6;">

@@ -47,10 +47,10 @@ export const hubs = [
     h1: 'Brain Games',
     metaTitle: 'Brain Games — Free Brain Games for Students Online | ClassPlay',
     metaDescription:
-      'Free brain games for students: logic and merge puzzles, memory and matching games, sudoku and escape-room puzzles that run in a browser tab. School-friendly and Chromebook ready.',
+      'Free brain games for students: logic puzzles, memory and matching games, sudoku and escape-room puzzles that run in a browser tab. School-friendly and Chromebook ready.',
     intro: [
       `A brain game makes a promise most games do not: you will leave a little sharper than you arrived. The challenge is the content — a board that punishes careless moves, a puzzle with exactly one clean solution, a code you almost cracked. Students who would never volunteer for "extra practice" will happily spend a break doing exactly that, provided it arrives dressed as a game.`,
-      `The ClassPlay brain shelf collects our most thinking-heavy titles: logic and merge puzzles, memory and matching games, and sudoku and escape-room puzzles. Difficulty ranges from a relaxing warm-up to genuinely stubborn, so there is something here for the student who finishes everything early and the one who just likes a hard problem. Everything is free, runs in a browser tab on Chromebooks, and skips the sign-up screens entirely. Each game page explains the rules in plain language before play begins.`,
+      `The ClassPlay brain shelf collects our most thinking-heavy titles: logic puzzles, memory and matching games, and sudoku and escape-room puzzles. Difficulty ranges from a relaxing warm-up to genuinely stubborn, so there is something here for the student who finishes everything early and the one who just likes a hard problem. Everything is free, runs in a browser tab on Chromebooks, and skips the sign-up screens entirely. Each game page explains the rules in plain language before play begins.`,
     ],
   },
   {
@@ -86,7 +86,7 @@ export const hubs = [
       'Quick games for school breaks and lunch: five-minute puzzles, skill games and friendly sports that load fast in a browser tab. Free on ClassPlay.',
     intro: [
       `A school break is a strange unit of time — long enough to want something fun, short enough that a slow-loading game eats half of it. The games on this shelf were chosen for exactly that window: they load in seconds, explain themselves in under a minute, and deliver a complete round — a solved puzzle, a finished rally, a beaten level — in about the time it takes to eat a sandwich.`,
-      `Expect a lively mix rather than one genre: quick puzzles and merge games, light skill and jumping games, friendly .io rounds, and short sports matches, all drawn from the classroom-screened ClassPlay catalog. Because a break can end without warning, most of these games save nothing and demand nothing — close the tab mid-round and nothing is lost. Everything is free, plays in a browser tab on Chromebooks, laptops, and phones, and needs no account. When the bell rings, the tab closes; until then, this page has you covered.`,
+      `Expect a lively mix rather than one genre: quick puzzles and merge games, light skill and jumping games, a friendly .io round, and short sports matches, all drawn from the classroom-screened ClassPlay catalog. Because a break can end without warning, most of these games save nothing and demand nothing — close the tab mid-round and nothing is lost. Everything is free, plays in a browser tab on Chromebooks, laptops, and phones, and needs no account. When the bell rings, the tab closes; until then, this page has you covered.`,
     ],
   },
   {
