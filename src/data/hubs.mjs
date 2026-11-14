@@ -95,10 +95,10 @@ export const hubs = [
     h1: '2 Player Classroom Games',
     metaTitle: '2 Player Games — Free 2 Player Games Unblocked for School | ClassPlay',
     metaDescription:
-      'Free 2 player games unblocked for school: volleyball and head-to-head challenges, plus one gentle .io game online. No downloads, Chromebook friendly.',
+      'Free 2 player games unblocked for school: volleyball and head-to-head challenges, plus one gentle .io building game. No downloads, Chromebook friendly.',
     intro: [
       `Two students, one Chromebook, one keyboard — some of the best break-time entertainment ever invented fits in that sentence. Some games split the keyboard, others race side by side, and a volleyball match, a head-to-head duel, or a gentle .io round becomes a best-of-five with real stakes: winner picks the next game. This shelf collects the ClassPlay titles built for exactly that.`,
-      `You will find same-keyboard sports like volleyball, head-to-head skill games where two players race side by side, and one gentle multiplayer .io game for classmates on a different device. Everything here passed the same classroom screen as the rest of ClassPlay — friendly competition, no combat games — and each game page explains the goal and controls before the match, so nobody drops the first point wondering what to press. All games are free and run in a browser tab with no downloads or sign-ups. Shake hands, then play hard.`,
+      `You will find same-keyboard sports like volleyball, head-to-head skill games where two players race side by side, and one gentle .io building game. Everything here passed the same classroom screen as the rest of ClassPlay — friendly competition, no combat games — and each game page explains the goal and controls before the match, so nobody drops the first point wondering what to press. All games are free and run in a browser tab with no downloads or sign-ups. Shake hands, then play hard.`,
     ],
   },
   {

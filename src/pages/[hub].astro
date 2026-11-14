@@ -174,6 +174,18 @@ const jsonLd = [
             },
           ]
         : []),
+      ...(hub.slug === 'math-games'
+        ? [
+            {
+              '@type': 'Question',
+              name: 'Do all math games involve math?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'No. Only 2244 Number Match really works with numbers — merge identical tiles to reach 2048. Meow Sudoku is about placing cats so no row or column repeats, Sorting Ball Quiz sorts balls by color, Merge a Mansion combines materials to build, Astro Merge stacks planets, and Tricky Prank is a prank puzzle, not a calculation.',
+              },
+            },
+          ]
+        : []),
     ],
   },
   {
@@ -268,6 +280,56 @@ const jsonLd = [
     </section>
   )}
 
+  {hub.slug === 'puzzle-games-for-school' && (
+    <section class="top-picks">
+      <h3>Find your kind of puzzle game</h3>
+      <p>Choose a game based on how you want to play — every row names a game on this shelf and what you actually do in it.</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>What you're looking for</th>
+              <th>Game</th>
+              <th>What you do</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A number grid to solve</td>
+              <td><a href={u('games/meow-sudoku/')}>Meow Sudoku</a></td>
+              <td>Place one cat in each row and column.</td>
+            </tr>
+            <tr>
+              <td>Merge tiles into bigger numbers</td>
+              <td><a href={u('games/2244-number-match/')}>2244 Number Match</a></td>
+              <td>Swipe and merge identical number tiles to create bigger numbers and aim for 2048.</td>
+            </tr>
+            <tr>
+              <td>Sort colors into the right tubes</td>
+              <td><a href={u('games/color-sort-party/')}>Color Sort Party</a></td>
+              <td>Pour liquids between tubes, sort the colors, and beat the levels.</td>
+            </tr>
+            <tr>
+              <td>Match pairs from memory</td>
+              <td><a href={u('games/memorya/')}>Memorya</a></td>
+              <td>Match cards and find every pair before time runs out.</td>
+            </tr>
+            <tr>
+              <td>Find hidden objects and escape</td>
+              <td><a href={u('games/100-doors-mystery-room-escape/')}>100 Doors Mystery Room Escape</a></td>
+              <td>Crack secret codes, solve logic puzzles and find hidden objects to escape each room.</td>
+            </tr>
+            <tr>
+              <td>A crossword to work through</td>
+              <td><a href={u('games/word-game-2026/')}>Word Game 2026</a></td>
+              <td>Travel through beautiful locations while improving your vocabulary and spelling.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
+
   {typesGroups.length >= 2 && (
     <section class="top-picks">
       <h2>Types of {hub.h1}</h2>
@@ -332,6 +394,14 @@ const jsonLd = [
         <summary>Can you play sports games with 2 players?</summary>
         <p>
           Yes — VOLLEY CLASH spells out controls for Player 1 and Player 2 on one keyboard, and 8 Ball Pool 2D is tagged for two players and lets you play solo or with friends. The rest of this shelf is solo.
+        </p>
+      </details>
+    )}
+    {hub.slug === 'math-games' && (
+      <details>
+        <summary>Do all math games involve math?</summary>
+        <p>
+          No. Only 2244 Number Match really works with numbers — merge identical tiles to reach 2048. Meow Sudoku is about placing cats so no row or column repeats, Sorting Ball Quiz sorts balls by color, Merge a Mansion combines materials to build, Astro Merge stacks planets, and Tricky Prank is a prank puzzle, not a calculation.
         </p>
       </details>
     )}
