@@ -26,7 +26,7 @@ export const hubs = [
       'Free math games for the classroom: fun math games, 2048-style merges, number puzzles and logic games that play in your browser. No downloads, Chromebook friendly.',
     intro: [
       `The best math games never feel like a worksheet. They hide real arithmetic inside decisions — which tile to merge, which move sets up the next one, how to reach a target number before the board fills up. Students practice estimating, sequencing, and mental math because the game asks them to, not because a timer is running. That is why math games have earned a permanent place on classroom laptops.`,
-      `This shelf gathers the number-first games from the ClassPlay catalog: 2048-style merge puzzles, sorting challenges, logic boards and a sudoku, and a prank puzzle for good measure. Rounds are short — most fit inside five minutes — and every game opens in a browser tab with nothing to install, which makes the shelf an easy fit for math centers, early finishers, and Friday reward time. Each game page lists the controls and the goal up front, so students can start on their own while the teacher helps someone else.`,
+      `This shelf gathers the number-first games from the ClassPlay catalog: 2048-style merge puzzles, a sorting challenge, logic boards and a sudoku, and a prank puzzle for good measure. Rounds are short — most fit inside five minutes — and every game opens in a browser tab with nothing to install, which makes the shelf an easy fit for math centers, early finishers, and Friday reward time. Each game page lists the controls and the goal up front, so students can start on their own while the teacher helps someone else.`,
     ],
   },
   {
@@ -38,7 +38,7 @@ export const hubs = [
       'Free puzzle games online, chosen for school: color sorting, match-3, merge puzzles and memory games that play in your browser. No downloads, works on Chromebooks.',
     intro: [
       `Puzzle games are the quiet achievers of classroom gaming. They ask for patience instead of reflexes, reward looking before clicking, and keep a whole table happily silent for ten minutes at a stretch. Sorting colors into the right tube, matching pairs from memory, planning a merge three steps ahead — these are small, satisfying problems, and solving them feels like play because it is.`,
-      `Here you will find the puzzle shelf of the ClassPlay catalog: color-sort and match-3 games, merge puzzles, memory matching and escape-room puzzles, and gentle logic challenges. None of them rush the player, most of them can be paused mid-thought without losing anything, and all of them run in a normal browser tab on school Chromebooks — no downloads, no accounts, no setup. They are a natural choice for brain breaks, indoor recess, and the early-finisher corner, and every game page describes the goal and controls before the first click.`,
+      `Here you will find the puzzle shelf of the ClassPlay catalog: color-sort and match-3 games, merge puzzles, memory matching and an escape-room puzzle, and gentle logic challenges. None of them rush the player, most of them can be paused mid-thought without losing anything, and all of them run in a normal browser tab on school Chromebooks — no downloads, no accounts, no setup. They are a natural choice for brain breaks, indoor recess, and the early-finisher corner, and every game page describes the goal and controls before the first click.`,
     ],
   },
   {
@@ -47,10 +47,10 @@ export const hubs = [
     h1: 'Brain Games',
     metaTitle: 'Brain Games — Free Brain Games for Students Online | ClassPlay',
     metaDescription:
-      'Free brain games for students: logic puzzles, memory and matching games, sudoku and escape-room puzzles that run in a browser tab. School-friendly and Chromebook ready.',
+      'Free brain games for students: logic puzzles, memory and matching games, sudoku and an escape-room puzzle that run in a browser tab. School-friendly and Chromebook ready.',
     intro: [
       `A brain game makes a promise most games do not: you will leave a little sharper than you arrived. The challenge is the content — a board that punishes careless moves, a puzzle with exactly one clean solution, a code you almost cracked. Students who would never volunteer for "extra practice" will happily spend a break doing exactly that, provided it arrives dressed as a game.`,
-      `The ClassPlay brain shelf collects our most thinking-heavy titles: logic puzzles, memory and matching games, and sudoku and escape-room puzzles. Difficulty ranges from a relaxing warm-up to genuinely stubborn, so there is something here for the student who finishes everything early and the one who just likes a hard problem. Everything is free, runs in a browser tab on Chromebooks, and skips the sign-up screens entirely. Each game page explains the rules in plain language before play begins.`,
+      `The ClassPlay brain shelf collects our most thinking-heavy titles: logic puzzles, memory and matching games, and sudoku and an escape-room puzzle. Difficulty ranges from a relaxing warm-up to genuinely stubborn, so there is something here for the student who finishes everything early and the one who just likes a hard problem. Everything is free, runs in a browser tab on Chromebooks, and skips the sign-up screens entirely. Each game page explains the rules in plain language before play begins.`,
     ],
   },
   {
