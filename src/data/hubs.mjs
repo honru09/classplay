@@ -95,10 +95,10 @@ export const hubs = [
     h1: '2 Player Classroom Games',
     metaTitle: '2 Player Games — Free 2 Player Games Unblocked for School | ClassPlay',
     metaDescription:
-      'Free 2 player games unblocked for school: volleyball and head-to-head challenges, plus one gentle .io building game. No downloads, Chromebook friendly.',
+      'Free 2 player games unblocked for school: volleyball and head-to-head challenges, plus one building game. No downloads, Chromebook friendly.',
     intro: [
-      `Two students, one Chromebook, one keyboard — some of the best break-time entertainment ever invented fits in that sentence. Some games split the keyboard, others race side by side, and a volleyball match, a head-to-head duel, or a gentle .io round becomes a best-of-five with real stakes: winner picks the next game. This shelf collects the ClassPlay titles built for exactly that.`,
-      `You will find same-keyboard sports like volleyball, head-to-head skill games where two players race side by side, and one gentle .io building game. Everything here passed the same classroom screen as the rest of ClassPlay — friendly competition, no combat games — and each game page explains the goal and controls before the match, so nobody drops the first point wondering what to press. All games are free and run in a browser tab with no downloads or sign-ups. Shake hands, then play hard.`,
+      `Two students, one Chromebook, one keyboard — some of the best break-time entertainment ever invented fits in that sentence. Some games split the keyboard, others race side by side, and a volleyball match, a head-to-head duel, or a building game becomes a best-of-five with real stakes: winner picks the next game. This shelf collects the ClassPlay titles built for exactly that.`,
+      `You will find same-keyboard sports like volleyball, head-to-head games where two players race side by side, and one building game. Everything here passed the same classroom screen as the rest of ClassPlay — friendly competition, no combat games — and each game page explains the goal and controls before the match, so nobody drops the first point wondering what to press. All games are free and run in a browser tab with no downloads or sign-ups. Shake hands, then play hard.`,
     ],
   },
   {
@@ -107,10 +107,10 @@ export const hubs = [
     h1: 'Unblocked Games for School',
     metaTitle: 'Unblocked Games for School — Free & Classroom-Safe | ClassPlay',
     metaDescription:
-      'Unblocked games for school that are actually school-appropriate: free math, puzzle, brain and 2 player games that run in a browser tab on school Chromebooks. No downloads, no sign-ups.',
+      'Unblocked games for school that are actually school-appropriate: free puzzle, brain and 2 player games that run in a browser tab on school Chromebooks. No downloads, no sign-ups.',
     intro: [
       `Most "unblocked games" sites are a gamble: mirror pages of unknown origin, pop-ups, and games nobody would want a teacher to see. ClassPlay takes the other route. Every game here is screened to be classroom-appropriate first — and because each one is just a web page, there is nothing to install, which is exactly why they run on locked-down school Chromebooks where app stores and downloads are off the table. Unblocked here never means inappropriate; it means a game a school can say yes to, in a format a school device can actually open.`,
-      `The shelf is the broad best of ClassPlay: math and number puzzles, sorting and logic games, brain games, gentle skill titles and friendly sports, including 2 player games for one shared keyboard. Rounds are sized for real school time — a break, a bus ride, the last ten minutes of Friday — and each game page explains the goal and the controls before anyone presses play. No downloads, no sign-ups, no sketchy mirrors: bookmark this page and the whole shelf is one click away on any Chromebook you sign into.`,
+      `The shelf is the broad best of ClassPlay: a number puzzle, sorting and logic games, brain games, gentle skill titles and friendly sports, including 2 player games for one shared keyboard. Rounds are sized for real school time — a break, a bus ride, the last ten minutes of Friday — and each game page explains the goal and the controls before anyone presses play. No downloads, no sign-ups, no sketchy mirrors: bookmark this page and the whole shelf is one click away on any Chromebook you sign into.`,
     ],
   },
 ];

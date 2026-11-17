@@ -184,6 +184,14 @@ const jsonLd = [
                 text: 'No. Only 2244 Number Match really works with numbers — merge identical tiles to reach 2048. Meow Sudoku is about placing cats so no row or column repeats, Sorting Ball Quiz sorts balls by color, Merge a Mansion combines materials to build, Astro Merge stacks planets, and Tricky Prank is a prank puzzle, not a calculation.',
               },
             },
+            {
+              '@type': 'Question',
+              name: "What's the difference between Sudoku and 2048?",
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Sudoku is about placement, not combining — in Meow Sudoku you place one cat in each row and column, and no two cats can touch. 2048 is about combining — in 2244 Number Match you swipe and merge identical number tiles to reach 2048 and beyond.',
+              },
+            },
           ]
         : []),
     ],
@@ -414,12 +422,20 @@ const jsonLd = [
       </details>
     )}
     {hub.slug === 'math-games' && (
-      <details>
-        <summary>Do all math games involve math?</summary>
-        <p>
-          No. Only 2244 Number Match really works with numbers — merge identical tiles to reach 2048. Meow Sudoku is about placing cats so no row or column repeats, Sorting Ball Quiz sorts balls by color, Merge a Mansion combines materials to build, Astro Merge stacks planets, and Tricky Prank is a prank puzzle, not a calculation.
-        </p>
-      </details>
+      <>
+        <details>
+          <summary>Do all math games involve math?</summary>
+          <p>
+            No. Only 2244 Number Match really works with numbers — merge identical tiles to reach 2048. Meow Sudoku is about placing cats so no row or column repeats, Sorting Ball Quiz sorts balls by color, Merge a Mansion combines materials to build, Astro Merge stacks planets, and Tricky Prank is a prank puzzle, not a calculation.
+          </p>
+        </details>
+        <details>
+          <summary>What's the difference between Sudoku and 2048?</summary>
+          <p>
+            Sudoku is about placement, not combining — in Meow Sudoku you place one cat in each row and column, and no two cats can touch. 2048 is about combining — in 2244 Number Match you swipe and merge identical number tiles to reach 2048 and beyond.
+          </p>
+        </details>
+      </>
     )}
   </div>
 
