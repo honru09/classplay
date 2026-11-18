@@ -120,7 +120,7 @@ const jsonLd = [
       },
       {
         '@type': 'Question',
-        name: `How do you play ${hub.h1} for school?`,
+        name: `How do you play ${hub.h1}${hub.h1.toLowerCase().endsWith('for school') ? '' : ' for school'}?`,
         acceptedAnswer: {
           '@type': 'Answer',
           text: 'Pick a game from the shelf above and press play. Every game page explains the goal and the controls before anyone starts, so students can start on their own.',
@@ -190,6 +190,18 @@ const jsonLd = [
               acceptedAnswer: {
                 '@type': 'Answer',
                 text: 'Sudoku is about placement, not combining — in Meow Sudoku you place one cat in each row and column, and no two cats can touch. 2048 is about combining — in 2244 Number Match you swipe and merge identical number tiles to reach 2048 and beyond.',
+              },
+            },
+          ]
+        : []),
+      ...(hub.slug === 'puzzle-games-for-school'
+        ? [
+            {
+              '@type': 'Question',
+              name: 'Which board games can you play on your own?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Meow Sudoku and mahjong master tile sort and match. Both are solo — in Meow Sudoku you place cats so no row or column repeats, and in Mahjong Master you match identical mahjong tiles in pairs to clear the board. Neither needs another player.',
               },
             },
           ]
@@ -354,6 +366,37 @@ const jsonLd = [
     </section>
   )}
 
+  {hub.slug === 'puzzle-games-for-school' && (
+    <section class="top-picks">
+      <h3>Plan your next move</h3>
+      <p>Three games on this shelf that reward thinking ahead — each one says so in its own description.</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Game</th>
+              <th>Why play it?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href={u('games/animals-brick/')}>Animals Brick</a></td>
+              <td>Complete each level's objective, plan your moves carefully, and avoid filling all seven tile slots without making a match.</td>
+            </tr>
+            <tr>
+              <td><a href={u('games/2244-number-match/')}>2244 Number Match</a></td>
+              <td>Move tiles in 8 directions, plan your moves carefully, and build the highest score possible.</td>
+            </tr>
+            <tr>
+              <td><a href={u('games/pixel-jam-bus-puzzle/')}>Pixel Jam Bus Puzzle</a></td>
+              <td>Plan your moves around vehicle capacity and the colors needed next.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
+
   {typesGroups.length >= 2 && (
     <section class="top-picks">
       <h2>Types of {hub.h1}</h2>
@@ -382,7 +425,7 @@ const jsonLd = [
       <p set:html={`Here are the first ${Math.min(5, games.length)} games on this shelf, in shelf order: ` + games.slice(0, 5).map((g) => `<a href="${gameUrl(g)}">${g.title.replace(/&/g, '&amp;')}</a>`).join(', ') + '.'} />
     </details>
     <details>
-      <summary>How do you play {hub.h1} for school?</summary>
+      <summary>How do you play {hub.h1}{hub.h1.toLowerCase().endsWith('for school') ? '' : ' for school'}?</summary>
       <p>
         Pick a game from the shelf above and press play. Every game page explains the goal and the controls before anyone starts, so students can start on their own.
       </p>
@@ -436,6 +479,14 @@ const jsonLd = [
           </p>
         </details>
       </>
+    )}
+    {hub.slug === 'puzzle-games-for-school' && (
+      <details>
+        <summary>Which board games can you play on your own?</summary>
+        <p>
+          Meow Sudoku and mahjong master tile sort and match. Both are solo — in Meow Sudoku you place cats so no row or column repeats, and in Mahjong Master you match identical mahjong tiles in pairs to clear the board. Neither needs another player.
+        </p>
+      </details>
     )}
   </div>
 
