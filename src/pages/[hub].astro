@@ -133,7 +133,7 @@ const jsonLd = [
               name: 'Do 2 player games use one keyboard?',
               acceptedAnswer: {
                 '@type': 'Answer',
-                text: 'Some of them do — one player on WASD, the other on the arrow keys. Others take turns, race side by side, or play online. Every game page lists its own controls before you press play.',
+                text: 'Some of them do — one player on WASD, the other on the arrow keys. Others take turns or race side by side. Every game page lists its own controls before you press play.',
               },
             },
           ]
@@ -202,6 +202,18 @@ const jsonLd = [
               acceptedAnswer: {
                 '@type': 'Answer',
                 text: 'Meow Sudoku and mahjong master tile sort and match. Both are solo — in Meow Sudoku you place cats so no row or column repeats, and in Mahjong Master you match identical mahjong tiles in pairs to clear the board. Neither needs another player.',
+              },
+            },
+          ]
+        : []),
+      ...(hub.slug === '2-player-classroom-games'
+        ? [
+            {
+              '@type': 'Question',
+              name: 'Can I play these games with a friend on the same computer?',
+              acceptedAnswer: {
+                '@type': 'Answer',
+                text: 'Yes — four of the six games on this shelf say so in their own descriptions: Mischievous Pairs and VOLLEY CLASH both offer a local two-player mode against a friend, 8 Ball Pool 2D lets you play solo or with friends and challenge them, and Escape School Duel lets you go 2 player and turn every hallway into a race for freedom. The other two say nothing about playing with a friend in their descriptions — Build a Keycap Pyramid is a building game, and Brainrot Mega Parkour is a parkour run.',
               },
             },
           ]
@@ -465,7 +477,7 @@ const jsonLd = [
       <details>
         <summary>Do 2 player games use one keyboard?</summary>
         <p>
-          Some of them do — one player on WASD, the other on the arrow keys. Others take turns, race side by side, or play online. Every game page lists its own controls before you press play.
+          Some of them do — one player on WASD, the other on the arrow keys. Others take turns or race side by side. Every game page lists its own controls before you press play.
         </p>
       </details>
     )}
@@ -516,6 +528,14 @@ const jsonLd = [
         <summary>Which board games can you play on your own?</summary>
         <p>
           Meow Sudoku and mahjong master tile sort and match. Both are solo — in Meow Sudoku you place cats so no row or column repeats, and in Mahjong Master you match identical mahjong tiles in pairs to clear the board. Neither needs another player.
+        </p>
+      </details>
+    )}
+    {hub.slug === '2-player-classroom-games' && (
+      <details>
+        <summary>Can I play these games with a friend on the same computer?</summary>
+        <p>
+          Yes — four of the six games on this shelf say so in their own descriptions: Mischievous Pairs and VOLLEY CLASH both offer a local two-player mode against a friend, 8 Ball Pool 2D lets you play solo or with friends and challenge them, and Escape School Duel lets you go 2 player and turn every hallway into a race for freedom. The other two say nothing about playing with a friend in their descriptions — Build a Keycap Pyramid is a building game, and Brainrot Mega Parkour is a parkour run.
         </p>
       </details>
     )}

@@ -26,7 +26,7 @@ export const hubs = [
       'Free math games for the classroom: fun math games, a 2048-style merge, a number puzzle and logic games that play in your browser. No downloads, Chromebook friendly.',
     intro: [
       `The best math games never feel like a worksheet. They hide real arithmetic inside decisions — which tile to merge, which move sets up the next one, how to reach a target number before the board fills up. Students practice estimating, sequencing, and mental math because the game asks them to, not because a timer is running. That is why math games have earned a permanent place on classroom laptops.`,
-      `This shelf gathers the math games from the ClassPlay catalog: a 2048-style merge puzzle, a sorting challenge, logic boards and a sudoku, and a prank puzzle for good measure. Rounds are short — most fit inside five minutes — and every game opens in a browser tab with nothing to install, which makes the shelf an easy fit for math centers, early finishers, and Friday reward time. Each game page lists the controls and the goal up front, so students can start on their own while the teacher helps someone else.`,
+      `This shelf gathers the math games from the ClassPlay catalog: a 2048-style merge puzzle, a sorting challenge, a logic board and a sudoku, and a prank puzzle for good measure. Rounds are short — most fit inside five minutes — and every game opens in a browser tab with nothing to install, which makes the shelf an easy fit for math centers, early finishers, and Friday reward time. Each game page lists the controls and the goal up front, so students can start on their own while the teacher helps someone else.`,
     ],
   },
   {
