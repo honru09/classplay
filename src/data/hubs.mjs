@@ -11,7 +11,7 @@ export const hubs = [
     h1: 'Classroom Games',
     metaTitle: 'Classroom Games Online — Free & Unblocked for School | ClassPlay',
     metaDescription:
-      'Play classroom games online, free and unblocked for school: puzzles, brain games and gentle arcade titles that run in a browser tab on Chromebooks. No downloads, no sign-ups.',
+      'Play classroom games online, free and unblocked for school: puzzles and brain games that run in a browser tab on Chromebooks. No downloads, no sign-ups.',
     intro: [
       `ClassPlay exists for one small but important moment: the ten minutes after the work is finished, the indoor lunch break, the reward time at the end of a good week. The games on this shelf were hand-picked for that moment — quick to open, easy to understand, calm on screen, and just as easy to close when it is time to learn again. Nothing here needs a download, an account, or an install, so a school Chromebook is all anyone needs.`,
       `The mix leans toward thinking: a number puzzle, sorting and logic games, and light strategy sit alongside gentle skill games and a few friendly sports titles for students who need to move. You will not find shooters, horror games, or zombie titles anywhere on ClassPlay — the whole catalog is screened with a classroom in mind. Each game page explains what the game is and how it is played, in plain language, so there are no surprises. Pick one, press play, and enjoy the break.`,
@@ -71,7 +71,7 @@ export const hubs = [
     h1: 'Unblocked Games for Chromebook',
     metaTitle: 'Unblocked Chromebook Games — Free Games for School Chromebooks | ClassPlay',
     metaDescription:
-      'Free Chromebook games that work at school: no installs, no extensions, nothing to download. Unblocked chromebook games — puzzles and gentle arcade titles that run in Chrome.',
+      'Free Chromebook games that work at school: no installs, no extensions, nothing to download. Unblocked chromebook games — puzzles and sports titles that run in Chrome.',
     intro: [
       `A school Chromebook is a locked-down machine: no app store, no installing programs, and a hard drive that is mostly a rumor. Browser games sidestep all of that, because there is nothing to install — the game is a web page, and it runs in the same Chrome tab as a document or a classroom site. If the tab opens, the game plays.`,
       `This hub is simply the best of ClassPlay for Chromebook users: the full classroom-screened catalog led by the puzzle and brain games we are known for, with gentle skill games and sports mixed in. Controls stick to keyboard, mouse, trackpad, or touch, and rounds are sized for real school schedules — a break, a bus ride, the wait for pickup. Bookmark this page and the whole collection is one click away on any Chromebook you sign into. No downloads, no sign-ups, and nothing on this site that a teacher would need to apologize for.`,
