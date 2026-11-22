@@ -50,9 +50,9 @@ const TYPE_BLURBS: Record<string, string> = {
   'car': 'Car games — driving and parking challenges behind the wheel.',
   'driving': 'Driving games — steer, drift and park your way through traffic and tracks.',
   'simulation': 'Simulation games — run the job, from driving a truck to tending a farm.',
-  'brain': 'Brain games — logic and memory challenges that reward thinking ahead.',
+  'brain': 'Brain games — puzzles that reward thinking ahead.',
   'logic': 'Logic games — fixed rules, one right answer, and a chain of deductions to find it.',
-  'puzzle': 'Puzzle games — match, sort and merge your way to a clear board.',
+  'puzzle': 'Puzzle games — match and sort your way to a clear board.',
   'halloween': 'Halloween games — haunted mazes, zombie rounds and spooky-season chaos.',
   'monster': 'Monster games — creatures, chases and spooky showdowns.',
   'zombie': 'Zombie games — hold the line against the horde, round after round.',
@@ -433,6 +433,37 @@ const jsonLd = [
             <tr>
               <td><a href={u('games/merge-a-mansion/')}>Merge a Mansion</a></td>
               <td>Merge a Mansion is a relaxing isometric merge game where you combine together basic materials to build grand structures.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
+
+  {hub.slug === 'puzzle-games-for-school' && (
+    <section class="top-picks">
+      <h3>Skill games</h3>
+      <p>Three games on this shelf that call themselves skill games — each one in its own description.</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Game</th>
+              <th>Why it's a skill game</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href={u('games/ambidieztro/')}>Ambidieztro</a></td>
+              <td>Ambidieztro is a unique skill game that challenges your coordination and ambidexterity.</td>
+            </tr>
+            <tr>
+              <td><a href={u('games/sorting-ball-quiz/')}>Sorting Ball Quiz</a></td>
+              <td>But as you progress, levels become more complex, requiring careful planning and problem-solving skills to complete each challenge without getting stuck.</td>
+            </tr>
+            <tr>
+              <td><a href={u('games/sky-hop-3d/')}>SKY HOP 3D</a></td>
+              <td>Explore beautiful sky worlds, test your jumping skills, and challenge yourself with every level.</td>
             </tr>
           </tbody>
         </table>
