@@ -16,7 +16,7 @@ const canon = canonical || new URL(Astro.url.pathname, Astro.site).href;
 /* Social cards need an image on every page; pages that do not pass one
    fall back to a representative game's feed thumbnail. */
 const og =
-  ogImage || (allGames.find((g) => g.slug === 'cube-snake-2048') || allGames[0])?.thumb;
+  ogImage || allGames[0]?.thumb;
 const ldList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
 const nav = [
@@ -1198,6 +1198,5 @@ const searchIndex = JSON.stringify(
         }
       })();
     </script>
-    <script>(function(){var u="https://honru09--site-stats-web.us-east.modal.run/track?s=classplay&p="+encodeURIComponent(location.pathname)+"&r="+encodeURIComponent(document.referrer||"");if(navigator.sendBeacon){try{navigator.sendBeacon(u);return;}catch(e){}}var i=new Image();i.src=u;})();</script>
   </body>
 </html>

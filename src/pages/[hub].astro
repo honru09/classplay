@@ -471,6 +471,37 @@ const jsonLd = [
     </section>
   )}
 
+  {hub.slug === 'puzzle-games-for-school' && (
+    <section class="top-picks">
+      <h3>Classic games</h3>
+      <p>Three classic games on this shelf — a sudoku, a memory match, and a mahjong.</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Game</th>
+              <th>Why it's a classic</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href={u('games/meow-sudoku/')}>Meow Sudoku</a></td>
+              <td>Welcome to the classic logic game with a fresh twist!</td>
+            </tr>
+            <tr>
+              <td><a href={u('games/memorya/')}>Memorya</a></td>
+              <td>Match cards, solve puzzles, and explore six colorful atmospheres in Memoria.</td>
+            </tr>
+            <tr>
+              <td><a href={u('games/mahjong-master-tile-sort-and-match/')}>mahjong master tile sort and match</a></td>
+              <td>Mahjong Master is a classic tile-matching puzzle game.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )}
+
   {typesGroups.length >= 2 && (
     <section class="top-picks">
       <h2>Types of {hub.h1}</h2>
