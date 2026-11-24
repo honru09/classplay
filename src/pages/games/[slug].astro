@@ -27,6 +27,7 @@ if (/space/.test(ins)) ctrl.push('Spacebar');
 if (/touch|tap|swipe/.test(ins) || game.mobile) ctrl.push('Touch');
 if (!ctrl.length) ctrl.push('On-screen');
 const primaryCat = game.categories[0] || 'Game';
+const sameCatCount = gamesLike.slice(0, 3).filter((g) => g.categories && g.categories[0] === primaryCat).length;
 const accent = accentFor(game);
 const embedOrigin = new URL(game.embedUrl).origin;
 
@@ -34,6 +35,7 @@ const TAG_BLOCKLIST = new Set([
   'casino', 'girls', 'boys', 'gun', 'shooter', 'first person shooter',
   'fps', 'shooting', 'kill', 'zombie', 'horror', 'battle',
   '2026 games', 'best', 'best games', 'hot', 'cool', 'crazygamesunblocked',
+  'attack', 'fight', 'fighting', 'shoot', "shoot 'em up", 'street fighting',
 ]);
 const visibleTags = (game.tags || []).filter((t) => !TAG_BLOCKLIST.has(t.toLowerCase()));
 
@@ -46,7 +48,7 @@ const parentHub = hubs.find((h) => {
 });
 const backLinkText = parentHub ? `← ${parentHub.h1}` : '← All games';
 const backLinkHref = parentHub ? u(`${parentHub.slug}/`) : u('all-games/');
-const breadcrumbHubName = parentHub ? parentHub.h1 : 'All Games';
+const breadcrumbHubName = parentHub ? parentHub.h1 : 'All games';
 const breadcrumbHubUrl = parentHub
   ? `https://classplay.online/${parentHub.slug}/`
   : 'https://classplay.online/all-games/';
@@ -294,7 +296,7 @@ const jsonLd = [
       </div>
 
       <h2 id="more-like-this">Games Like {game.title}</h2>
-      <p>More {primaryCat} games to try:</p>
+      <p>{sameCatCount === 3 ? `More ${primaryCat} games to try:` : 'More games to try:'}</p>
       <ol style="margin: 0 0 16px; padding-left: 22px; display: grid; gap: 8px;">
         {gamesLike.slice(0, 3).map((g) => {
           const desc = decodeEntities(g.description || '');

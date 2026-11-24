@@ -1023,7 +1023,7 @@ const searchIndex = JSON.stringify(
       <div class="wrap bar">
         <a class="logo" href={u()} aria-label="ClassPlay Home"><svg class="logo-mark" viewBox="0 0 64 64" width="30" height="30" fill="none" aria-hidden="true"><path d="M 32 10 C 20.9 10 12 18.9 12 30 L 12 47 C 12 50.5 15.5 53 19 51 C 21 49.8 23 49.8 25 51 C 29 53.5 35 53.5 39 51 C 41 49.8 43 49.8 45 51 C 48.5 53 52 50.5 52 47 L 52 30 C 52 18.9 43.1 10 32 10 Z" fill="#8EF1D9" /><circle cx="23" cy="28" r="6.5" fill="#FFFFFF" /><circle cx="41" cy="28" r="6.5" fill="#FFFFFF" /><circle cx="25" cy="28" r="3.8" fill="#17233F" /><circle cx="43" cy="28" r="3.8" fill="#17233F" /><circle cx="26.5" cy="26.5" r="1.5" fill="#FFFFFF" /><circle cx="44.5" cy="26.5" r="1.5" fill="#FFFFFF" /><circle cx="16" cy="37" r="3" fill="#38BDF8" opacity="0.8" /><circle cx="48" cy="37" r="3" fill="#38BDF8" opacity="0.8" /><path d="M 28 38 Q 32 42.5 36 38" stroke="#17233F" stroke-width="3.5" stroke-linecap="round" /></svg>Class<span>Play</span></a>
         <div class="search" role="search">
-          <input id="siteSearch" type="search" placeholder="Search games…" aria-label="Search games and categories" autocomplete="off" />
+          <input id="siteSearch" type="search" placeholder="Search games and categories…" aria-label="Search games and categories" autocomplete="off" />
           <div class="search-results" id="searchResults" hidden></div>
         </div>
         <script type="application/json" id="gameIndex" set:html={searchIndex} />

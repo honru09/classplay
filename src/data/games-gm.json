@@ -1166,33 +1166,6 @@
     "topMatch": null
   },
   {
-    "title": "Villadash Hero Rescue",
-    "slug": "villadash-hero-rescue",
-    "source": "gamemonetize",
-    "embedUrl": "https://html5.gamemonetize.co/901eh9sn07eefyfjkfotl4zv432wgvud/",
-    "pageUrl": "https://classplay.online/games/villadash-hero-rescue/",
-    "thumb": "https://img.gamemonetize.com/901eh9sn07eefyfjkfotl4zv432wgvud/512x384.jpg",
-    "categories": [
-      "Adventure"
-    ],
-    "tags": [
-      "3D",
-      "Action",
-      "Adventure",
-      "Fantasy",
-      "Knight",
-      "Magic",
-      "Rescue"
-    ],
-    "description": "Morvane and his bandits are raiding the villages of the kingdom, and every villager he carries off makes him stronger. You have one round to get to them first. Pick Ronan the knight, Lyra the rogue or Brann the frost druid and race through the village against the clock. Play Villadash Hero Rescue free on ClassPlay \u2014 a adventure game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Move WASD or arrow keys Attack left mouse button or J Ability right mouse button R or K Dodge Space Shift or L Free villagers hold F Rotate camera Q E Zoom mouse wheel Pause P or Esc Final battle 1 2 3 to switch heroes Gamepad supported Mob",
-    "width": 800,
-    "height": 450,
-    "mobile": true,
-    "featured": false,
-    "topMatch": null
-  },
-  {
     "title": "Anime Mom: Family Life Simulator",
     "slug": "anime-mom-family-life-simulator",
     "source": "gamemonetize",
@@ -1267,34 +1240,6 @@
     "instructions": "Player 1 Move W A S D Sprint Shift Jump Space Double Jump Space Space Player 2 Move Arrows Sprint K Jump L Double Jump L L Mobile On-screen buttons",
     "width": 1920,
     "height": 1080,
-    "mobile": true,
-    "featured": false,
-    "topMatch": null
-  },
-  {
-    "title": "Mask of six Moons",
-    "slug": "mask-of-six-moons",
-    "source": "gamemonetize",
-    "embedUrl": "https://html5.gamemonetize.co/c7hw1ex6qw2b9jtapsnseq021kdmb4pg/",
-    "pageUrl": "https://classplay.online/games/mask-of-six-moons/",
-    "thumb": "https://img.gamemonetize.com/c7hw1ex6qw2b9jtapsnseq021kdmb4pg/512x384.jpg",
-    "categories": [
-      "Adventure"
-    ],
-    "tags": [
-      "Action",
-      "Adventure",
-      "Dungeon",
-      "Fantasy",
-      "Pixel",
-      "Platform",
-      "RPG",
-      "Sword"
-    ],
-    "description": "Mask of Six Moons is a pixel-art action platformer. Dive through the moon gates, battle monsters and loot weapons from Common all the way to the ultra-rare Phantom tier. Choose from 12 weapon types, including greatswords, scythes, hammers, bows, staffs and chain whips, each with its own moves. Every weapon rolls random bonuses, and rare ones carry unique effects. Play Mask of six Moons free on ClassPlay \u2014 a adventure game that runs right in your browser with no downloads or sign-ups, on Chromebooks, laptops and phones.",
-    "instructions": "Move A D or arrow keys Jump Space or W Attack J or left click Second weapon K or right click Dash L or Shift Heal Q Use pick up E Status and weapons I How to play Hunters Journal H Pause P or Esc Gamepad supported",
-    "width": 960,
-    "height": 540,
     "mobile": true,
     "featured": false,
     "topMatch": null
